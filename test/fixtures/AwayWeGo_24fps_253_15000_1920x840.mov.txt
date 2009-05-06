@@ -1,0 +1,37 @@
+General
+Complete name                    : test/store/AwayWeGo_24fps_253_15000_1920x840.mpg
+Format                           : MPEG-PS
+File size                        : 74.8 MiB
+Duration                         : 36s 224ms
+Overall bit rate                 : 17.3 Mbps
+
+Video
+ID                               : 224 (0xE0)
+Format                           : MPEG Video
+Format version                   : Version 2
+Format settings, Matrix          : Default
+Duration                         : 36s 202ms
+Bit rate mode                    : Constant
+Bit rate                         : 16.0 Mbps
+Nominal bit rate                 : 15.0 Mbps
+Width                            : 1 920 pixels
+Height                           : 1 080 pixels
+Display aspect ratio             : 16/9
+Frame rate                       : 29.970 fps
+Colorimetry                      : 4:2:2
+Scan type                        : Interlaced
+Scan order                       : Bottom Field First
+Bits/(Pixel*Frame)               : 0.258
+
+Audio
+ID                               : 128 (0x80)
+Format                           : AC-3
+Format/Info                      : Audio Coding 3
+Duration                         : 36s 224ms
+Bit rate mode                    : Constant
+Bit rate                         : 64.0 Kbps
+Channel(s)                       : 2 channels
+Channel positions                : L R
+Sampling rate                    : 48.0 KHz
+
+

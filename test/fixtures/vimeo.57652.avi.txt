@@ -1,0 +1,38 @@
+General
+Complete name                    : test/videos/vimeo.57652.avi
+Format                           : AVI
+Format/Info                      : Audio Video Interleave
+File size                        : 3.76 MiB
+Duration                         : 15s 164ms
+Overall bit rate                 : 2 078 Kbps
+Mastered date                    : 2005/07/24/ 14:58  
+Writing application              : CASIO EX-Z55                  
+
+Video
+Format                           : M-JPEG
+Codec ID                         : MJPG
+Duration                         : 15s 164ms
+Bit rate                         : 2 019 Kbps
+Width                            : 320 pixels
+Height                           : 240 pixels
+Display aspect ratio             : 4/3
+Frame rate                       : 15.102 fps
+Resolution                       : 24 bits
+Scan type                        : Progressive
+Bits/(Pixel*Frame)               : 1.741
+Stream size                      : 3.65 MiB (97%)
+
+Audio
+Format                           : ADPCM
+Codec ID                         : 11
+Codec ID/Info                    : Intel ADPCM
+Duration                         : 15s 164ms
+Bit rate mode                    : Constant
+Bit rate                         : 44.1 Kbps
+Channel(s)                       : 1 channel
+Sampling rate                    : 11.025 KHz
+Resolution                       : 4 bits
+Stream size                      : 82.8 KiB (2%)
+Interleave, duration             : 67 ms (1.00 video frame)
+
+

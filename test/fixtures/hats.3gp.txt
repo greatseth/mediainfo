@@ -1,0 +1,58 @@
+General
+Complete name                    : ./test/videos/hats.3gp
+Format                           : MPEG-4
+Format profile                   : 3GPP Media Release 6 Basic
+Codec ID                         : 3gp6
+File size                        : 2.99 MiB
+Duration                         : 5mn 1s
+Overall bit rate                 : 83.2 Kbps
+Encoded date                     : UTC 2009-01-23 21:20:06
+Tagged date                      : UTC 2009-01-23 21:20:07
+
+Video
+ID                               : 1
+Format                           : AVC
+Format/Info                      : Advanced Video Codec
+Format profile                   : Baseline@L1.0
+Format settings, CABAC           : No
+Format settings, ReFrames        : 2 frames
+Codec ID                         : avc1
+Codec ID/Info                    : Advanced Video Coding
+Duration                         : 5mn 1s
+Bit rate mode                    : Variable
+Bit rate                         : 57.5 Kbps
+Width                            : 176 pixels
+Height                           : 144 pixels
+Display aspect ratio             : 1.222
+Frame rate mode                  : Constant
+Frame rate                       : 14.985 fps
+Resolution                       : 24 bits
+Colorimetry                      : 4:2:0
+Scan type                        : Progressive
+Bits/(Pixel*Frame)               : 0.152
+Stream size                      : 2.07 MiB (69%)
+Language                         : English
+Encoded date                     : UTC 2009-01-23 21:18:39
+Tagged date                      : UTC 2009-01-23 21:20:07
+
+Audio
+ID                               : 2
+Format                           : AAC
+Format/Info                      : Advanced Audio Codec
+Format version                   : Version 4
+Format profile                   : LC
+Format settings, SBR             : No
+Codec ID                         : 40
+Duration                         : 4mn 58s
+Bit rate mode                    : Constant
+Bit rate                         : 24.0 Kbps
+Channel(s)                       : 1 channel
+Channel positions                : C
+Sampling rate                    : 16.0 KHz
+Resolution                       : 16 bits
+Stream size                      : 877 KiB (29%)
+Language                         : English
+Encoded date                     : UTC 2009-01-23 21:18:40
+Tagged date                      : UTC 2009-01-23 21:20:07
+
+
