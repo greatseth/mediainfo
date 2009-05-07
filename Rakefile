@@ -23,3 +23,13 @@ namespace :mediainfo do
     end
   end
 end
+
+require "rubygems"
+require "echoe"
+
+Echoe.new "mediainfo" do |p|
+  p.author = "Seth Thomas Rasmussen"
+  p.email = "sethrasmussen@gmail.com"
+  p.url = "http://greatseth.com"
+  p.ignore_pattern = %w( test/**/* )
+end
