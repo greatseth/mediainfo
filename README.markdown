@@ -1,10 +1,6 @@
 # Mediainfo
 
-Mediainfo is a class encapsulating the ability to run `mediainfo` 
-on a file and expose the information it produces in a straightforward 
-manner.
-
-The mediainfo CLI can be obtained at http://mediainfo.sourceforge.net.
+Mediainfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.net).
 
 ## Usage
   
@@ -24,4 +20,4 @@ some convenience methods and added behavior is added.
 
 ## Contributors
 
-* Seth Thomas Rasmussen - http://greatseth.com
+* Seth Thomas Rasmussen - [http://greatseth.com](http://greatseth.com)
