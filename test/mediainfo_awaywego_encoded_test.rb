@@ -238,7 +238,9 @@ class MediainfoAwaywegoEncodedTest < ActiveSupport::TestCase
   end
 
   test "audio   Sampling rate" do
-    assert_equal "48.0 KHz", @info.audio_sampling_rate
+    assert_equal 48000, @info.audio_sample_rate
+    assert_equal 48000, @info.audio_sampling_rate
+    assert_equal "48.0 KHz", @info.audio_sampling_rate_before_type_cast
   end
 
   test "audio   Resolution" do

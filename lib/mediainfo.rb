@@ -117,6 +117,19 @@ class Mediainfo
   mediainfo_duration_reader :audio_duration
   
   mediainfo_attr_reader :audio_sampling_rate
+  def audio_sample_rate
+    return unless rate = audio_sampling_rate_before_type_cast
+    number = rate.gsub(/[^\d.]+/, "").to_f
+    number = case rate
+    when /KHz/ then number * 1000
+    when /Hz/  then number
+    else
+      raise "unhandled sample rate! please report bug!"
+    end
+    number.to_i
+  end
+  alias_method :audio_sampling_rate, :audio_sample_rate
+  
   mediainfo_attr_reader :audio_stream_size
   mediainfo_attr_reader :audio_bit_rate
   mediainfo_attr_reader :audio_bit_rate_mode

@@ -225,7 +225,9 @@ class MediainfoHatsTest < ActiveSupport::TestCase
   end
 
   test "audio   Sampling rate" do
-    assert_equal "16.0 KHz", @info.audio_sampling_rate
+    assert_equal 16000, @info.audio_sample_rate
+    assert_equal 16000, @info.audio_sampling_rate
+    assert_equal "16.0 KHz", @info.audio_sampling_rate_before_type_cast
   end
 
   test "audio resolution" do

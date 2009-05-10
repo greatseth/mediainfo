@@ -225,7 +225,9 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
   end
 
   test "audio   Sampling rate" do
-    assert_equal "11.025 KHz", @info.audio_sampling_rate
+    assert_equal 11025, @info.audio_sample_rate
+    assert_equal 11025, @info.audio_sampling_rate
+    assert_equal "11.025 KHz", @info.audio_sampling_rate_before_type_cast
   end
 
   test "audio resolution" do
