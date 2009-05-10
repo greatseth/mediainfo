@@ -1,4 +1,5 @@
 require "rake/testtask"
+load "Rakefile.cloud" if File.exist? "Rakefile.cloud"
 
 Rake::TestTask.new do |t|
   t.libs << "test"
