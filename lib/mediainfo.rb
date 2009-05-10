@@ -86,7 +86,7 @@ class Mediainfo
   mediainfo_attr_reader :video_codec_info, "Codec ID/Info"
   
   mediainfo_attr_reader :video_frame_rate
-  def fps; video_frame_rate[/[\d.]+/] if video?; end
+  def fps; video_frame_rate[/[\d.]+/].to_f if video?; end
   alias_method :framerate, :fps
   
   mediainfo_attr_reader :video_frame_rate_mode

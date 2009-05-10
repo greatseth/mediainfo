@@ -135,8 +135,8 @@ class MediainfoAwaywegoTest < ActiveSupport::TestCase
 
   test "video frame rate" do
     assert_equal "23.976 fps", @info.video_frame_rate
-    assert_equal "23.976", @info.fps
-    assert_equal "23.976", @info.framerate
+    assert_equal 23.976, @info.fps
+    assert_equal 23.976, @info.framerate
   end
   
   test "video frame rate mode" do
