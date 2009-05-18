@@ -167,7 +167,7 @@ class Mediainfo
   ###
   
   attr_reader :raw_response, :parsed_response,
-    :full_filename, :filename, :path
+    :full_filename, :filename, :path, :escaped_full_filename
   
   def initialize(full_filename)
     @mediainfo_binary = "mediainfo"
@@ -179,6 +179,7 @@ class Mediainfo
     raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
     raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
     
+    @escaped_full_filename = @full_filename.gsub(/\\|'/) { |c| "\\#{c}" } # for ANSI-C style quoting in Mediainfo#mediainfo!
     @raw_response = mediainfo!
     parse!
   end
@@ -191,7 +192,11 @@ class Mediainfo
   
 private
   def mediainfo!
-    `#{@mediainfo_binary} #{@full_filename}`
+    # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
+    # but appears to be working for other shells: sh, zsh, ksh, dash
+    raw_response = `#{@mediainfo_binary} $'#{@escaped_full_filename}'`
+    raise "Execution of #{mediainfo_binary} failed" unless $? == 0
+    return raw_response
   end
   
   def parse!
