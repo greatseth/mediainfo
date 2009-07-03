@@ -12,6 +12,7 @@ end
 
 require "rubygems"
 require "mocha"
+begin; require "redgreen"; rescue LoadError; end
 
 $: << File.dirname(__FILE__) + "/../lib"
 require "mediainfo"
