@@ -21,3 +21,4 @@ some convenience methods and added behavior is added.
 ## Contributors
 
 * Seth Thomas Rasmussen - [http://greatseth.com](http://greatseth.com)
+* Peter Vandenberk - [http://github.com/pvdb](http://github.com/pvdb)

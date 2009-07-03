@@ -1,3 +1,4 @@
+require "mediainfo/string"
 require "mediainfo/attr_readers"
 
 # Mediainfo is a class encapsulating the ability to run `mediainfo` 
@@ -172,14 +173,14 @@ class Mediainfo
   def initialize(full_filename)
     @mediainfo_binary = "mediainfo"
     
-    @full_filename = full_filename
+    @full_filename = File.expand_path full_filename
     @path          = File.dirname  @full_filename
     @filename      = File.basename @full_filename
     
     raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
     raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
     
-    @escaped_full_filename = @full_filename.gsub(/\\|'/) { |c| "\\#{c}" } # for ANSI-C style quoting in Mediainfo#mediainfo!
+    @escaped_full_filename = @full_filename.shell_escape
     @raw_response = mediainfo!
     parse!
   end
@@ -194,7 +195,7 @@ private
   def mediainfo!
     # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
     # but appears to be working for other shells: sh, zsh, ksh, dash
-    raw_response = `#{@mediainfo_binary} $'#{@escaped_full_filename}'`
+    raw_response = `#{@mediainfo_binary} #{@escaped_full_filename}`
     raise "Execution of #{mediainfo_binary} failed" unless $? == 0
     return raw_response
   end
