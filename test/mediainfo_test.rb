@@ -75,10 +75,31 @@ class MediainfoTest < ActiveSupport::TestCase
     :image_height
   ]
   
-  supported_attributes.each do |attribute|
+  Mediainfo.supported_attributes.each do |attribute|
     test "supports #{attribute} attribute" do
-      assert Mediainfo.supported_attributes.include?(attribute),
+      assert supported_attributes.include?(attribute),
         "#{attribute} is not supported"
     end
+  end
+  
+  def setup
+    Mediainfo.default_mediainfo_path!
+  end
+  
+  test "retains last system command generated" do
+    m = Mediainfo.new "/dev/null"
+    assert_equal "mediainfo $'/dev/null'", m.last_command
+  end
+  
+  test "allows customization of path to mediainfo binary" do
+    Mediainfo.any_instance.stubs(:run_last_command!)
+    
+    assert_equal "mediainfo", Mediainfo.path
+    
+    Mediainfo.path = "/opt/local/bin/mediainfo"
+    assert_equal "/opt/local/bin/mediainfo", Mediainfo.path
+    
+    m = Mediainfo.new "/dev/null"
+    assert_equal "/opt/local/bin/mediainfo $'/dev/null'", m.last_command
   end
 end

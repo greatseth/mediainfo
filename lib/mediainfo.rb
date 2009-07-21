@@ -171,8 +171,6 @@ class Mediainfo
     :full_filename, :filename, :path, :escaped_full_filename
   
   def initialize(full_filename)
-    @mediainfo_binary = "mediainfo"
-    
     @full_filename = File.expand_path full_filename
     @path          = File.dirname  @full_filename
     @filename      = File.basename @full_filename
@@ -185,26 +183,42 @@ class Mediainfo
     parse!
   end
   
-  attr_accessor :mediainfo_binary
+  class << self; attr_accessor :path; end
+  def path; self.class.path; end
+  
+  def self.default_mediainfo_path!; self.path = "mediainfo"; end
+  default_mediainfo_path! unless path
   
   def mediainfo_version
-    `#{@mediainfo_binary} --Version`[/v([\d.]+)/, 1]
+    `#{path} --Version`[/v([\d.]+)/, 1]
   end
+  
+  attr_reader :last_command
+  
+  class Error < StandardError; end
+  class ExecutionError < Error; end
   
 private
   def mediainfo!
     # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
     # but appears to be working for other shells: sh, zsh, ksh, dash
-    raw_response = `#{@mediainfo_binary} #{@escaped_full_filename}`
-    raise "Execution of #{mediainfo_binary} failed" unless $? == 0
-    return raw_response
+    @last_command = "#{path} #{@escaped_full_filename}"
+    run_last_command!
+  end
+  
+  def run_last_command!
+    raw_response = `#{@last_command}`
+    unless $? == 0
+      raise ExecutionError, "Execution of `#{@last_command}` failed: #{raw_response.inspect}"
+    end
+    raw_response
   end
   
   def parse!
     @parsed_response = {}
     subsection = nil
     
-    @raw_response.split("\n").map { |x| x.strip }.each do |line|
+    @raw_response.to_s.split("\n").map { |x| x.strip }.each do |line|
       next if line.empty? || line == "General"
       
       if SECTIONS.include? line

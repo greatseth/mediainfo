@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mediainfo}
-  s.version = "0.2"
+  s.version = "0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seth Thomas Rasmussen"]
-  s.date = %q{2009-07-02}
+  s.date = %q{2009-07-20}
   s.description = %q{}
   s.email = %q{sethrasmussen@gmail.com}
   s.extra_rdoc_files = ["lib/mediainfo/attr_readers.rb", "lib/mediainfo/string.rb", "lib/mediainfo.rb", "LICENSE", "README.markdown"]

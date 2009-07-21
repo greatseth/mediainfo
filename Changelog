@@ -1,3 +1,13 @@
+v0.3 Mediainfo Is High Class
+- Class instead of instance-level customization of mediainfo binary path. 
+  Set Mediainfo.path = /path/to/binary if mediainfo is not in your shell 
+  path.
+- Instances retain the :last_command run. The API to rerun that command is 
+  still private.
+- Started defining custom Mediainfo exception classes and are now raising 
+  Mediainfo::ExecutionError instead of RuntimeError if the system command 
+  exits with anything other than 0.
+
 v0.2 Escape from the Shell
 - Added proper escaping for funky filenames. Thanks to Peter Vandenberk!
 
