@@ -29,6 +29,7 @@ require "rubygems"
 require "echoe"
 
 Echoe.new "mediainfo" do |p|
+  p.description = "Mediainfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)"
   p.author = "Seth Thomas Rasmussen"
   p.email = "sethrasmussen@gmail.com"
   p.url = "http://greatseth.com"
