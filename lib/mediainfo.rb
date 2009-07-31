@@ -198,6 +198,10 @@ class Mediainfo
   class Error < StandardError; end
   class ExecutionError < Error; end
   
+  def inspect
+    super.sub /@raw_response=".+?", @/, %{@raw_response="...", @}
+  end
+  
 private
   def mediainfo!
     # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
