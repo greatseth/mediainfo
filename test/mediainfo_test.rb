@@ -102,4 +102,11 @@ class MediainfoTest < ActiveSupport::TestCase
     m = Mediainfo.new "/dev/null"
     assert_equal "/opt/local/bin/mediainfo $'/dev/null'", m.last_command
   end
+  
+  test "can be initialized with a raw response" do
+    m = Mediainfo.new
+    m.raw_response = mediainfo_fixture("AwayWeGo_24fps.mov")
+    assert m.video?
+    assert m.audio?
+  end
 end

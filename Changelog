@@ -1,3 +1,6 @@
+v0.5 Raw, Son
+- You can now initialize an instance from raw CLI output
+
 v0.4 Mediainfo Respects Your Existing Customs
 - Define String#shell_escape only if it is not already defined
 

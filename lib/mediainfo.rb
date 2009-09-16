@@ -14,6 +14,16 @@ require "mediainfo/attr_readers"
 # about a file. Some attributes may be present for some files where others 
 # are not.
 # 
+# You may also initialize a Mediainfo instance using raw CLI output 
+# you have saved for some reason.
+# 
+#   info = Mediainfo.new
+#   info.raw_response = cli_output
+# 
+# Setting the raw_response triggers the system call, and from that point on 
+# the object should behave the same as if you'd initialized it with the path 
+# to a file.
+# 
 # For a list of all possible attributes supported:
 #   
 #   Mediainfo.supported_attributes
@@ -170,17 +180,25 @@ class Mediainfo
   attr_reader :raw_response, :parsed_response,
     :full_filename, :filename, :path, :escaped_full_filename
   
-  def initialize(full_filename)
-    @full_filename = File.expand_path full_filename
-    @path          = File.dirname  @full_filename
-    @filename      = File.basename @full_filename
-    
-    raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
-    raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
-    
-    @escaped_full_filename = @full_filename.shell_escape
-    @raw_response = mediainfo!
+  def initialize(full_filename = nil)
+    if full_filename
+      @full_filename = File.expand_path full_filename
+      @path          = File.dirname  @full_filename
+      @filename      = File.basename @full_filename
+
+      raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
+      raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
+
+      @escaped_full_filename = @full_filename.shell_escape
+
+      self.raw_response = mediainfo!
+    end
+  end
+
+  def raw_response=(mediainfo_cli_output)
+    @raw_response = mediainfo_cli_output
     parse!
+    @raw_response
   end
   
   class << self; attr_accessor :path; end

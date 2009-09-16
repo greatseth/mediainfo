@@ -29,10 +29,12 @@ class ActiveSupport::TestCase
   end
   
   def mediainfo_mock(name)
-    Mediainfo.any_instance.stubs(:mediainfo!).returns(File.read(
-      File.join(File.dirname(__FILE__), "fixtures", "#{name}.txt")
-    ))
+    Mediainfo.any_instance.stubs(:mediainfo!).returns(mediainfo_fixture(name))
     Mediainfo.new "/dev/null"
+  end
+  
+  def mediainfo_fixture(name)
+    File.read(File.join(File.dirname(__FILE__), "fixtures", "#{name}.txt"))
   end
   
   def mediainfo_incorrect_cli_mock(name)
