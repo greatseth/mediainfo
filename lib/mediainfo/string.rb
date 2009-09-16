@@ -5,5 +5,5 @@ class String
     # The $'' is for bash, see http://www.faqs.org/docs/bashman/bashref_12.html,
     # but appears to be working for other shells: sh, zsh, ksh, dash
     "$'#{gsub(/\\|'/) { |c| "\\#{c}" }}'"
-  end
+  end unless method_defined?(:shell_escape)
 end

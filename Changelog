@@ -1,3 +1,6 @@
+v0.4 Mediainfo Respects Your Existing Customs
+- Define String#shell_escape only if it is not already defined
+
 v0.3 Mediainfo Is High Class
 - Class instead of instance-level customization of mediainfo binary path. 
   Set Mediainfo.path = /path/to/binary if mediainfo is not in your shell 
