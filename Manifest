@@ -1,9 +1,9 @@
 Changelog
-lib/mediainfo/attr_readers.rb
-lib/mediainfo/string.rb
-lib/mediainfo.rb
 LICENSE
 Manifest
-mediainfo.gemspec
-Rakefile
 README.markdown
+Rakefile
+lib/mediainfo.rb
+lib/mediainfo/attr_readers.rb
+lib/mediainfo/string.rb
+mediainfo.gemspec
