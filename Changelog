@@ -1,3 +1,7 @@
+v0.5.1 Packaging Fix
+- Gemspec was referencing a missing file
+- Behold: THREE DIGIT VERSION NUMBER. Serious business now!
+
 v0.5 Raw, Son
 - You can now initialize an instance from raw CLI output
 
