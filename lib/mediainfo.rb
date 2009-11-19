@@ -224,12 +224,16 @@ private
   def mediainfo!
     # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
     # but appears to be working for other shells: sh, zsh, ksh, dash
-    @last_command = "#{path} #{@escaped_full_filename}"
-    run_last_command!
+    generate_command
+    run_command!
   end
   
-  def run_last_command!
-    raw_response = `#{@last_command}`
+  def generate_command
+    @last_command = "#{path} #{@escaped_full_filename}"
+  end
+  
+  def run_command!
+    raw_response = `#{@last_command} 2>&1`
     unless $? == 0
       raise ExecutionError, "Execution of `#{@last_command}` failed: #{raw_response.inspect}"
     end
