@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+<File>
+<track type="General">
+
+<Complete_name>/Users/seth/diversion/hdcloud/test/videos/vimeo.57652.avi</Complete_name>
+<Format>AVI</Format>
+<Format_Info>Audio Video Interleave</Format_Info>
+<File_size>3.76 MiB</File_size>
+<Duration>15s 164ms</Duration>
+<Overall_bit_rate>2 078 Kbps</Overall_bit_rate>
+<Mastered_date>2005/07/24/ 14:58  </Mastered_date>
+<Writing_application>CASIO EX-Z55                  </Writing_application>
+</track>
+
+<track type="Video">
+
+<ID>0</ID>
+<Format>M-JPEG</Format>
+<Codec_ID>MJPG</Codec_ID>
+<Duration>15s 164ms</Duration>
+<Bit_rate>2 019 Kbps</Bit_rate>
+<Width>320 pixels</Width>
+<Height>240 pixels</Height>
+<Display_aspect_ratio>4:3</Display_aspect_ratio>
+<Frame_rate>15.102 fps</Frame_rate>
+<Resolution>24 bits</Resolution>
+<Scan_type>Progressive</Scan_type>
+<Bits__Pixel_Frame_>1.741</Bits__Pixel_Frame_>
+<Stream_size>3.65 MiB (97%)</Stream_size>
+</track>
+
+<track type="Audio">
+
+<Format>ADPCM</Format>
+<Codec_ID>11</Codec_ID>
+<Codec_ID_Hint>Intel</Codec_ID_Hint>
+<Duration>15s 164ms</Duration>
+<Bit_rate_mode>Constant</Bit_rate_mode>
+<Bit_rate>44.1 Kbps</Bit_rate>
+<Channel_s_>1 channel</Channel_s_>
+<Sampling_rate>11.025 KHz</Sampling_rate>
+<Resolution>4 bits</Resolution>
+<Stream_size>82.8 KiB (2%)</Stream_size>
+<Interleave__duration>67 ms (1.00 video frame)</Interleave__duration>
+</track>
+
+</File>
+</Mediainfo>
+

@@ -1,7 +1,7 @@
 require "test_helper"
 require "mediainfo_test_helper"
 
-class MediainfoVimeoTest < ActiveSupport::TestCase
+class MediainfoXMLTest < ActiveSupport::TestCase
   def setup
     @info = mediainfo_xml_mock "vimeo.57652.avi"
   end
@@ -58,7 +58,7 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
   ### VIDEO
   
   test "video stream id" do
-    assert_nil @info.video_stream_id
+    assert_equal "0", @info.video_stream_id
   end
   
   test "video   Format" do
@@ -123,8 +123,8 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
   end
 
   test "video   Display aspect ratio" do
-    assert_equal "4/3", @info.video_display_aspect_ratio
-    assert_equal "4/3", @info.display_aspect_ratio
+    assert_equal "4:3", @info.video_display_aspect_ratio
+    assert_equal "4:3", @info.display_aspect_ratio
   end
 
   test "video frame rate" do

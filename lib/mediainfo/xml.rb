@@ -1,10 +1,9 @@
 gem     "nokogiri"
 require "nokogiri"
 
-# gem     "hpricot"
-# require "hpricot"
-
 class Mediainfo
+  # TODO for version 2.0, let's have Mediainfo::Base
+  # inside a Mediainfo module, and then Mediainfo::XML < Mediainfo::Base
   class XML < self
     def generate_command
       super << " --Output=XML"
@@ -14,7 +13,6 @@ class Mediainfo
       @parsed_response = {}
       
       xml = Nokogiri::XML(@raw_response)
-      # xml = Hpricot::XML(@raw_response)
       xml.search("track").each { |t|
         section = t['type']
         
@@ -25,7 +23,11 @@ class Mediainfo
           @parsed_response
         end
         
-        t.children.each { |c| bucket[c] = c.value }
+        t.children.css("*").each do |c|
+          key   = c.name.gsub(/_+/, " ").strip
+          value = c.content.strip
+          bucket[key] = value
+        end
       }
     end
     
