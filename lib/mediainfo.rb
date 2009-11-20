@@ -1,3 +1,6 @@
+gem     "nokogiri"
+require "nokogiri"
+
 require "mediainfo/string"
 require "mediainfo/attr_readers"
 
@@ -222,14 +225,8 @@ class Mediainfo
   
 private
   def mediainfo!
-    # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
-    # but appears to be working for other shells: sh, zsh, ksh, dash
-    @last_command = generate_command
+    @last_command = "#{path} #{@escaped_full_filename} --Output=XML"
     run_command!
-  end
-  
-  def generate_command
-    "#{path} #{@escaped_full_filename}"
   end
   
   def run_command!
@@ -243,23 +240,23 @@ private
   
   def parse!
     @parsed_response = {}
-    subsection = nil
     
-    @raw_response.to_s.split("\n").map { |x| x.strip }.each do |line|
-      next if line.empty? || line == "General"
+    xml = Nokogiri::XML(@raw_response)
+    xml.search("track").each { |t|
+      section = t['type']
       
-      if SECTIONS.include? line
-        subsection = line
-        @parsed_response[subsection] = {}
-        next
+      bucket = if SECTIONS.include? section
+        @parsed_response[section] ||= {}
+        @parsed_response[section]
+      else
+        @parsed_response
       end
       
-      bucket = @parsed_response
-      bucket = bucket[subsection] if subsection
-      
-      key, value = line.split(":", 2).map { |x| x.strip }
-      
-      bucket[key] = value
-    end
+      t.children.css("*").each do |c|
+        key   = c.name.gsub(/_+/, " ").strip
+        value = c.content.strip
+        bucket[key] = value
+      end
+    }
   end
 end
