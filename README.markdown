@@ -30,9 +30,12 @@ from RVideo::Inspector. Some is not. Just saying.
 This library is compatible with:
   
   MediaInfo Command line, 
-  MediaInfoLib - v0.7.11
+  MediaInfoLib - v0.7.25
   
-to the extent that is documented in the tests.
+to the extent that is documented in the tests. 
+
+Previous versions of this gem worked against v0.7.11, which did not 
+generate XML output, and is no longer supported.
 
 ## Contributors
 
