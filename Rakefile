@@ -11,12 +11,12 @@ task :default => :test
 
 namespace :mediainfo do
   task :fixture do
-    unless file = ENV["file"]
+    unless file = ENV["FILE"]
       puts "Usage: rake mediainfo:fixture file=/path/to/file"
       exit
     end
-    fixture = File.expand_path "./test/fixtures/#{File.basename file}.txt"
-    system "mediainfo #{file} > #{fixture}"
+    fixture = File.expand_path "./test/fixtures/#{File.basename file}.xml"
+    system "mediainfo #{file} --Output=XML > #{fixture}"
     if File.exist? fixture
       puts "Generated fixture #{fixture}."
     else
