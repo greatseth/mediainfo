@@ -173,12 +173,26 @@ class MediainfoAwaywegoTest < ActiveSupport::TestCase
   
   test "video encoded date" do
     assert_kind_of Time, @info.video_encoded_date
-    # assert_equal "UTC 2009-03-30 19:57:50", @info.video_encoded_date
   end
   
   test "video tagged date" do
     assert_kind_of Time, @info.video_tagged_date
-    # assert_equal "UTC 2009-03-30 19:57:57", @info.video_tagged_date
+  end
+  
+  test "video color primaries" do
+    assert_equal \
+      "BT.709-5, BT.1361, IEC 61966-2-4, SMPTE RP177",
+      @info.video_color_primaries
+  end
+  
+  test "video transfer characteristics" do
+    assert_equal "BT.709-5, BT.1361", @info.video_transfer_characteristics
+  end
+  
+  test "video matrix coefficients" do
+    assert_equal \
+      "BT.709-5, BT.1361, IEC 61966-2-4 709, SMPTE RP177",
+      @info.video_matrix_coefficients
   end
 
   ### AUDIO

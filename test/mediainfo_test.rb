@@ -44,6 +44,9 @@ class MediainfoTest < ActiveSupport::TestCase
     :video_height,
     :video_encoded_date,
     :video_tagged_date,
+    :video_color_primaries,
+    :video_transfer_characteristics,
+    :video_matrix_coefficients,
 
     ### AUDIO
 

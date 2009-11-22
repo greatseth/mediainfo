@@ -95,6 +95,9 @@ class Mediainfo
   # Format settings, QPel            : No
   # Format settings, GMC             : No warppoints
   # mediainfo_attr_reader :video_format_settings_qpel, "Format settings, QPel"
+  mediainfo_attr_reader :video_color_primaries
+  mediainfo_attr_reader :video_transfer_characteristics
+  mediainfo_attr_reader :video_matrix_coefficients
   
   mediainfo_attr_reader :video_codec_id, "Codec ID"
   mediainfo_attr_reader :video_codec_info, "Codec ID/Info"
