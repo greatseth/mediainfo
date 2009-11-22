@@ -1,6 +1,3 @@
-gem     "nokogiri"
-require "nokogiri"
-
 require "mediainfo/string"
 require "mediainfo/attr_readers"
 
@@ -250,31 +247,57 @@ private
     raw_response
   end
   
-  def parse!
-    @parsed_response = {}
-    
-    xml = Nokogiri::XML(@raw_response)
-    xml.search("track").each { |t|
-      section = t['type']
-      section = section.downcase if section
-      
-      bucket = if SECTIONS.include? section
-        @parsed_response[section] ||= {}
-        @parsed_response[section]
-      else
-        @parsed_response
-      end
-      
-      t.children.css("*").each do |c|
-        key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
-        value = c.content.strip
-        bucket[key] = value
-      end
-    }
-    
-    # if $DEBUG
-    #   require "yaml"
-    #   y @parsed_response
-    # end
+  class NonRexmlParserRequired < RuntimeError; end
+  
+  begin
+    gem     "nokogiri"
+    require "nokogiri"
+    def parse!
+      @parsed_response = {}
+      xml = Nokogiri::XML(@raw_response)
+      xml.search("track").each { |t|
+        section = t['type']
+        section = section.downcase if section
+
+        bucket = if section == "general"
+          @parsed_response
+        else
+          @parsed_response[section] ||= {}
+          @parsed_response[section]
+        end
+
+        t.children.css("*").each do |c|
+          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
+          value = c.content.strip
+          bucket[key] = value
+        end
+      }
+    end
+  rescue Gem::LoadError, LoadError
+    gem     "hpricot"
+    require "hpricot"
+    def parse!
+      @parsed_response = {}
+      xml = Hpricot::XML(@raw_response)
+      xml.search("track").each { |t|
+        section = t['type']
+        section = section.downcase if section
+        
+        bucket = if section == "general"
+          @parsed_response
+        else
+          @parsed_response[section] ||= {}
+          @parsed_response[section]
+        end
+
+        t.children.select { |n| n.is_a? Hpricot::Elem }.each do |c|
+          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
+          value = c.inner_html.strip
+          bucket[key] = value
+        end
+      }
+    end
+  rescue Gem::LoadError, LoadError
+    raise NonRexmlParserRequired, "install 'nokogiri' or 'hpricot'"
   end
 end
