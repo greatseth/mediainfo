@@ -275,12 +275,10 @@ class MediainfoAwaywegoTest < ActiveSupport::TestCase
   
   test "audio encoded date" do
     assert_kind_of Time, @info.audio_encoded_date
-    # assert_equal "UTC 2009-03-30 19:57:50", @info.audio_encoded_date
   end
   
   test "audio tagged date" do
     assert_kind_of Time, @info.audio_tagged_date
-    # assert_equal "UTC 2009-03-30 19:57:57", @info.audio_tagged_date
   end
   
   ### IMAGE
