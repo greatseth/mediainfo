@@ -39,6 +39,10 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
     assert_equal "2 078 Kbps", @info.overall_bit_rate
   end
   
+  test "mastered date" do
+    assert_nil @info.encoded_date
+  end
+  
   test "encoded date" do
     assert_nil @info.encoded_date
   end
@@ -57,8 +61,8 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
 
   ### VIDEO
   
-  test "video stream id" do
-    assert_nil @info.video_stream_id
+  test "video stream  id" do
+    assert_equal "0", @info.video_stream_id
   end
   
   test "video   Format" do
@@ -123,8 +127,8 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
   end
 
   test "video   Display aspect ratio" do
-    assert_equal "4/3", @info.video_display_aspect_ratio
-    assert_equal "4/3", @info.display_aspect_ratio
+    assert_equal "4:3", @info.video_display_aspect_ratio
+    assert_equal "4:3", @info.display_aspect_ratio
   end
 
   test "video frame rate" do
@@ -179,6 +183,10 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
     assert_nil @info.audio_format_info
   end
   
+  test "audio codec id hint" do
+    assert_equal "Intel", @info.audio_codec_id_hint
+  end
+  
   test "audio Format settings, Endianness" do
     assert_nil @info.audio_format_settings_endianness
   end
@@ -192,7 +200,7 @@ class MediainfoVimeoTest < ActiveSupport::TestCase
   end
 
   test "audio   Codec ID/Info" do
-    assert_equal "Intel ADPCM", @info.audio_codec_info
+    assert_nil @info.audio_codec_info
   end
 
   test "audio   Duration" do

@@ -129,8 +129,8 @@ class MediainfoAwaywegoTest < ActiveSupport::TestCase
   end
 
   test "video   Display aspect ratio" do
-    assert_equal "2.25", @info.video_display_aspect_ratio
-    assert_equal "2.25", @info.display_aspect_ratio
+    assert_equal "2.25:1", @info.video_display_aspect_ratio
+    assert_equal "2.25:1", @info.display_aspect_ratio
   end
 
   test "video frame rate" do

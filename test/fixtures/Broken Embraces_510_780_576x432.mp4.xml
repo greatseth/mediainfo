@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+<File>
+<track type="General">
+
+<Complete_name>/Users/seth/diversion/hdcloud/test/store/Broken Embraces_510_780_576x432.mp4</Complete_name>
+<Format>MPEG-4</Format>
+<Format_profile>Base Media</Format_profile>
+<Codec_ID>isom</Codec_ID>
+<File_size>11.5 MiB</File_size>
+<Duration>1mn 46s</Duration>
+<Overall_bit_rate>911 Kbps</Overall_bit_rate>
+<Writing_application>Lavf52.39.0</Writing_application>
+</track>
+
+<track type="Video">
+
+<ID>1</ID>
+<Format>AVC</Format>
+<Format_Info>Advanced Video Codec</Format_Info>
+<Format_profile>High@L3.0</Format_profile>
+<Format_settings__CABAC>Yes</Format_settings__CABAC>
+<Format_settings__ReFrames>4 frames</Format_settings__ReFrames>
+<Codec_ID>avc1</Codec_ID>
+<Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+<Duration>1mn 46s</Duration>
+<Bit_rate_mode>Variable</Bit_rate_mode>
+<Bit_rate>780 Kbps</Bit_rate>
+<Width>576 pixels</Width>
+<Height>432 pixels</Height>
+<Display_aspect_ratio>4:3</Display_aspect_ratio>
+<Frame_rate_mode>Variable</Frame_rate_mode>
+<Frame_rate>23.976 fps</Frame_rate>
+<Minimum_frame_rate>11.990 fps</Minimum_frame_rate>
+<Maximum_frame_rate>23.980 fps</Maximum_frame_rate>
+<Resolution>24 bits</Resolution>
+<Colorimetry>4:2:0</Colorimetry>
+<Scan_type>Progressive</Scan_type>
+<Bits__Pixel_Frame_>0.131</Bits__Pixel_Frame_>
+<Stream_size>9.84 MiB (85%)</Stream_size>
+<Writing_library>x264 core 76 r1271 496d79d</Writing_library>
+<Encoding_settings>cabac=1 / ref=4 / deblock=1:0:0 / analyse=0x3:0x113 / me=umh / subme=8 / psy=1 / psy_rd=1.0:0.0 / mixed_ref=1 / me_range=16 / chroma_me=1 / trellis=1 / 8x8dct=1 / cqm=0 / deadzone=21,11 / chroma_qp_offset=-2 / threads=3 / nr=0 / decimate=1 / mbaff=0 / bframes=16 / b_pyramid=0 / b_adapt=1 / b_bias=0 / direct=3 / wpredb=32 / keyint=250 / keyint_min=25 / scenecut=40 / rc_lookahead=40 / rc=2pass / mbtree=1 / bitrate=780 / ratetol=1.0 / qcomp=0.60 / qpmin=10 / qpmax=51 / qpstep=4 / cplxblur=20.0 / qblur=0.5 / ip_ratio=1.41 / aq=1:1.00</Encoding_settings>
+<Language>English</Language>
+</track>
+
+<track type="Audio">
+
+<ID>2</ID>
+<Format>AAC</Format>
+<Format_Info>Advanced Audio Codec</Format_Info>
+<Format_version>Version 4</Format_version>
+<Format_profile>LC</Format_profile>
+<Format_settings__SBR>No</Format_settings__SBR>
+<Codec_ID>40</Codec_ID>
+<Duration>1mn 46s</Duration>
+<Bit_rate_mode>Variable</Bit_rate_mode>
+<Bit_rate>128 Kbps</Bit_rate>
+<Channel_s_>2 channels</Channel_s_>
+<Channel_positions>L R</Channel_positions>
+<Sampling_rate>44.1 KHz</Sampling_rate>
+<Resolution>16 bits</Resolution>
+<Stream_size>1.62 MiB (14%)</Stream_size>
+<Language>English</Language>
+</track>
+
+</File>
+</Mediainfo>
+

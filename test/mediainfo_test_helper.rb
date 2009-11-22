@@ -33,17 +33,7 @@ class ActiveSupport::TestCase
     Mediainfo.new "/dev/null"
   end
   
-  def mediainfo_xml_mock(name)
-    require "mediainfo/xml"
-    Mediainfo::XML.any_instance.stubs(:mediainfo!).returns(mediainfo_xml_fixture(name))
-    Mediainfo::XML.new "/dev/null"
-  end
-  
   def mediainfo_fixture(name)
-    File.read(File.join(File.dirname(__FILE__), "fixtures", "#{name}.txt"))
-  end
-  
-  def mediainfo_xml_fixture(name)
     File.read(File.join(File.dirname(__FILE__), "fixtures", "#{name}.xml"))
   end
 end

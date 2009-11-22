@@ -10,17 +10,19 @@ module AttrReaders
   def mediainfo_attr_reader(name, mediainfo_key = nil)
     supported_attributes << name
     attr_name = "#{name}_before_type_cast"
+    mediainfo_key = mediainfo_key.gsub(/\W+/, "_").downcase if mediainfo_key
+    
     define_method attr_name do
       if v = instance_variable_get("@#{attr_name}")
         v
       else
         v = if md = name.to_s.match(/^(#{SECTIONS.map { |x| x.underscore } * "|"})_(.+)$/)
-          k = mediainfo_key ? mediainfo_key : md[2].humanize.capitalize
-          if subsection = @parsed_response[md[1].capitalize]
+          k = mediainfo_key ? mediainfo_key : md[2]
+          if subsection = @parsed_response[md[1]]
             subsection[k]
           end
         else
-          k = mediainfo_key ? mediainfo_key : name.to_s.humanize.capitalize
+          k = mediainfo_key ? mediainfo_key : name.to_s
           @parsed_response[k]
         end
         
@@ -70,7 +72,7 @@ module AttrReaders
   end
   
   def mediainfo_section_query(name)
-    define_method("#{name}?") { @parsed_response.key? name.to_s.capitalize }
+    define_method("#{name}?") { @parsed_response.key? name.to_s }
   end
 end
 end

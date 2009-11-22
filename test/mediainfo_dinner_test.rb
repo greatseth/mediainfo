@@ -74,7 +74,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
   
   test "video format settings Matrix" do
-    assert_equal "Default", @info.video_format_settings_matrix
+    assert_equal "Default (H.263)", @info.video_format_settings_matrix
   end
   
   test "video format settings CABAC" do
@@ -209,7 +209,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
 
   test "audio   Channel(s)" do
-    assert_equal 11, @info.audio_channels
+    assert_equal 1, @info.audio_channels
   end
   
   test "audio channel positions" do
@@ -221,7 +221,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
   
   test "mono?" do
-    assert !@info.mono?
+    assert @info.mono?
   end
 
   test "audio   Sampling rate" do

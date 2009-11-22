@@ -1,9 +1,9 @@
 require "test_helper"
 require "mediainfo_test_helper"
 
-class MediainfoVimeoimageTest < ActiveSupport::TestCase
+class MediainfoOmenImageTest < ActiveSupport::TestCase
   def setup
-    @info = mediainfo_mock "vimeo.57652_55_500.jpg"
+    @info = mediainfo_mock "omen1976_464_0_480x336-6.jpg"
   end
 
   ### GENERAL
@@ -93,7 +93,7 @@ class MediainfoVimeoimageTest < ActiveSupport::TestCase
   end
   
   test "resolution" do
-    assert_equal "640x360", @info.resolution
+    assert_equal "480x336", @info.resolution
   end
 
   test "video   Width" do
@@ -219,13 +219,13 @@ class MediainfoVimeoimageTest < ActiveSupport::TestCase
   end
   
   test "image width" do
-    assert_equal 640, @info.image_width
-    assert_equal 640, @info.width
+    assert_equal 480, @info.image_width
+    assert_equal 480, @info.width
   end
   
   test "image height" do
-    assert_equal 360, @info.image_height
-    assert_equal 360, @info.height
+    assert_equal 336, @info.image_height
+    assert_equal 336, @info.height
   end
   
   test "image resolution" do

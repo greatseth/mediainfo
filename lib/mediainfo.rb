@@ -36,7 +36,7 @@ require "mediainfo/attr_readers"
 class Mediainfo
   extend AttrReaders
   
-  SECTIONS = %w( Audio Video Image ) # and General
+  SECTIONS = %w( audio video image ) # and General
   
   ### GENERAL
   
@@ -158,6 +158,7 @@ class Mediainfo
   mediainfo_attr_reader :audio_format_settings_sign, "Format settings, Sign"
   mediainfo_attr_reader :audio_codec_id, "Codec ID"
   mediainfo_attr_reader :audio_codec_info, "Codec ID/Info"
+  mediainfo_attr_reader :audio_codec_id_hint
   mediainfo_attr_reader :audio_channel_positions
   
   # XXX this breaks from RVideo::Inspector which returns 
@@ -244,6 +245,7 @@ private
     xml = Nokogiri::XML(@raw_response)
     xml.search("track").each { |t|
       section = t['type']
+      section = section.downcase if section
       
       bucket = if SECTIONS.include? section
         @parsed_response[section] ||= {}
@@ -253,10 +255,15 @@ private
       end
       
       t.children.css("*").each do |c|
-        key   = c.name.gsub(/_+/, " ").strip
+        key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
         value = c.content.strip
         bucket[key] = value
       end
     }
+    
+    # if $DEBUG
+    #   require "yaml"
+    #   y @parsed_response
+    # end
   end
 end
