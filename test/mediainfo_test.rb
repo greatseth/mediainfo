@@ -37,6 +37,8 @@ class MediainfoTest < ActiveSupport::TestCase
     :video_codec_id,
     :video_codec_info,
     :video_frame_rate,
+    :video_minimum_frame_rate,
+    :video_maximum_frame_rate,
     :video_frame_rate_mode,
     :video_display_aspect_ratio,
     :video_bits_pixel_frame,
