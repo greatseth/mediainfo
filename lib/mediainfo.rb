@@ -106,6 +106,14 @@ class Mediainfo
   def fps; video_frame_rate[/[\d.]+/].to_f if video?; end
   alias_method :framerate, :fps
   
+  mediainfo_attr_reader :video_minimum_frame_rate
+  def min_fps; video_minimum_frame_rate[/[\d.]+/].to_f if video?; end
+  alias_method :min_framerate, :min_fps
+  
+  mediainfo_attr_reader :video_maximum_frame_rate
+  def max_fps; video_maximum_frame_rate[/[\d.]+/].to_f if video?; end
+  alias_method :max_framerate, :max_fps
+  
   mediainfo_attr_reader :video_frame_rate_mode
   
   mediainfo_attr_reader :video_display_aspect_ratio

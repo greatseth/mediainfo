@@ -131,6 +131,14 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
     assert_equal "14.875 fps", @info.video_frame_rate
     assert_equal 14.875, @info.fps
     assert_equal 14.875, @info.framerate
+    
+    assert_equal "2.370 fps", @info.video_minimum_frame_rate
+    assert_equal 2.370, @info.min_fps
+    assert_equal 2.370, @info.min_framerate
+    
+    assert_equal "27.778 fps", @info.video_maximum_frame_rate
+    assert_equal 27.778, @info.max_fps
+    assert_equal 27.778, @info.max_framerate
   end
   
   test "video frame rate mode" do
