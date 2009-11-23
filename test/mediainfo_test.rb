@@ -99,9 +99,12 @@ class MediainfoTest < ActiveSupport::TestCase
   end
   
   test "allows customization of path to mediainfo binary" do
-    Mediainfo.any_instance.stubs(:run_command!)
+    Mediainfo.any_instance.stubs(:run_command!).returns("test")
     
     assert_equal "mediainfo", Mediainfo.path
+    
+    m = Mediainfo.new "/dev/null"
+    assert_equal "mediainfo $'/dev/null' --Output=XML", m.last_command
     
     Mediainfo.path = "/opt/local/bin/mediainfo"
     assert_equal "/opt/local/bin/mediainfo", Mediainfo.path

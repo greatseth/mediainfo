@@ -207,8 +207,9 @@ class Mediainfo
     end
   end
 
-  def raw_response=(mediainfo_cli_output)
-    @raw_response = mediainfo_cli_output
+  def raw_response=(response)
+    raise ArgumentError, "raw response is nil" if response.nil?
+    @raw_response = response
     parse!
     @raw_response
   end
