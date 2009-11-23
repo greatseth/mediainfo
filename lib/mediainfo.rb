@@ -272,8 +272,6 @@ private
     raw_response
   end
   
-  class NonRexmlParserRequired < RuntimeError; end
-  
   def parse!
     if xml_parser
       self.class.load_xml_parser!
