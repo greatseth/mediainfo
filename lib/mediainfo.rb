@@ -48,7 +48,7 @@ class Mediainfo
   mediainfo_attr_reader :writing_application
   mediainfo_attr_reader :writing_library
   
-  def size; File.size(@full_filename); end
+  def size; File.size(@full_filename) if @full_filename; end
   
   mediainfo_date_reader :mastered_date
   mediainfo_date_reader :tagged_date
