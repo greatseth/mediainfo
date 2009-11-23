@@ -283,11 +283,9 @@ private
     
     @parsed_response = {}
     
-    xml = load_raw_response
-    
     case xml_parser
     when "nokogiri"
-      xml.search("track").each { |t|
+      Nokogiri::XML(@raw_response).search("track").each { |t|
         section = t['type']
         section = section.downcase if section
         
@@ -305,7 +303,7 @@ private
         end
       }
     when "hpricot"
-      xml.search("track").each { |t|
+      Hpricot::XML(@raw_response).search("track").each { |t|
         section = t['type']
         section = section.downcase if section
         
@@ -323,7 +321,7 @@ private
         end
       }
     else
-      xml.elements.each("/Mediainfo/File/track") { |t|
+      REXML::Document.new(@raw_response).elements.each("/Mediainfo/File/track") { |t|
         section = t.attributes['type']
         section = section.downcase if section
       
@@ -340,14 +338,6 @@ private
           bucket[key] = value
         end
       }
-    end
-  end
-  
-  def load_raw_response
-    case xml_parser
-    when "nokogiri" then Nokogiri::XML(@raw_response)
-    when "hpricot"  then Hpricot::XML(@raw_response)
-    else REXML::Document.new(@raw_response)
     end
   end
 end
