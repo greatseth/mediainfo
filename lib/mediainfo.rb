@@ -214,8 +214,32 @@ class Mediainfo
     @raw_response
   end
   
-  class << self; attr_accessor :path; end
+  class << self
+    attr_accessor :path
+    
+    def load_xml_parser!(parser = xml_parser)
+      begin
+        gem     parser
+        require parser
+      rescue Gem::LoadError => e
+        raise Gem::LoadError,
+          "your specified XML parser, #{parser.inspect}, could not be loaded: #{e}"
+      end
+    end
+    
+    attr_reader :xml_parser
+    def xml_parser=(parser)
+      load_xml_parser! parser
+      @xml_parser = parser
+    end
+  end
+  
+  unless ENV["MEDIAINFO_XML_PARSER"].to_s.strip.empty?
+    self.xml_parser = ENV["MEDIAINFO_XML_PARSER"]
+  end
+  
   def path; self.class.path; end
+  def xml_parser; self.class.xml_parser; end
   
   def self.default_mediainfo_path!; self.path = "mediainfo"; end
   default_mediainfo_path! unless path
@@ -250,16 +274,23 @@ private
   
   class NonRexmlParserRequired < RuntimeError; end
   
-  begin
-    gem     "nokogiri"
-    require "nokogiri"
-    def parse!
-      @parsed_response = {}
-      xml = Nokogiri::XML(@raw_response)
+  def parse!
+    if xml_parser
+      self.class.load_xml_parser!
+    else
+      require "rexml/document"
+    end
+    
+    @parsed_response = {}
+    
+    xml = load_raw_response
+    
+    case xml_parser
+    when "nokogiri"
       xml.search("track").each { |t|
         section = t['type']
         section = section.downcase if section
-
+        
         bucket = if section == "general"
           @parsed_response
         else
@@ -273,13 +304,7 @@ private
           bucket[key] = value
         end
       }
-    end
-  rescue Gem::LoadError, LoadError
-    gem     "hpricot"
-    require "hpricot"
-    def parse!
-      @parsed_response = {}
-      xml = Hpricot::XML(@raw_response)
+    when "hpricot"
       xml.search("track").each { |t|
         section = t['type']
         section = section.downcase if section
@@ -297,8 +322,32 @@ private
           bucket[key] = value
         end
       }
+    else
+      xml.elements.each("/Mediainfo/File/track") { |t|
+        section = t.attributes['type']
+        section = section.downcase if section
+      
+        bucket = if section == "general"
+          @parsed_response
+        else
+          @parsed_response[section] ||= {}
+          @parsed_response[section]
+        end
+        
+        t.children.select { |n| n.is_a? REXML::Element }.each do |c|
+          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
+          value = c.text.strip
+          bucket[key] = value
+        end
+      }
     end
-  rescue Gem::LoadError, LoadError
-    raise NonRexmlParserRequired, "install 'nokogiri' or 'hpricot'"
+  end
+  
+  def load_raw_response
+    case xml_parser
+    when "nokogiri" then Nokogiri::XML(@raw_response)
+    when "hpricot"  then Hpricot::XML(@raw_response)
+    else REXML::Document.new(@raw_response)
+    end
   end
 end
