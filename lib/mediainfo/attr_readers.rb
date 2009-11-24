@@ -1,5 +1,5 @@
-require "rubygems"
-require "active_support" # TODO selective includes once they are released
+require "time"
+require "mediainfo/string"
 
 class  Mediainfo
 module AttrReaders
