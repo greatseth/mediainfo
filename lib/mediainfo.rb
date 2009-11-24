@@ -198,6 +198,10 @@ class Mediainfo
   class ExecutionError < Error; end
   class IncompatibleVersionError < Error; end
   
+  def self.version
+    @version ||= `#{path} --Version`[/v([\d.]+)/, 1]
+  end
+  
   ###
   
   def initialize(full_filename = nil)
@@ -259,7 +263,7 @@ class Mediainfo
   default_mediainfo_path! unless path
   
   def mediainfo_version
-    @mediainfo_version ||= `#{path} --Version`[/v([\d.]+)/, 1]
+    self.class.version
   end
   
   attr_reader :last_command
