@@ -299,58 +299,43 @@ private
     case xml_parser
     when "nokogiri"
       Nokogiri::XML(@raw_response).search("track").each { |t|
-        section = t['type']
-        section = section.downcase if section
-        
-        bucket = if section == "general"
-          @parsed_response
-        else
-          @parsed_response[section] ||= {}
-          @parsed_response[section]
-        end
+        bucket = bucket_for t['type']
 
         t.children.css("*").each do |c|
-          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
-          value = c.content.strip
-          bucket[key] = value
+          bucket[key_for(c)] = c.content.strip
         end
       }
     when "hpricot"
       Hpricot::XML(@raw_response).search("track").each { |t|
-        section = t['type']
-        section = section.downcase if section
-        
-        bucket = if section == "general"
-          @parsed_response
-        else
-          @parsed_response[section] ||= {}
-          @parsed_response[section]
-        end
+        bucket = bucket_for t['type']
 
         t.children.select { |n| n.is_a? Hpricot::Elem }.each do |c|
-          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
-          value = c.inner_html.strip
-          bucket[key] = value
+          bucket[key_for(c)] = c.inner_html.strip
         end
       }
     else
       REXML::Document.new(@raw_response).elements.each("/Mediainfo/File/track") { |t|
-        section = t.attributes['type']
-        section = section.downcase if section
-      
-        bucket = if section == "general"
-          @parsed_response
-        else
-          @parsed_response[section] ||= {}
-          @parsed_response[section]
-        end
+        bucket = bucket_for t.attributes['type']
         
         t.children.select { |n| n.is_a? REXML::Element }.each do |c|
-          key   = c.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
-          value = c.text.strip
-          bucket[key] = value
+          bucket[key_for(c)] = c.text.strip
         end
       }
+    end
+  end
+  
+  def key_for(attribute_node)
+    attribute_node.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
+  end
+  
+  def bucket_for(section)
+    section = section.downcase if section
+    
+    if section == "general"
+      @parsed_response
+    else
+      @parsed_response[section] ||= {}
+      @parsed_response[section]
     end
   end
 end
