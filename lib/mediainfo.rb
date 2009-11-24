@@ -58,8 +58,6 @@ class Mediainfo
   
   mediainfo_section_query :video
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # something like "#0.1" instead of "1"
   mediainfo_attr_reader :video_stream_id, "ID"
   
   mediainfo_duration_reader :video_duration
@@ -132,8 +130,6 @@ class Mediainfo
   
   mediainfo_section_query :audio
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # something like "#0.1" instead of "1"
   mediainfo_attr_reader :audio_stream_id, "ID"
   
   mediainfo_duration_reader :audio_duration
@@ -169,8 +165,6 @@ class Mediainfo
   mediainfo_attr_reader :audio_codec_id_hint
   mediainfo_attr_reader :audio_channel_positions
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # strings like "mono" or "stereo" for this method.
   mediainfo_int_reader :audio_channels, "Channel(s)"
   def stereo?; 2 == audio_channels; end
   def mono?;   1 == audio_channels; end
@@ -215,16 +209,16 @@ class Mediainfo
       @full_filename = File.expand_path full_filename
       @path          = File.dirname  @full_filename
       @filename      = File.basename @full_filename
-
+      
       raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
       raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
-
+      
       @escaped_full_filename = @full_filename.shell_escape
-
+      
       self.raw_response = mediainfo!
     end
   end
-
+  
   def raw_response=(response)
     raise ArgumentError, "raw response is nil" if response.nil?
     @raw_response = response
