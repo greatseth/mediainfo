@@ -106,6 +106,8 @@ class MediainfoTest < ActiveSupport::TestCase
     m = Mediainfo.new "/dev/null"
     assert_equal "mediainfo $'/dev/null' --Output=XML", m.last_command
     
+    Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.25")
+    
     Mediainfo.path = "/opt/local/bin/mediainfo"
     assert_equal "/opt/local/bin/mediainfo", Mediainfo.path
     
@@ -118,5 +120,10 @@ class MediainfoTest < ActiveSupport::TestCase
     m.raw_response = mediainfo_fixture("AwayWeGo_24fps.mov")
     assert m.video?
     assert m.audio?
+  end
+  
+  test "cannot be initialized with version < 0.7.25" do
+    Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.10")
+    assert_raises(Mediainfo::IncompatibleVersionError) { Mediainfo.new }
   end
 end

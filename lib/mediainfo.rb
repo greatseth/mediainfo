@@ -192,7 +192,21 @@ class Mediainfo
   attr_reader :raw_response, :parsed_response,
     :full_filename, :filename, :path, :escaped_full_filename
   
+  ###
+  
+  class Error < StandardError; end
+  class ExecutionError < Error; end
+  class IncompatibleVersionError < Error; end
+  
+  ###
+  
   def initialize(full_filename = nil)
+    if mediainfo_version < "0.7.25"
+      raise IncompatibleVersionError,
+        "Your version of mediainfo, #{mediainfo_version}, " +
+        "is not compatible with this gem. >= 0.7.25 required."
+    end
+    
     if full_filename
       @full_filename = File.expand_path full_filename
       @path          = File.dirname  @full_filename
@@ -245,13 +259,10 @@ class Mediainfo
   default_mediainfo_path! unless path
   
   def mediainfo_version
-    `#{path} --Version`[/v([\d.]+)/, 1]
+    @mediainfo_version ||= `#{path} --Version`[/v([\d.]+)/, 1]
   end
   
   attr_reader :last_command
-  
-  class Error < StandardError; end
-  class ExecutionError < Error; end
   
   def inspect
     super.sub /@raw_response=".+?", @/, %{@raw_response="...", @}
