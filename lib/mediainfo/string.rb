@@ -8,6 +8,7 @@ class String
   end unless method_defined?(:shell_escape)
   
   # stolen from active_support/inflector
+  # TODO require "active_support/core_ext/string/inflections" when 3.0 is released
   def underscore
     gsub(/::/, '/').
     gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
