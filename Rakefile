@@ -9,7 +9,7 @@ namespace :github do
       
       puts "** processing..."
       # Checkout README.* from master, courtesy of wereHamster in #git on freenode
-      system "git ls-tree master | grep README | head -n1 | while read mode type hash path; do git checkout master -- $path; done"
+      system "git ls-tree master | grep README | while read mode type hash path; do git show master:$path > $path; done"
       readme = Dir["README*"].first
       raise "failed to checkout README.* from master" unless readme
       
