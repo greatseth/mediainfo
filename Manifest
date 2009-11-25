@@ -6,5 +6,4 @@ Rakefile
 lib/mediainfo.rb
 lib/mediainfo/attr_readers.rb
 lib/mediainfo/string.rb
-lib/mediainfo/xml.rb
 mediainfo.gemspec

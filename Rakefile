@@ -3,7 +3,7 @@ require "echoe"
 
 class Echoe
   def honor_gitignore!
-    self.ignore_pattern = \
+    self.ignore_pattern += \
       Dir["**/.gitignore"].inject([]) do |pattern,gitignore| 
         pattern.concat \
           File.readlines(gitignore).
