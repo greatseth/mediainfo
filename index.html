@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <title>mediainfo</title>
+  </head>
+  <body><h1>Mediainfo</h1>
+
+<p>Mediainfo is a class wrapping <a href="http://mediainfo.sourceforge.net">the mediainfo CLI</a>.</p>
+
+<h2>Installation</h2>
+
+<p>  $ gem install mediainfo -s http://gemcutter.org</p>
+
+<h2>Usage</h2>
+
+<pre><code>info = Mediainfo.new "/path/to/file"
+</code></pre>
+
+<p>That will issue the system call to <code>mediainfo</code> and parse the output.
+You can specify an alternate path if necessary:</p>
+
+<pre><code>Mediainfo.path = "/opt/local/bin/mediainfo"
+</code></pre>
+
+<p>Once you've got an instance setup, you can call numerous methods to get
+a variety of information about a file. Some attributes may be present
+for some files where others are not, but any supported attribute
+should at least return <code>nil</code>.</p>
+
+<p>For a list of all possible attributes supported:</p>
+
+<pre><code>Mediainfo.supported_attributes
+</code></pre>
+
+<h2>Requirements</h2>
+
+<p>This requires at least the following version of the Mediainfo CLI:</p>
+
+<p>  MediaInfo Command line,
+  MediaInfoLib - v0.7.25</p>
+
+<p>Previous versions of this gem(&lt;= 0.5.1) worked against v0.7.11, which did not
+generate XML output, and is no longer supported.</p>
+
+<h2>Contributors</h2>
+
+<ul>
+<li>Seth Thomas Rasmussen - <a href="http://greatseth.com">http://greatseth.com</a></li>
+<li>Peter Vandenberk - <a href="http://github.com/pvdb">http://github.com/pvdb</a></li>
+</ul>
+
+</body>
+</html>
