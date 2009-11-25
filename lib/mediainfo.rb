@@ -33,7 +33,7 @@ require "mediainfo/attr_readers"
 class Mediainfo
   extend AttrReaders
   
-  SECTIONS = %w( Audio Video Image ) # and General
+  SECTIONS = %w( audio video image ) # and General
   
   ### GENERAL
   
@@ -58,8 +58,6 @@ class Mediainfo
   
   mediainfo_section_query :video
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # something like "#0.1" instead of "1"
   mediainfo_attr_reader :video_stream_id, "ID"
   
   mediainfo_duration_reader :video_duration
@@ -92,6 +90,9 @@ class Mediainfo
   # Format settings, QPel            : No
   # Format settings, GMC             : No warppoints
   # mediainfo_attr_reader :video_format_settings_qpel, "Format settings, QPel"
+  mediainfo_attr_reader :video_color_primaries
+  mediainfo_attr_reader :video_transfer_characteristics
+  mediainfo_attr_reader :video_matrix_coefficients
   
   mediainfo_attr_reader :video_codec_id, "Codec ID"
   mediainfo_attr_reader :video_codec_info, "Codec ID/Info"
@@ -99,6 +100,14 @@ class Mediainfo
   mediainfo_attr_reader :video_frame_rate
   def fps; video_frame_rate[/[\d.]+/].to_f if video?; end
   alias_method :framerate, :fps
+  
+  mediainfo_attr_reader :video_minimum_frame_rate
+  def min_fps; video_minimum_frame_rate[/[\d.]+/].to_f if video?; end
+  alias_method :min_framerate, :min_fps
+  
+  mediainfo_attr_reader :video_maximum_frame_rate
+  def max_fps; video_maximum_frame_rate[/[\d.]+/].to_f if video?; end
+  alias_method :max_framerate, :max_fps
   
   mediainfo_attr_reader :video_frame_rate_mode
   
@@ -121,8 +130,6 @@ class Mediainfo
   
   mediainfo_section_query :audio
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # something like "#0.1" instead of "1"
   mediainfo_attr_reader :audio_stream_id, "ID"
   
   mediainfo_duration_reader :audio_duration
@@ -155,10 +162,9 @@ class Mediainfo
   mediainfo_attr_reader :audio_format_settings_sign, "Format settings, Sign"
   mediainfo_attr_reader :audio_codec_id, "Codec ID"
   mediainfo_attr_reader :audio_codec_info, "Codec ID/Info"
+  mediainfo_attr_reader :audio_codec_id_hint
   mediainfo_attr_reader :audio_channel_positions
   
-  # XXX this breaks from RVideo::Inspector which returns 
-  # strings like "mono" or "stereo" for this method.
   mediainfo_int_reader :audio_channels, "Channel(s)"
   def stereo?; 2 == audio_channels; end
   def mono?;   1 == audio_channels; end
@@ -180,41 +186,81 @@ class Mediainfo
   attr_reader :raw_response, :parsed_response,
     :full_filename, :filename, :path, :escaped_full_filename
   
+  ###
+  
+  class Error < StandardError; end
+  class ExecutionError < Error; end
+  class IncompatibleVersionError < Error; end
+  
+  def self.version
+    @version ||= `#{path} --Version`[/v([\d.]+)/, 1]
+  end
+  
+  ###
+  
   def initialize(full_filename = nil)
+    if mediainfo_version < "0.7.25"
+      raise IncompatibleVersionError,
+        "Your version of mediainfo, #{mediainfo_version}, " +
+        "is not compatible with this gem. >= 0.7.25 required."
+    end
+    
     if full_filename
       @full_filename = File.expand_path full_filename
       @path          = File.dirname  @full_filename
       @filename      = File.basename @full_filename
-
+      
       raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
       raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
-
+      
       @escaped_full_filename = @full_filename.shell_escape
-
+      
       self.raw_response = mediainfo!
     end
   end
-
-  def raw_response=(mediainfo_cli_output)
-    @raw_response = mediainfo_cli_output
+  
+  def raw_response=(response)
+    raise ArgumentError, "raw response is nil" if response.nil?
+    @raw_response = response
     parse!
     @raw_response
   end
   
-  class << self; attr_accessor :path; end
+  class << self
+    attr_accessor :path
+    
+    def load_xml_parser!(parser = xml_parser)
+      begin
+        gem     parser
+        require parser
+      rescue Gem::LoadError => e
+        raise Gem::LoadError,
+          "your specified XML parser, #{parser.inspect}, could not be loaded: #{e}"
+      end
+    end
+    
+    attr_reader :xml_parser
+    def xml_parser=(parser)
+      load_xml_parser! parser
+      @xml_parser = parser
+    end
+  end
+  
+  unless ENV["MEDIAINFO_XML_PARSER"].to_s.strip.empty?
+    self.xml_parser = ENV["MEDIAINFO_XML_PARSER"]
+  end
+  
   def path; self.class.path; end
+  def xml_parser; self.class.xml_parser; end
   
   def self.default_mediainfo_path!; self.path = "mediainfo"; end
   default_mediainfo_path! unless path
   
   def mediainfo_version
-    `#{path} --Version`[/v([\d.]+)/, 1]
+    self.class.version
   end
   
   attr_reader :last_command
-  
-  class Error < StandardError; end
-  class ExecutionError < Error; end
   
   def inspect
     super.sub /@raw_response=".+?", @/, %{@raw_response="...", @}
@@ -222,39 +268,68 @@ class Mediainfo
   
 private
   def mediainfo!
-    # for bash, see: http://www.faqs.org/docs/bashman/bashref_12.html
-    # but appears to be working for other shells: sh, zsh, ksh, dash
-    @last_command = "#{path} #{@escaped_full_filename}"
-    run_last_command!
+    @last_command = "#{path} #{@escaped_full_filename} --Output=XML"
+    run_command!
   end
   
-  def run_last_command!
-    raw_response = `#{@last_command}`
+  def run_command!
+    raw_response = `#{@last_command} 2>&1`
     unless $? == 0
-      raise ExecutionError, "Execution of `#{@last_command}` failed: #{raw_response.inspect}"
+      raise ExecutionError,
+        "Execution of `#{@last_command}` failed: #{raw_response.inspect}"
     end
     raw_response
   end
   
   def parse!
-    @parsed_response = {}
-    subsection = nil
+    if xml_parser
+      self.class.load_xml_parser!
+    else
+      require "rexml/document"
+    end
     
-    @raw_response.to_s.split("\n").map { |x| x.strip }.each do |line|
-      next if line.empty? || line == "General"
-      
-      if SECTIONS.include? line
-        subsection = line
-        @parsed_response[subsection] = {}
-        next
-      end
-      
-      bucket = @parsed_response
-      bucket = bucket[subsection] if subsection
-      
-      key, value = line.split(":", 2).map { |x| x.strip }
-      
-      bucket[key] = value
+    @parsed_response = {}
+    
+    case xml_parser
+    when "nokogiri"
+      Nokogiri::XML(@raw_response).xpath("//track").each { |t|
+        bucket = bucket_for t['type']
+        
+        t.xpath("*").each do |c|
+          bucket[key_for(c)] = c.content.strip
+        end
+      }
+    when "hpricot"
+      Hpricot::XML(@raw_response).search("track").each { |t|
+        bucket = bucket_for t['type']
+
+        t.children.select { |n| n.is_a? Hpricot::Elem }.each do |c|
+          bucket[key_for(c)] = c.inner_html.strip
+        end
+      }
+    else
+      REXML::Document.new(@raw_response).elements.each("/Mediainfo/File/track") { |t|
+        bucket = bucket_for t.attributes['type']
+        
+        t.children.select { |n| n.is_a? REXML::Element }.each do |c|
+          bucket[key_for(c)] = c.text.strip
+        end
+      }
+    end
+  end
+  
+  def key_for(attribute_node)
+    attribute_node.name.downcase.gsub(/_+/, "_").gsub(/_s(\W|$)/, "s").strip
+  end
+  
+  def bucket_for(section)
+    section = section.downcase if section
+    
+    if section == "general"
+      @parsed_response
+    else
+      @parsed_response[section] ||= {}
+      @parsed_response[section]
     end
   end
 end

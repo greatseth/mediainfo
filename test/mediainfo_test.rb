@@ -37,6 +37,8 @@ class MediainfoTest < ActiveSupport::TestCase
     :video_codec_id,
     :video_codec_info,
     :video_frame_rate,
+    :video_minimum_frame_rate,
+    :video_maximum_frame_rate,
     :video_frame_rate_mode,
     :video_display_aspect_ratio,
     :video_bits_pixel_frame,
@@ -44,6 +46,9 @@ class MediainfoTest < ActiveSupport::TestCase
     :video_height,
     :video_encoded_date,
     :video_tagged_date,
+    :video_color_primaries,
+    :video_transfer_characteristics,
+    :video_matrix_coefficients,
 
     ### AUDIO
 
@@ -60,6 +65,7 @@ class MediainfoTest < ActiveSupport::TestCase
     :audio_format_settings_endianness,
     :audio_format_settings_sign,
     :audio_codec_id,
+    :audio_codec_id_hint,
     :audio_codec_info,
     :audio_channel_positions,
     :audio_channels,
@@ -87,20 +93,26 @@ class MediainfoTest < ActiveSupport::TestCase
   end
   
   test "retains last system command generated" do
-    m = Mediainfo.new "/dev/null"
-    assert_equal "mediainfo $'/dev/null'", m.last_command
+    p = File.expand_path "./test/fixtures/dinner.3g2.xml"
+    m = Mediainfo.new p
+    assert_equal "mediainfo $'#{p}' --Output=XML", m.last_command
   end
   
   test "allows customization of path to mediainfo binary" do
-    Mediainfo.any_instance.stubs(:run_last_command!)
+    Mediainfo.any_instance.stubs(:run_command!).returns("test")
     
     assert_equal "mediainfo", Mediainfo.path
+    
+    m = Mediainfo.new "/dev/null"
+    assert_equal "mediainfo $'/dev/null' --Output=XML", m.last_command
+    
+    Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.25")
     
     Mediainfo.path = "/opt/local/bin/mediainfo"
     assert_equal "/opt/local/bin/mediainfo", Mediainfo.path
     
     m = Mediainfo.new "/dev/null"
-    assert_equal "/opt/local/bin/mediainfo $'/dev/null'", m.last_command
+    assert_equal "/opt/local/bin/mediainfo $'/dev/null' --Output=XML", m.last_command
   end
   
   test "can be initialized with a raw response" do
@@ -108,5 +120,10 @@ class MediainfoTest < ActiveSupport::TestCase
     m.raw_response = mediainfo_fixture("AwayWeGo_24fps.mov")
     assert m.video?
     assert m.audio?
+  end
+  
+  test "cannot be initialized with version < 0.7.25" do
+    Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.10")
+    assert_raises(Mediainfo::IncompatibleVersionError) { Mediainfo.new }
   end
 end

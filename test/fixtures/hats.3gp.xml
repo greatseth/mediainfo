@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+<File>
+<track type="General">
+
+<Complete_name>/Users/seth/diversion/hdcloud/test/videos/hats.3gp</Complete_name>
+<Format>MPEG-4</Format>
+<Format_profile>3GPP Media Release 6 Basic</Format_profile>
+<Codec_ID>3gp6</Codec_ID>
+<File_size>2.99 MiB</File_size>
+<Duration>5mn 1s</Duration>
+<Overall_bit_rate>83.2 Kbps</Overall_bit_rate>
+<Encoded_date>UTC 2009-01-23 21:20:06</Encoded_date>
+<Tagged_date>UTC 2009-01-23 21:20:07</Tagged_date>
+</track>
+
+<track type="Video">
+
+<ID>1</ID>
+<Format>AVC</Format>
+<Format_Info>Advanced Video Codec</Format_Info>
+<Format_profile>Baseline@L1.0</Format_profile>
+<Format_settings__CABAC>No</Format_settings__CABAC>
+<Format_settings__ReFrames>2 frames</Format_settings__ReFrames>
+<Codec_ID>avc1</Codec_ID>
+<Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+<Duration>5mn 1s</Duration>
+<Bit_rate_mode>Variable</Bit_rate_mode>
+<Bit_rate>57.5 Kbps</Bit_rate>
+<Width>176 pixels</Width>
+<Height>144 pixels</Height>
+<Display_aspect_ratio>1.222</Display_aspect_ratio>
+<Frame_rate_mode>Constant</Frame_rate_mode>
+<Frame_rate>14.985 fps</Frame_rate>
+<Resolution>24 bits</Resolution>
+<Colorimetry>4:2:0</Colorimetry>
+<Scan_type>Progressive</Scan_type>
+<Bits__Pixel_Frame_>0.152</Bits__Pixel_Frame_>
+<Stream_size>2.07 MiB (69%)</Stream_size>
+<Language>English</Language>
+<Encoded_date>UTC 2009-01-23 21:18:39</Encoded_date>
+<Tagged_date>UTC 2009-01-23 21:20:07</Tagged_date>
+<Color_primaries>BT.601-6 525, BT.1358 525, BT.1700 NTSC, SMPTE 170M</Color_primaries>
+<Transfer_characteristics>BT.709-5, BT.1361</Transfer_characteristics>
+<Matrix_coefficients>BT.601-6 525, BT.1358 525, BT.1700 NTSC, SMPTE 170M</Matrix_coefficients>
+</track>
+
+<track type="Audio">
+
+<ID>2</ID>
+<Format>AAC</Format>
+<Format_Info>Advanced Audio Codec</Format_Info>
+<Format_version>Version 4</Format_version>
+<Format_profile>LC</Format_profile>
+<Format_settings__SBR>No</Format_settings__SBR>
+<Codec_ID>40</Codec_ID>
+<Duration>4mn 58s</Duration>
+<Bit_rate_mode>Constant</Bit_rate_mode>
+<Bit_rate>24.0 Kbps</Bit_rate>
+<Channel_s_>1 channel</Channel_s_>
+<Channel_positions>C</Channel_positions>
+<Sampling_rate>16.0 KHz</Sampling_rate>
+<Resolution>16 bits</Resolution>
+<Stream_size>877 KiB (29%)</Stream_size>
+<Language>English</Language>
+<Encoded_date>UTC 2009-01-23 21:18:40</Encoded_date>
+<Tagged_date>UTC 2009-01-23 21:20:07</Tagged_date>
+</track>
+
+</File>
+</Mediainfo>
+

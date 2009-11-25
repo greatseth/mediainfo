@@ -74,7 +74,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
   
   test "video format settings Matrix" do
-    assert_equal "Default", @info.video_format_settings_matrix
+    assert_equal "Default (H.263)", @info.video_format_settings_matrix
   end
   
   test "video format settings CABAC" do
@@ -131,6 +131,14 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
     assert_equal "14.875 fps", @info.video_frame_rate
     assert_equal 14.875, @info.fps
     assert_equal 14.875, @info.framerate
+    
+    assert_equal "2.370 fps", @info.video_minimum_frame_rate
+    assert_equal 2.370, @info.min_fps
+    assert_equal 2.370, @info.min_framerate
+    
+    assert_equal "27.778 fps", @info.video_maximum_frame_rate
+    assert_equal 27.778, @info.max_fps
+    assert_equal 27.778, @info.max_framerate
   end
   
   test "video frame rate mode" do
@@ -209,7 +217,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
 
   test "audio   Channel(s)" do
-    assert_equal 11, @info.audio_channels
+    assert_equal 1, @info.audio_channels
   end
   
   test "audio channel positions" do
@@ -221,7 +229,7 @@ class MediainfoDinnerTest < ActiveSupport::TestCase
   end
   
   test "mono?" do
-    assert !@info.mono?
+    assert @info.mono?
   end
 
   test "audio   Sampling rate" do

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+<File>
+<track type="General">
+
+<Complete_name>/Users/seth/diversion/hdcloud/test/store/omen1976_464_0_480x336-6.jpg</Complete_name>
+<Format>JPEG</Format>
+<File_size>18.5 KiB</File_size>
+</track>
+
+<track type="Image">
+
+<Format>JPEG</Format>
+<Width>480 pixels</Width>
+<Height>336 pixels</Height>
+<Resolution>24 bits</Resolution>
+</track>
+
+</File>
+</Mediainfo>
+

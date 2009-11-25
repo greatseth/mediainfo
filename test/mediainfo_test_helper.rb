@@ -34,20 +34,6 @@ class ActiveSupport::TestCase
   end
   
   def mediainfo_fixture(name)
-    File.read(File.join(File.dirname(__FILE__), "fixtures", "#{name}.txt"))
-  end
-  
-  def mediainfo_incorrect_cli_mock(name)
-    fixture_name = File.join(File.dirname(__FILE__), "fixtures", name + ".txt")
-    fixture_content = `cat #{fixture_name}`
-    Mediainfo.any_instance.stubs(:mediainfo!).returns(($? == 0) ? fixture_content : "")
-    Mediainfo.new "/dev/null"
-  end
-  
-  def mediainfo_correct_cli_mock(name)
-    fixture_name = File.join(File.dirname(__FILE__), "fixtures", name + ".txt").gsub(/\\|'/) { |c| "\\#{c}" }
-    fixture_content = `cat $'#{fixture_name}'` # ANSI-C style quoting - http://www.faqs.org/docs/bashman/bashref_12.html
-    Mediainfo.any_instance.stubs(:mediainfo!).returns(($? == 0) ? fixture_content : "")
-    Mediainfo.new "/dev/null"
+    File.read(File.join(File.dirname(__FILE__), "fixtures", "#{name}.xml"))
   end
 end

@@ -1,5 +1,9 @@
 require "test/unit"
 
+require "rubygems"
+require "mocha"
+begin; require "redgreen"; rescue LoadError; end
+
 module ActiveSupport
   class TestCase < Test::Unit::TestCase
     def self.test(desc, &block)
@@ -10,9 +14,6 @@ module ActiveSupport
   end
 end
 
-require "rubygems"
-require "mocha"
-begin; require "redgreen"; rescue LoadError; end
 
 $: << File.dirname(__FILE__) + "/../lib"
 require "mediainfo"
