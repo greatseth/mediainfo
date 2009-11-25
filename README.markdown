@@ -15,6 +15,22 @@ You can specify an alternate path if necessary:
   
     Mediainfo.path = "/opt/local/bin/mediainfo"
   
+
+By default, REXML is used as the XML parser. If you'd like, you can 
+configure Mediainfo to use Hpricot or Nokogiri instead using one of 
+the following approaches:
+
+  * define the `MEDIAINFO_XML_PARSER` environment variable to be the 
+    name of the parser as you'd pass to a :gem or :require call. 
+    
+    e.g. `export MEDIAINFO_XML_PARSER=nokogiri`
+    
+  * assign to Mediainfo.xml_parser after you've loaded the gem, 
+    following the same naming conventions mentioned previously.
+    
+    e.g. `Mediainfo.xml_parser = "hpricot"`
+    
+
 Once you've got an instance setup, you can call numerous methods to get 
 a variety of information about a file. Some attributes may be present 
 for some files where others are not, but any supported attribute 
