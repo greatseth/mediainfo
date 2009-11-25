@@ -292,10 +292,10 @@ private
     
     case xml_parser
     when "nokogiri"
-      Nokogiri::XML(@raw_response).search("track").each { |t|
+      Nokogiri::XML(@raw_response).xpath("//track").each { |t|
         bucket = bucket_for t['type']
-
-        t.children.css("*").each do |c|
+        
+        t.xpath("*").each do |c|
           bucket[key_for(c)] = c.content.strip
         end
       }
