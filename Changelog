@@ -1,3 +1,6 @@
+v0.6.1 GitHub Home Page
+- use GitHub Pages url as home page for gem
+
 v0.6.0 XML Output
 - v0.7.25 of the Mediainfo CLI is now required, as the Mediainfo class'
   parsing implementation is now based on parsing XML output. REXML will 
