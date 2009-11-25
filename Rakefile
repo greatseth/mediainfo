@@ -23,7 +23,7 @@ Echoe.new "mediainfo" do |p|
   p.email = "sethrasmussen@gmail.com"
   p.url = "http://greatseth.github.com/mediainfo"
   p.ignore_pattern = %w( test/**/* )
-  p.retain_gemspec
+  p.retain_gemspec = true
   p.honor_gitignore!
 end
 
