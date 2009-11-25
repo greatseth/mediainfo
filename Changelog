@@ -1,14 +1,19 @@
+v0.6.0 XML Output
+- v0.7.25 of the Mediainfo CLI is now required, as the Mediainfo class'
+  parsing implementation is now based on parsing XML output. REXML will 
+  be used by default, but Hpricot and Nokogiri are also supported.
+
 v0.5.1 Packaging Fix
 - Gemspec was referencing a missing file
 - Behold: THREE DIGIT VERSION NUMBER. Serious business now!
 
-v0.5 Raw, Son
+v0.5.0 Raw, Son
 - You can now initialize an instance from raw CLI output
 
-v0.4 Mediainfo Respects Your Existing Customs
+v0.4.0 Mediainfo Respects Your Existing Customs
 - Define String#shell_escape only if it is not already defined
 
-v0.3 Mediainfo Is High Class
+v0.3.0 Mediainfo Is High Class
 - Class instead of instance-level customization of mediainfo binary path. 
   Set Mediainfo.path = /path/to/binary if mediainfo is not in your shell 
   path.
@@ -18,7 +23,7 @@ v0.3 Mediainfo Is High Class
   Mediainfo::ExecutionError instead of RuntimeError if the system command 
   exits with anything other than 0.
 
-v0.2 Escape from the Shell
+v0.2.0 Escape from the Shell
 - Added proper escaping for funky filenames. Thanks to Peter Vandenberk!
 
-v0.1 Initial Release
+v0.1.0 Initial Release
