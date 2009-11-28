@@ -87,7 +87,9 @@ namespace :github do
       gh_pages = "gh-pages"
       puts "** checking out #{gh_pages.inspect} branch..."
       system "git checkout #{gh_pages}"
-      raise "failed to checkout #{gh_pages.inspect}" unless $! == 0
+      unless File.read(".git/HEAD")[%r{ref: refs/heads/#{gh_pages}}]
+        raise "failed to checkout #{gh_pages.inspect}"
+      end
       
       index_html = "index.html"
       puts "** #{File.exist?(index_html) ? 'updating' : 'creating'} #{index_html}..."
