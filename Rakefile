@@ -67,7 +67,7 @@ namespace :github do
     task :readme do
       puts "** loading..."
       require 'cgi'
-      gem     'rdiscount'
+      require 'rdiscount'
       require 'github/markup'
       require 'nokogiri'
       
@@ -94,6 +94,7 @@ namespace :github do
       index_html = "index.html"
       puts "** #{File.exist?(index_html) ? 'updating' : 'creating'} #{index_html}..."
       File.open(index_html, "w") { |f| f.puts CGI.unescapeHTML(index.to_html) }
+      system "git commit -a -m 'update #{index_html.inspect}'"
       
       puts "** switching back to last branch..."
       system "git checkout -"
