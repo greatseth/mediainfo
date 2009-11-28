@@ -60,44 +60,4 @@ task :fixture do
   end
 end
 
-###
-
-namespace :github do
-  namespace :pages do
-    task :readme do
-      puts "** loading..."
-      require 'cgi'
-      require 'rdiscount'
-      require 'github/markup'
-      require 'nokogiri'
-      
-      puts "** processing..."
-      # Checkout README.* from master, courtesy of wereHamster in #git on freenode
-      glob   = "README.*"
-      readme = `ls | grep #{glob}`.strip
-      raise "found no files matching #{glob.inspect}" if readme.empty?
-      
-      index_template = "index.html.template"
-      raise "found no #{index_template.inspect}" unless File.exist? index_template
-      index = Nokogiri::XML(File.read(index_template))
-      
-      index.at_css("body").content = 
-        GitHub::Markup.render(readme, File.read(readme))
-      
-      gh_pages = "gh-pages"
-      puts "** checking out #{gh_pages.inspect} branch..."
-      system "git checkout #{gh_pages}"
-      unless File.read(".git/HEAD")[%r{ref: refs/heads/#{gh_pages}}]
-        raise "failed to checkout #{gh_pages.inspect}"
-      end
-      
-      index_html = "index.html"
-      puts "** #{File.exist?(index_html) ? 'updating' : 'creating'} #{index_html}..."
-      File.open(index_html, "w") { |f| f.puts CGI.unescapeHTML(index.to_html) }
-      system "git commit -a -m 'update #{index_html.inspect}'"
-      
-      puts "** switching back to last branch..."
-      system "git checkout -"
-    end
-  end
-end
+require 'github/pages/tasks'
