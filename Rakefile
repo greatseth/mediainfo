@@ -59,3 +59,42 @@ task :fixture do
     puts "Error generating fixture. #{fixture} not created."
   end
 end
+
+###
+
+namespace :github do
+  namespace :pages do
+    task :readme do
+      puts "** loading..."
+      require 'cgi'
+      gem     'rdiscount'
+      require 'github/markup'
+      require 'nokogiri'
+      
+      puts "** processing..."
+      # Checkout README.* from master, courtesy of wereHamster in #git on freenode
+      glob   = "README.*"
+      readme = `ls | grep #{glob}`.strip
+      raise "found no files matching #{glob.inspect}" if readme.empty?
+      
+      index_template = "index.html.template"
+      raise "found no #{index_template.inspect}" unless File.exist? index_template
+      index = Nokogiri::XML(File.read(index_template))
+      
+      index.at_css("body").content = 
+        GitHub::Markup.render(readme, File.read(readme))
+      
+      gh_pages = "gh-pages"
+      puts "** checking out #{gh_pages.inspect} branch..."
+      system "git checkout #{gh_pages}"
+      raise "failed to checkout #{gh_pages.inspect}" unless $! == 0
+      
+      index_html = "index.html"
+      puts "** #{File.exist?(index_html) ? 'updating' : 'creating'} #{index_html}..."
+      File.open(index_html, "w") { |f| f.puts CGI.unescapeHTML(index.to_html) }
+      
+      puts "** switching back to last branch..."
+      system "git checkout -"
+    end
+  end
+end
