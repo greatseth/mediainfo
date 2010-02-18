@@ -3,6 +3,7 @@ LICENSE
 Manifest
 README.markdown
 Rakefile
+index.html.template
 lib/mediainfo.rb
 lib/mediainfo/attr_readers.rb
 lib/mediainfo/string.rb

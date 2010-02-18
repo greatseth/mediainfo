@@ -18,7 +18,7 @@ class Echoe
 end
 
 Echoe.new "mediainfo" do |p|
-  p.description = "Mediainfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)"
+  p.description = p.summary = "Mediainfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)"
   p.author = "Seth Thomas Rasmussen"
   p.email = "sethrasmussen@gmail.com"
   p.url = "http://greatseth.github.com/mediainfo"
