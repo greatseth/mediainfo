@@ -4,7 +4,7 @@ Mediainfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 
 ## Installation
   
-    $ gem install mediainfo -s http://gemcutter.org
+    $ gem install mediainfo
   
 ## Usage
   
