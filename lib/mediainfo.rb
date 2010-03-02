@@ -344,7 +344,7 @@ class Mediainfo
       raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
       raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
       
-      @escaped_full_filename = @full_filename.shell_escape
+      @escaped_full_filename = @full_filename.shell_escape_double_quotes
       
       self.raw_response = mediainfo!
     end

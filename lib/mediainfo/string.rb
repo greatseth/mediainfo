@@ -1,11 +1,17 @@
 class String
-  def shell_escape
-    # The gsub is for ANSI-C style quoting.
-    # 
-    # The $'' is for bash, see http://www.faqs.org/docs/bashman/bashref_12.html,
-    # but appears to be working for other shells: sh, zsh, ksh, dash
-    "$'#{gsub(/\\|'/) { |c| "\\#{c}" }}'"
-  end unless method_defined?(:shell_escape)
+  # returns the string enclosed in double quotes.
+  # all characters in the string that could be harmful will be escaped.
+  # 
+  # e.g. 
+  # 'test'.shell_escape_double_quotes   # => "test"
+  # '$\\'"`'.shell_escape_double_quotes # => "\$\\'\"\`"
+  #
+  # This should work in al POSIX compatible shells.
+  #
+  # see: http://www.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_02_03
+  def shell_escape_double_quotes
+    '"'+gsub(/\\|"|\$|`/, '\\\\\0')+'"'
+  end unless method_defined?(:shell_escape_double_quotes)
   
   # stolen from active_support/inflector
   # TODO require "active_support/core_ext/string/inflections" when 3.0 is released

@@ -100,7 +100,7 @@ class MediainfoTest < ActiveSupport::TestCase
   test "retains last system command generated" do
     p = File.expand_path "./test/fixtures/dinner.3g2.xml"
     m = Mediainfo.new p
-    assert_equal "mediainfo $'#{p}' --Output=XML", m.last_command
+    assert_equal "mediainfo \"#{p}\" --Output=XML", m.last_command
   end
   
   test "allows customization of path to mediainfo binary" do
@@ -109,7 +109,7 @@ class MediainfoTest < ActiveSupport::TestCase
     assert_equal "mediainfo", Mediainfo.path
     
     m = Mediainfo.new "/dev/null"
-    assert_equal "mediainfo $'/dev/null' --Output=XML", m.last_command
+    assert_equal "mediainfo \"/dev/null\" --Output=XML", m.last_command
     
     Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.25")
     
@@ -117,7 +117,7 @@ class MediainfoTest < ActiveSupport::TestCase
     assert_equal "/opt/local/bin/mediainfo", Mediainfo.path
     
     m = Mediainfo.new "/dev/null"
-    assert_equal "/opt/local/bin/mediainfo $'/dev/null' --Output=XML", m.last_command
+    assert_equal "/opt/local/bin/mediainfo \"/dev/null\" --Output=XML", m.last_command
   end
   
   test "can be initialized with a raw response" do
