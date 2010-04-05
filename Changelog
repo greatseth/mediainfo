@@ -1,3 +1,8 @@
+v0.7.0 Multiple Stream Support
+- ***NOTE*** MAJOR API CHANGE ***NOTE***
+- updated API to support files with multiple streams of one type,
+  e.g. a Quicktime with multiple video tracks
+
 v0.6.2 XML Configuration Examples
 - added examples on how to configure XML back end
 
