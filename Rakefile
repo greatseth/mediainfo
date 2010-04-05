@@ -60,4 +60,4 @@ task :fixture do
   end
 end
 
-require 'github/pages/tasks'
+# require 'github/pages/tasks'
