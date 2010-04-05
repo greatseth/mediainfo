@@ -321,8 +321,7 @@ class Mediainfo
   
   ###
   
-  attr_reader :raw_response, :parsed_response,
-    :full_filename, :filename, :path, :escaped_full_filename
+  attr_reader :raw_response, :full_filename, :filename, :path, :escaped_full_filename
   
   ###
   
