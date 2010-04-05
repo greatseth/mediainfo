@@ -160,6 +160,8 @@ class Mediainfo
       @parsed_response = { @stream_type => {} }
     end
     
+    attr_reader :parsed_response
+    
     def [](k); @parsed_response[@stream_type][k]; end
     def []=(k,v); @parsed_response[@stream_type][k] = v; end
     
