@@ -435,7 +435,7 @@ private
       }
     else
       REXML::Document.new(@raw_response).elements.each("/Mediainfo/File/track") { |t|
-        s = Stream.create(t['type'])
+        s = Stream.create(t.attributes['type'])
         t.children.select { |n| n.is_a? REXML::Element }.each do |c|
           s[key_for(c)] = c.text.strip
         end
