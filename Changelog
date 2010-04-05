@@ -1,3 +1,9 @@
+v0.7.1 Multi-stream Tweakage
+- Removed Mediainfo#parsed_response accessor which always returned nil after
+  multi-stream API updates
+- Added Mediainfo::Stream#parsed_response reader to restore the ability to 
+  access metadata not surfaced through explicit :mediainfo_attr_reader declarations
+
 v0.7.0 Multiple Stream Support
 - ***NOTE*** MAJOR API CHANGE ***NOTE***
 - updated API to support files with multiple streams of one type,
