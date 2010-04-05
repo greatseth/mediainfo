@@ -59,125 +59,125 @@ class MediainfoOmenImageTest < ActiveSupport::TestCase
   end
 
   ### VIDEO
-
+=begin
   test "video   Format" do
-    assert_nil @info.video_format
+    assert_nil @info.video.format
   end
   
   test "video format profile" do
-    assert_nil @info.video_format_profile
+    assert_nil @info.video.format_profile
   end
   
   test "video format settings CABAC" do
-    assert_nil @info.video_format_settings_cabac
+    assert_nil @info.video.format_settings_cabac
   end
   
   test "video format settings ReFrames" do
-    assert_nil @info.video_format_settings_cabac
+    assert_nil @info.video.format_settings_cabac
   end
 
   test "video   Codec ID" do
-    assert_nil @info.video_codec_id
+    assert_nil @info.video.codec_id
   end
 
   test "video   Duration" do
-    assert_nil @info.video_duration
+    assert_nil @info.video.duration
   end
 
   test "video   Bit rate" do
-    assert_nil @info.video_bit_rate
+    assert_nil @info.video.bit_rate
   end
   
   test "video bit rate mode" do
-    assert_nil @info.video_bit_rate_mode
+    assert_nil @info.video.bit_rate_mode
   end
   
-  test "resolution" do
-    assert_equal "480x336", @info.resolution
+  test "frame size" do
+    assert_equal "480x336", @info.frame_size
   end
 
   test "video   Width" do
-    assert_nil @info.video_width
+    assert_nil @info.video.width
   end
 
   test "video   Height" do
-    assert_nil @info.video_height
+    assert_nil @info.video.height
   end
 
   test "video   Display aspect ratio" do
-    assert_nil @info.video_display_aspect_ratio
+    assert_nil @info.video.display_aspect_ratio
     assert_nil @info.display_aspect_ratio
   end
 
   test "video   Frame rate" do
-    assert_nil @info.video_frame_rate
+    assert_nil @info.video.frame_rate
     assert_nil @info.fps
     assert_nil @info.framerate
   end
   
   test "video frame rate mode" do
-    assert_nil @info.video_frame_rate_mode
+    assert_nil @info.video.frame_rate_mode
   end
 
   test "video   Resolution" do
-    assert_nil @info.video_resolution
+    assert_nil @info.video.resolution
   end
   
   test "video colorimetry" do
-    assert_nil @info.video_colorimetry
-    assert_nil @info.video_colorspace
+    assert_nil @info.video.colorimetry
+    assert_nil @info.video.colorspace
   end
 
   test "video   Scan type" do
-    assert_nil @info.video_scan_type
+    assert_nil @info.video.scan_type
     assert !@info.interlaced?
     assert !@info.progressive?
   end
 
   test "video   Bits/(Pixel*Frame)" do
-    assert_nil @info.video_bits_pixel_frame
+    assert_nil @info.video.bits_pixel_frame
   end
 
   test "video   Stream size" do
-    assert_nil @info.video_stream_size
+    assert_nil @info.video.stream_size
   end
 
   ### AUDIO
 
   test "audio   Format" do
-    assert_nil @info.audio_format
+    assert_nil @info.audio.format
   end
   
   test "audio Format settings, Endianness" do
-    assert_nil @info.audio_format_settings_endianness
+    assert_nil @info.audio.format_settings_endianness
   end
   
   test "audio Format settings, Sign" do
-    assert_nil @info.audio_format_settings_sign
+    assert_nil @info.audio.format_settings_sign
   end
 
   test "audio   Codec ID" do
-    assert_nil @info.audio_codec_id
+    assert_nil @info.audio.codec_id
   end
 
   test "audio   Codec ID/Info" do
-    assert_nil @info.audio_codec_info
+    assert_nil @info.audio.codec_info
   end
 
   test "audio   Duration" do
-    assert_nil @info.audio_duration
+    assert_nil @info.audio.duration
   end
 
   test "audio   Bit rate mode" do
-    assert_nil @info.audio_bit_rate_mode
+    assert_nil @info.audio.bit_rate_mode
   end
 
   test "audio   Bit rate" do
-    assert_nil @info.audio_bit_rate
+    assert_nil @info.audio.bit_rate
   end
 
   test "audio   Channel(s)" do
-    assert_nil @info.audio_channels
+    assert_nil @info.audio.channels
   end
   
   test "stereo?" do
@@ -189,46 +189,44 @@ class MediainfoOmenImageTest < ActiveSupport::TestCase
   end
 
   test "audio   Sampling rate" do
-    assert_nil @info.audio_sampling_rate
+    assert_nil @info.audio.sampling_rate
   end
 
   test "audio   Resolution" do
-    assert_nil @info.audio_resolution
+    assert_nil @info.audio.resolution
   end
 
   test "audio   Stream size" do
-    assert_nil @info.audio_stream_size
+    assert_nil @info.audio.stream_size
   end
 
   test "audio   Interleave, duration" do
-    assert_nil @info.audio_interleave_duration
+    assert_nil @info.audio.interleave_duration
   end
   
   test "audio encoded date" do
-    assert_nil @info.audio_encoded_date
+    assert_nil @info.audio.encoded_date
   end
   
   test "audio tagged date" do
-    assert_nil @info.audio_tagged_date
+    assert_nil @info.audio.tagged_date
   end
-  
+=end
   ### IMAGE
   
   test "image format" do
-    assert_equal "JPEG", @info.image_format
+    assert_equal "JPEG", @info.image.format
   end
   
   test "image width" do
-    assert_equal 480, @info.image_width
-    assert_equal 480, @info.width
+    assert_equal 480, @info.image.width
   end
   
   test "image height" do
-    assert_equal 336, @info.image_height
-    assert_equal 336, @info.height
+    assert_equal 336, @info.image.height
   end
   
   test "image resolution" do
-    assert_equal "24 bits", @info.image_resolution
+    assert_equal "24 bits", @info.image.resolution
   end
 end

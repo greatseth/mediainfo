@@ -3,45 +3,46 @@ require "mediainfo/string"
 
 class  Mediainfo
 module AttrReaders
-  def supported_attributes
-    @supported_attributes ||= []
-  end
-  
-  def mediainfo_attr_reader(name, mediainfo_key = nil)
-    supported_attributes << name
-    attr_name = "#{name}_before_type_cast"
+  def mediainfo_attr_reader(method_name, mediainfo_key = nil)
+    # NOTE explicit self necessary here until we rename local var 'name'
+    stream_class_type = name[/::([^:]+)Stream$/, 1]
+    
+    before_type_cast_method_name = "#{method_name}_before_type_cast"
     mediainfo_key = mediainfo_key.gsub(/\W+/, "_").downcase if mediainfo_key
     
-    define_method attr_name do
-      if v = instance_variable_get("@#{attr_name}")
+    if m = stream_class_type.match(/^#{Regexp.union *Mediainfo::NON_GENERAL_SECTIONS.map { |x| x.to_s.capitalize }}$/)
+      k1 = stream_class_type.downcase.to_sym
+    else
+      k1 = :general
+    end
+    
+    define_method before_type_cast_method_name do
+      if v = instance_variable_get("@#{before_type_cast_method_name}")
         v
       else
-        v = if md = name.to_s.match(/^(#{SECTIONS.map { |x| x.underscore } * "|"})_(.+)$/)
-          k = mediainfo_key ? mediainfo_key : md[2]
-          if subsection = @parsed_response[md[1]]
-            subsection[k]
-          end
-        else
-          k = mediainfo_key ? mediainfo_key : name.to_s
-          @parsed_response[k]
-        end
+        k2 = mediainfo_key ? mediainfo_key : method_name.to_s
+        v = @parsed_response[k1][k2]
         
-        instance_variable_set "@#{attr_name}", v
-        v
+        instance_variable_set "@#{before_type_cast_method_name}", v
+        instance_variable_get "@#{before_type_cast_method_name}"
       end
     end
     
-    define_method name do
-      if v = instance_variable_get("@#{name}")
+    define_method method_name do
+      if v = instance_variable_get("@#{method_name}")
         v
       else
-        v = send "#{name}_before_type_cast"
+        v = send(before_type_cast_method_name)
         v = yield v if v and block_given?
         
-        instance_variable_set "@#{name}", v
-        v
+        instance_variable_set "@#{method_name}", v
+        instance_variable_get "@#{method_name}"
       end
     end
+    
+    supported_attribute = method_name
+    supported_attribute = "#{stream_class_type.downcase}_#{method_name}".to_sym unless k1 == :general
+    Mediainfo.supported_attributes << supported_attribute
   end
   
   def mediainfo_duration_reader(*a)
@@ -69,10 +70,6 @@ module AttrReaders
   
   def mediainfo_int_reader(*a)
     mediainfo_attr_reader(*a) { |v| v.gsub(/\D+/, "").to_i }
-  end
-  
-  def mediainfo_section_query(name)
-    define_method("#{name}?") { @parsed_response.key? name.to_s }
   end
 end
 end
