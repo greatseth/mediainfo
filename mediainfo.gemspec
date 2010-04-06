@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seth Thomas Rasmussen"]
-  s.date = %q{2010-04-05}
+  s.date = %q{2010-04-06}
   s.description = %q{Mediainfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)}
   s.email = %q{sethrasmussen@gmail.com}
   s.extra_rdoc_files = ["LICENSE", "README.markdown", "lib/mediainfo.rb", "lib/mediainfo/attr_readers.rb", "lib/mediainfo/string.rb"]
