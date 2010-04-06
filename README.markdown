@@ -60,3 +60,4 @@ generate XML output, and is no longer supported.
 * Seth Thomas Rasmussen - [http://greatseth.com](http://greatseth.com)
 * Peter Vandenberk      - [http://github.com/pvdb](http://github.com/pvdb)
 * Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
+* Daniel Jagszent       - [http://github.com/d--j](http://github.com/d--j)
