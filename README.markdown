@@ -16,7 +16,12 @@ You can specify an alternate path if necessary:
     Mediainfo.path = "/opt/local/bin/mediainfo"
   
 
-By default, REXML is used as the XML parser. If you'd like, you can 
+Now, from this point, I bet some *actual* usage examples would be great. Unfortunately, 
+I haven't really gotten around to proper documentation, yet. HOWEVER, please see the 
+very reasonable test suite accompanying the source code for this library. It contains 
+a bunch of relevant usage examples.
+
+Moving on, REXML is used as the XML parser by default. If you'd like, you can 
 configure Mediainfo to use Hpricot or Nokogiri instead using one of 
 the following approaches:
 
@@ -53,5 +58,5 @@ generate XML output, and is no longer supported.
 ## Contributors
 
 * Seth Thomas Rasmussen - [http://greatseth.com](http://greatseth.com)
-* Peter Vandenberk - [http://github.com/pvdb](http://github.com/pvdb)
-* Ned Campion - [http://github.com/nedcampion](http://github.com/nedcampion)
+* Peter Vandenberk      - [http://github.com/pvdb](http://github.com/pvdb)
+* Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
