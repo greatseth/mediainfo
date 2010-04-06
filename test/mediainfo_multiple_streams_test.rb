@@ -8,7 +8,7 @@ class MediainfoMultipleStreamsTest < ActiveSupport::TestCase
 
   ### GENERAL
   
-  test_stream_type_queries :expect => [:audio, :video]
+  test_stream_type_queries :expect => [:audio, :video, :menu]
   
   test "format" do
     assert_equal "MPEG-4", @info.format
@@ -513,4 +513,14 @@ class MediainfoMultipleStreamsTest < ActiveSupport::TestCase
   ### IMAGE
   
   mediainfo_test_not_an_image
+  
+  ### MENU
+  
+  test "menu" do
+    assert @info.menu?
+    assert @info.menu.stream_id
+    assert @info.menu.encoded_date
+    assert @info.menu.tagged_date
+    assert @info.menu.delay
+  end
 end

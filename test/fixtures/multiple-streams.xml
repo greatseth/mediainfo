@@ -107,5 +107,11 @@
       <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
       <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
     </track>
+    <track type="Menu">
+      <ID>3</ID>
+      <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
+      <Delay>3733</Delay>
+    </track>
   </File>
 </Mediainfo>

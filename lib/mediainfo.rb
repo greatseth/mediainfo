@@ -107,7 +107,7 @@ class Mediainfo
   # AttrReaders depends on this.
   def self.supported_attributes; @supported_attributes ||= []; end
   
-  SECTIONS             = [:general, :video, :audio, :image]
+  SECTIONS             = [:general, :video, :audio, :image, :menu]
   NON_GENERAL_SECTIONS = SECTIONS - [:general]
   
   attr_reader :streams
@@ -341,6 +341,13 @@ class Mediainfo
     mediainfo_int_reader :height
    
     def frame_size; "#{width}x#{height}" if width or height; end
+  end
+  
+  class MenuStream < Stream
+    mediainfo_attr_reader :stream_id, "ID"
+    mediainfo_date_reader :encoded_date
+    mediainfo_date_reader :tagged_date
+    mediainfo_int_reader :delay
   end
   
   Mediainfo::SECTIONS.each do |stream_type|

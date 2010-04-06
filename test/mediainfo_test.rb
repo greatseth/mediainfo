@@ -83,7 +83,14 @@ class MediainfoTest < ActiveSupport::TestCase
     :image_format,
 
     :image_width,
-    :image_height
+    :image_height,
+    
+    ### MENU
+    
+    :menu_stream_id,
+    :menu_tagged_date,
+    :menu_encoded_date,
+    :menu_delay
   ]
   
   Mediainfo.supported_attributes.each do |attribute|
