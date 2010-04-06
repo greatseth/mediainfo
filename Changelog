@@ -1,13 +1,15 @@
-v0.7.1 Multi-stream Tweakage
+v0.7.1 Tweakage
 - Removed Mediainfo#parsed_response accessor which always returned nil after
   multi-stream API updates
 - Added Mediainfo::Stream#parsed_response reader to restore the ability to 
   access metadata not surfaced through explicit :mediainfo_attr_reader declarations
+- Added more compatible shell escaping style [d--j]
 
 v0.7.0 Multiple Stream Support
-- ***NOTE*** MAJOR API CHANGE ***NOTE***
-- updated API to support files with multiple streams of one type,
-  e.g. a Quicktime with multiple video tracks
+- updated API to support files with multiple streams of one type(NOTE: MAJOR API CHANGE!)
+  e.g. many Quicktime files have multiple video streams
+- removed support for some top level accessors that implied certain track types 
+  e.g. mediainfo.height would now most likely be mediainfo.video.height or mediainfo.image.height
 
 v0.6.2 XML Configuration Examples
 - added examples on how to configure XML back end
