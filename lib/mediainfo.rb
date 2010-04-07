@@ -8,20 +8,49 @@ require "mediainfo/attr_readers"
 Mediainfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.net).
 
 ## Installation
-  
-    $ gem install mediainfo -s http://gemcutter.org
-  
+    
+    $ gem install mediainfo
+    
 ## Usage
-  
+    
     info = Mediainfo.new "/path/to/file"
-  
+    
 That will issue the system call to `mediainfo` and parse the output. 
 You can specify an alternate path if necessary:
-  
+    
     Mediainfo.path = "/opt/local/bin/mediainfo"
-  
+    
+Once you have an info object, you can start inspecting streams and general metadata.
+    
+    info.streams.count # 2
+    info.audio?        # true
+    info.video?        # true
+    info.image?        # false
+    
+When inspecting specific types of streams, you have a couple general API options. The 
+first approach assumes one stream of a given type, a common scenario in many video files, 
+for example.
+    
+    info.video.count    # 1
+    info.audio.count    # 1
+    info.video.duration # 120 (seconds)
+    
+Sometimes you'll have more than one stream of a given type. Quicktime files can often 
+contain artifacts like this from somebody editing a more 'normal' file.
+    
+    info = Mediainfo.new "funky.mov"
+    
+    info.video?            # true
+    info.video.count       # 2
+    info.video.duration    # raises SingleStreamAPIError !
+    info.video[0].duration # 120
+    info.video[1].duration # 10
+    
+For some more usage examples, please see the very reasonable test suite accompanying the source code 
+for this library. It contains a bunch of relevant usage examples. More docs in the future.. contributions 
+*very* welcome!
 
-By default, REXML is used as the XML parser. If you'd like, you can 
+Moving on, REXML is used as the XML parser by default. If you'd like, you can 
 configure Mediainfo to use Hpricot or Nokogiri instead using one of 
 the following approaches:
 
