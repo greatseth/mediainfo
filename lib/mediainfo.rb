@@ -107,7 +107,7 @@ class Mediainfo
   # AttrReaders depends on this.
   def self.supported_attributes; @supported_attributes ||= []; end
   
-  SECTIONS             = [:general, :video, :audio, :image, :menu]
+  SECTIONS             = [:general, :video, :audio, :image, :menu, :text]
   NON_GENERAL_SECTIONS = SECTIONS - [:general]
   
   attr_reader :streams
@@ -342,6 +342,13 @@ class Mediainfo
    
     def frame_size; "#{width}x#{height}" if width or height; end
   end
+
+  class TextStream < Stream
+    mediainfo_attr_reader :stream_id, "ID"
+    mediainfo_attr_reader :format
+    mediainfo_attr_reader :codec_id, "Codec ID"
+    mediainfo_attr_reader :codec_info, "Codec ID/Info"
+  end
   
   class MenuStream < Stream
     mediainfo_attr_reader :stream_id, "ID"
@@ -431,7 +438,7 @@ class Mediainfo
     super.sub(/@raw_response=".+?", @/, %{@raw_response="...", @})
   end
   
-private
+  private
   def mediainfo!
     @last_command = "#{path} #{@escaped_full_filename} --Output=XML"
     run_command!

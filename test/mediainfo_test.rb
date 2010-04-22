@@ -90,7 +90,13 @@ class MediainfoTest < ActiveSupport::TestCase
     :menu_stream_id,
     :menu_tagged_date,
     :menu_encoded_date,
-    :menu_delay
+    :menu_delay,
+    
+    ### TEXT
+    :text_codec_id,
+    :text_codec_info,
+    :text_format,
+    :text_stream_id
   ]
   
   Mediainfo.supported_attributes.each do |attribute|

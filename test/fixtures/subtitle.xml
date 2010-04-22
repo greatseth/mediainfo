@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+    <File>
+        <track type="General">
+            <Complete_name>/home/derobo/mkv_with_subtitle.mkv</Complete_name>
+            <Format>Matroska</Format>
+            <File_size>4.37 GiB</File_size>
+            <Duration>1h 28mn</Duration>
+            <Overall_bit_rate>7 061 Kbps</Overall_bit_rate>
+            <Writing_application>mkvmerge v2.4.0 ('Fumbling Towards Ecstasy') built on Oct 11 2008 20:13:15</Writing_application>
+            <Writing_library>libebml v0.7.7 + libmatroska v0.8.1</Writing_library>
+        </track>
+        <track type="Text">
+            <ID>1</ID>
+            <Format>ASS</Format>
+            <Codec_ID>S_TEXT/ASS</Codec_ID>
+            <Codec_ID_Info>Advanced Sub Station Alpha</Codec_ID_Info>
+            <Language>English</Language>
+        </track>
+        <track type="Text">
+            <ID>2</ID>
+            <Format>SSA</Format>
+            <Codec_ID>S_TEXT/SSA</Codec_ID>
+            <Codec_ID_Info>Sub Station Alpha</Codec_ID_Info>
+        </track>
+        <track type="Text">
+            <ID>3</ID>
+            <Format>UTF-8</Format>
+            <Codec_ID>S_TEXT/UTF8</Codec_ID>
+            <Codec_ID_Info>UTF-8 Plain Text</Codec_ID_Info>
+            <Language>French</Language>
+        </track>
+        <track type="Text">
+            <ID>4</ID>
+            <Format>VobSub</Format>
+            <Codec_ID>S_VOBSUB</Codec_ID>
+            <Codec_ID_Info>The same subtitle format used on DVDs</Codec_ID_Info>
+            <Language>English</Language>
+        </track>
+    </File>
+</Mediainfo>
