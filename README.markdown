@@ -65,10 +65,6 @@ a variety of information about a file. Some attributes may be present
 for some files where others are not, but any supported attribute 
 should at least return `nil`.
 
-For a list of all possible attributes supported:
-  
-    Mediainfo.supported_attributes
-  
 ## Requirements
 
 This requires at least the following version of the Mediainfo CLI:
