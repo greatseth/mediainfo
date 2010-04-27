@@ -85,3 +85,4 @@ generate XML output, and is no longer supported.
 * Peter Vandenberk      - [http://github.com/pvdb](http://github.com/pvdb)
 * Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
 * Daniel Jagszent       - [http://github.com/d--j](http://github.com/d--j)
+* Robert Mrasek         - [http://github.com/derobo](http://github.com/derobo)
