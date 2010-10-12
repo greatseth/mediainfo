@@ -144,4 +144,9 @@ class MediainfoTest < ActiveSupport::TestCase
     Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.10")
     assert_raises(Mediainfo::IncompatibleVersionError) { Mediainfo.new }
   end
+  
+  test "fails obviously when CLI is not installed" do
+    Mediainfo.any_instance.stubs(:mediainfo_version).returns(nil)
+    assert_raises(Mediainfo::UnknownVersionError) { Mediainfo.new }
+  end
 end

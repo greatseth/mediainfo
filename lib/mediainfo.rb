@@ -91,6 +91,7 @@ class Mediainfo
   class Error < StandardError; end
   class ExecutionError < Error; end
   class IncompatibleVersionError < Error; end
+  class UnknownVersionError < Error; end
   
   def self.delegate(method_name, stream_type = nil)
     if stream_type == :general
@@ -101,7 +102,11 @@ class Mediainfo
   end
   
   def self.version
-    @version ||= `#{path} --Version`[/v([\d.]+)/, 1]
+    @version ||= `#{version_command}`[/v([\d.]+)/, 1]
+  end
+  
+  def self.version_command
+    "#{path} --Version"
   end
   
   # AttrReaders depends on this.
@@ -371,6 +376,14 @@ class Mediainfo
   ###
   
   def initialize(full_filename = nil)
+    unless mediainfo_version
+      raise UnknownVersionError,
+        "Unable to determine mediainfo version. " +
+        "We tried: #{self.class.version_command} " +
+        "Are you sure mediainfo is installed at #{self.class.path.inspect}? " + 
+        "Set Mediainfo.path = /where/is/mediainfo if it is not in your PATH."
+    end
+    
     if mediainfo_version < "0.7.25"
       raise IncompatibleVersionError,
         "Your version of mediainfo, #{mediainfo_version}, " +
