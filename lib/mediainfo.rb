@@ -439,8 +439,17 @@ class Mediainfo
   
   def path; self.class.path; end
   def xml_parser; self.class.xml_parser; end
-  
-  def self.default_mediainfo_path!; self.path = "mediainfo"; end
+
+  def self.default_mediainfo_path!
+    self.path = default_mediainfo_path
+  end
+
+  def self.default_mediainfo_path
+    local_bin_path = File.expand_path File.join('../../', 'ext', 'mediainfo'), __FILE__
+
+    File.exists?(local_bin_path) ? local_bin_path : "mediainfo"
+  end
+
   default_mediainfo_path! unless path
   
   def mediainfo_version; self.class.version; end
