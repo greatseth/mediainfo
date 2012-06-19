@@ -19,6 +19,9 @@ Gem::Specification.new do |s|
   s.summary = %q{Mediainfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)}
   s.test_files = ["test/mediainfo_awaywego_test.rb", "test/mediainfo_broken_embraces_test.rb", "test/mediainfo_dinner_test.rb", "test/mediainfo_hats_test.rb", "test/mediainfo_multiple_streams_test.rb", "test/mediainfo_omen_image_test.rb", "test/mediainfo_string_test.rb", "test/mediainfo_test.rb", "test/mediainfo_vimeo_test.rb", "test/test_helper.rb"]
 
+  s.add_development_dependency('echoe')
+  s.add_development_dependency('mocha')
+
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
