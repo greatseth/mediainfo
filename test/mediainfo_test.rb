@@ -113,17 +113,17 @@ class MediainfoTest < ActiveSupport::TestCase
   test "retains last system command generated" do
     p = File.expand_path "./test/fixtures/dinner.3g2.xml"
     m = Mediainfo.new p
-    assert_equal "mediainfo \"#{p}\" --Output=XML", m.last_command
+    assert_equal "#{Mediainfo.path} \"#{p}\" --Output=XML", m.last_command
   end
   
   test "allows customization of path to mediainfo binary" do
     Mediainfo.any_instance.stubs(:run_command!).returns("test")
-    
-    assert_equal "mediainfo", Mediainfo.path
-    
+
+    assert_equal Mediainfo.default_mediainfo_path, Mediainfo.path
+
     m = Mediainfo.new "/dev/null"
-    assert_equal "mediainfo \"/dev/null\" --Output=XML", m.last_command
-    
+    assert_equal "#{Mediainfo.default_mediainfo_path} \"/dev/null\" --Output=XML", m.last_command
+
     Mediainfo.any_instance.stubs(:mediainfo_version).returns("0.7.25")
     
     Mediainfo.path = "/opt/local/bin/mediainfo"
