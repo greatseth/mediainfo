@@ -362,10 +362,8 @@ class Mediainfo
     mediainfo_int_reader :delay
   end
 
-
   class OtherStream < Stream
   end
-
 
   Mediainfo::SECTIONS.each do |stream_type|
     class_eval %{
