@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo version="0.7.69">
+<File>
+<track type="General">
+<Complete_name>/Users/gil/Movies/Louis_CK_OhMyGod_1280x720.mp4</Complete_name>
+<Format>MPEG-4</Format>
+<Format_profile>Base Media / Version 2</Format_profile>
+<Codec_ID>mp42</Codec_ID>
+<File_size>1.41 GiB</File_size>
+<Duration>58mn 2s</Duration>
+<Overall_bit_rate>3 482 Kbps</Overall_bit_rate>
+<Encoded_date>UTC 2013-09-23 21:56:52</Encoded_date>
+<Tagged_date>UTC 2013-09-23 21:58:31</Tagged_date>
+</track>
+
+<track type="Video">
+<ID>1</ID>
+<Format>AVC</Format>
+<Format_Info>Advanced Video Codec</Format_Info>
+<Format_profile>Main@L3.1</Format_profile>
+<Format_settings__CABAC>No</Format_settings__CABAC>
+<Format_settings__ReFrames>2 frames</Format_settings__ReFrames>
+<Codec_ID>avc1</Codec_ID>
+<Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+<Duration>58mn 2s</Duration>
+<Bit_rate>3 103 Kbps</Bit_rate>
+<Width>1 248 pixels</Width>
+<Original_width>1 280 pixels</Original_width>
+<Height>702 pixels</Height>
+<Original_height>720 pixels</Original_height>
+<Display_aspect_ratio>16:9</Display_aspect_ratio>
+<Frame_rate_mode>Constant</Frame_rate_mode>
+<Frame_rate>23.976 fps</Frame_rate>
+<Color_space>YUV</Color_space>
+<Chroma_subsampling>4:2:0</Chroma_subsampling>
+<Bit_depth>8 bits</Bit_depth>
+<Scan_type>Progressive</Scan_type>
+<Bits__Pixel_Frame_>0.148</Bits__Pixel_Frame_>
+<Stream_size>1.26 GiB (89%)</Stream_size>
+<Language>English</Language>
+<Encoded_date>UTC 2013-09-23 21:55:38</Encoded_date>
+<Tagged_date>UTC 2013-09-23 21:58:31</Tagged_date>
+<Color_primaries>BT.709</Color_primaries>
+<Transfer_characteristics>BT.709</Transfer_characteristics>
+<Matrix_coefficients>BT.709</Matrix_coefficients>
+</track>
+
+<track type="Audio">
+<ID>2</ID>
+<Format>AAC</Format>
+<Format_Info>Advanced Audio Codec</Format_Info>
+<Format_profile>LC</Format_profile>
+<Codec_ID>40</Codec_ID>
+<Duration>58mn 2s</Duration>
+<Source_duration>58mn 2s</Source_duration>
+<Bit_rate_mode>Constant</Bit_rate_mode>
+<Bit_rate>192 Kbps</Bit_rate>
+<Channel_s_>2 channels</Channel_s_>
+<Channel_positions>Front: L R</Channel_positions>
+<Sampling_rate>48.0 KHz</Sampling_rate>
+<Compression_mode>Lossy</Compression_mode>
+<Stream_size>78.6 MiB (5%)</Stream_size>
+<Source_stream_size>78.6 MiB (5%)</Source_stream_size>
+<Language>English</Language>
+<Encoded_date>UTC 2013-09-23 21:55:38</Encoded_date>
+<Tagged_date>UTC 2013-09-23 21:58:31</Tagged_date>
+</track>
+
+<track type="Other" streamid="1">
+<ID>3</ID>
+<Type>Hint</Type>
+<Format>RTP</Format>
+<Codec_ID>rtp </Codec_ID>
+<Duration>58mn 2s</Duration>
+<Language>English</Language>
+<Encoded_date>UTC 2013-09-23 21:55:39</Encoded_date>
+<Tagged_date>UTC 2013-09-23 21:58:31</Tagged_date>
+<Source_duration>3482859</Source_duration>
+<Source_frame_count>72900</Source_frame_count>
+<Source_stream_size>4944944</Source_stream_size>
+<Stream_size>4944944</Stream_size>
+<Bit_rate_mode>VBR</Bit_rate_mode>
+</track>
+
+<track type="Other" streamid="2">
+<ID>4</ID>
+<Type>Hint</Type>
+<Format>RTP</Format>
+<Codec_ID>rtp </Codec_ID>
+<Duration>58mn 2s</Duration>
+<Language>English</Language>
+<Encoded_date>UTC 2013-09-23 21:55:56</Encoded_date>
+<Tagged_date>UTC 2013-09-23 21:58:31</Tagged_date>
+<Source_duration>3482878</Source_duration>
+<Source_frame_count>83500</Source_frame_count>
+<Source_stream_size>74103736</Source_stream_size>
+<Stream_size>74103736</Stream_size>
+</track>
+
+</File>
+</Mediainfo>
+

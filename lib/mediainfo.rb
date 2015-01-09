@@ -112,7 +112,7 @@ class Mediainfo
   # AttrReaders depends on this.
   def self.supported_attributes; @supported_attributes ||= []; end
   
-  SECTIONS             = [:general, :video, :audio, :image, :menu, :text]
+  SECTIONS             = [:general, :video, :audio, :image, :menu, :text, :other]
   NON_GENERAL_SECTIONS = SECTIONS - [:general]
   
   attr_reader :streams
@@ -362,6 +362,35 @@ class Mediainfo
     mediainfo_int_reader :delay
   end
   
+  class OtherStream < Stream
+    mediainfo_attr_reader :stream_id, "ID"
+
+    mediainfo_duration_reader :duration
+
+    mediainfo_attr_reader :language
+
+    mediainfo_attr_reader :stream_size
+    mediainfo_attr_reader :bit_rate
+    mediainfo_attr_reader :bit_rate_mode
+    def cbr?; other? and "Constant" == bit_rate_mode; end
+    def vbr?; other? and not cbr?; end
+
+    mediainfo_attr_reader :format
+    mediainfo_attr_reader :format_profile
+    mediainfo_attr_reader :format_version
+    mediainfo_attr_reader :format_info, "Format/Info"
+    mediainfo_attr_reader :codec_id, "Codec ID"
+    mediainfo_attr_reader :codec_info, "Codec ID/Info"
+    mediainfo_attr_reader :codec_id_hint
+
+    mediainfo_date_reader :encoded_date
+    mediainfo_date_reader :tagged_date
+
+    mediainfo_int_reader :source_duration
+    mediainfo_int_reader :source_frame_count
+    mediainfo_int_reader :source_stream_size
+  end
+
   Mediainfo::SECTIONS.each do |stream_type|
     class_eval %{
       def #{stream_type}; @#{stream_type}_proxy ||= StreamProxy.new(self, :#{stream_type}); end
