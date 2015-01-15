@@ -1,6 +1,7 @@
 require "forwardable"
 require "mediainfo/string"
 require "mediainfo/attr_readers"
+require "uri"
 
 =begin
 # Mediainfo
@@ -393,14 +394,19 @@ class Mediainfo
     @streams = []
     
     if full_filename
-      @full_filename = File.expand_path full_filename
-      @path          = File.dirname  @full_filename
-      @filename      = File.basename @full_filename
-      
-      raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
-      raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
-      
-      @escaped_full_filename = @full_filename.shell_escape_double_quotes
+      if full_filename.downcase.start_with?('http')
+        @uri = URI(full_filename)
+        @escaped_uri = URI.escape(@uri.to_s)
+      else
+        @uri           = nil
+        @full_filename = File.expand_path full_filename
+        @path          = File.dirname  @full_filename
+        @filename      = File.basename @full_filename
+
+        raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
+        raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
+        @escaped_full_filename = @full_filename.shell_escape_double_quotes
+      end
       
       self.raw_response = mediainfo!
     end
@@ -462,7 +468,11 @@ class Mediainfo
   
   private
   def mediainfo!
-    @last_command = "#{path} #{@escaped_full_filename} --Output=XML"
+    if @uri.nil?
+      @last_command = "#{path} #{@escaped_full_filename} --Output=XML"
+    else
+      @last_command = "#{path} #{@escaped_uri} --Output=XML"
+    end
     run_command!
   end
   
