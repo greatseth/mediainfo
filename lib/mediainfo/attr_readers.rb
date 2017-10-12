@@ -50,12 +50,11 @@ module AttrReaders
       t = 0
       v.split(/\s+/).each do |tf|
         case tf
-        # XXX haven't actually seen hot they represent hours yet 
-        # but hopefully this is ok.. :\
-        when /\d+h/  then t += tf.to_i * 60 * 60 * 1000
-        when /\d+mn/ then t += tf.to_i * 60 * 1000
-        when /\d+ms/ then t += tf.to_i
-        when /\d+s/  then t += tf.to_i * 1000
+          # Content from HBO, Showtime, and Starz have durations with spaces between \d and ms/s/mn/h. New Regex below will account for that, maintaining original support.
+          when /\d+\s?h/  then t += tf.to_i * 60 * 60 * 1000
+          when /\d+\s?mn/ then t += tf.to_i * 60 * 1000
+          when /\d+\s?s/  then t += tf.to_i * 1000
+          when /\d+\s?ms/ then t += tf.to_i
         else
           raise "unexpected time fragment! please report bug!"
         end
