@@ -2,3 +2,4 @@ Rakefile.cloud
 pkg
 .DS_Store
 .irbrc
+.idea
