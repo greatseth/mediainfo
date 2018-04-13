@@ -391,18 +391,25 @@ class Mediainfo
     end
     
     @streams = []
-    
+
+
     if full_filename
-      @full_filename = File.expand_path full_filename
-      @path          = File.dirname  @full_filename
-      @filename      = File.basename @full_filename
-      
-      raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
-      raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
-      
-      @escaped_full_filename = @full_filename.shell_escape_double_quotes
-      
-      self.raw_response = mediainfo!
+      if !full_filename.scan(/\.mkv$|\.mka$|\.mks$|\.mov$|\.qt$|\.mpg$|\.mpeg$|\.asf$|\.wm$a|\.wmv$|\.mp4$/).any?
+        # If we're passing in the mediainfo results instead of running MediaInfo locally
+        ## For remote files Mediainfo.new(ssh.exec!("mediainfo filename.mpg"))
+        self.raw_response = full_filename
+      else
+        @full_filename = File.expand_path full_filename
+        @path          = File.dirname  @full_filename
+        @filename      = File.basename @full_filename
+
+        raise ArgumentError, "need a path to a video file, got nil" unless @full_filename
+        raise ArgumentError, "need a path to a video file, #{@full_filename} does not exist" unless File.exist? @full_filename
+
+        @escaped_full_filename = @full_filename.shell_escape_double_quotes
+
+        self.raw_response = mediainfo!
+      end
     end
   end
   

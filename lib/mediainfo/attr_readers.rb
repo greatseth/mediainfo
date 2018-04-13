@@ -48,14 +48,14 @@ module AttrReaders
   def mediainfo_duration_reader(*a)
     mediainfo_attr_reader *a do |v|
       t = 0
-      v.split(/\s+/).each do |tf|
+      v.scan(/\d+\s?\w+/).each do |tf|
         case tf
-        # XXX haven't actually seen hot they represent hours yet 
-        # but hopefully this is ok.. :\
-        when /\d+h/  then t += tf.to_i * 60 * 60 * 1000
-        when /\d+mn/ then t += tf.to_i * 60 * 1000
-        when /\d+ms/ then t += tf.to_i
-        when /\d+s/  then t += tf.to_i * 1000
+          # MPEG2 Entertainment (HBO, Showtime, and Starz) and ADs have durations with spaces between \d and ms/s/mn/h. New Regex below will account for that, maintaining original support.
+          when /\d+\s?h/  then t += tf.to_i * 60 * 60 * 1000
+          when /\d+\s?min/ then t += tf.to_i * 60 * 1000 # Never seen mn used, so we need to support both
+          when /\d+\s?mn/ then t += tf.to_i * 60 * 1000
+          when /\d+\s?s/  then t += tf.to_i * 1000
+          when /\d+\s?ms/ then t += tf.to_i
         else
           raise "unexpected time fragment! please report bug!"
         end
