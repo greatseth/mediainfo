@@ -15,6 +15,11 @@ You can specify an alternate path if necessary:
     
     Mediainfo.path = "/opt/local/bin/mediainfo"
     
+Or, you may even pass the Media Info directly into .new, skipping the system call:
+
+    media_info = ssh.exec!("mediainfo filename.mpg")
+    Mediainfo.new(media_info)
+    
 Once you have an info object, you can start inspecting streams and general metadata.
     
     info.streams.count # 2

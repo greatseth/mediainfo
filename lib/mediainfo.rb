@@ -392,7 +392,6 @@ class Mediainfo
     
     @streams = []
 
-
     if full_filename
       if !full_filename.scan(/\.mkv$|\.mka$|\.mks$|\.mov$|\.qt$|\.mpg$|\.mpeg$|\.asf$|\.wm$a|\.wmv$|\.mp4$/).any?
         # If we're passing in the mediainfo results instead of running MediaInfo locally
