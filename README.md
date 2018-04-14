@@ -11,16 +11,17 @@ Mediainfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
     info = Mediainfo.new "/path/to/file"
     
 That will issue the system call to `mediainfo` and parse the output. 
-You can specify an alternate path if necessary:
+
+Or, you may simply load the Media Info into a MediaInfo object using .new:
+
+    media_info = ssh.exec!('mediainfo filename.mpg')
+    info = Mediainfo.new(media_info)
+
+You can specify an alternate path:
     
     Mediainfo.path = "/opt/local/bin/mediainfo"
     
-Or, you may even pass the Media Info directly into .new, skipping the system call:
-
-    media_info = ssh.exec!("mediainfo filename.mpg")
-    Mediainfo.new(media_info)
-    
-Once you have an info object, you can start inspecting streams and general metadata.
+Once you have an Mediainfo object, you can start inspecting streams and general metadata.
     
     info.streams.count # 2
     info.audio?        # true
@@ -29,7 +30,7 @@ Once you have an info object, you can start inspecting streams and general metad
     
 When inspecting specific types of streams, you have a couple general API options. The 
 first approach assumes one stream of a given type, a common scenario in many video files, 
-for example.
+for example:
     
     info.video.count    # 1
     info.audio.count    # 1
@@ -38,7 +39,7 @@ for example.
 Sometimes you'll have more than one stream of a given type. Quicktime files can often 
 contain artifacts like this from somebody editing a more 'normal' file.
     
-    info = Mediainfo.new "funky.mov"
+    info = Mediainfo.new 'funky.mov'
     
     info.video?            # true
     info.video.count       # 2
@@ -64,7 +65,6 @@ the following approaches:
     
     e.g. `Mediainfo.xml_parser = "hpricot"`
     
-
 Once you've got an instance setup, you can call numerous methods to get 
 a variety of information about a file. Some attributes may be present 
 for some files where others are not, but any supported attribute 
@@ -87,3 +87,4 @@ generate XML output, and is no longer supported.
 * Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
 * Daniel Jagszent       - [http://github.com/d--j](http://github.com/d--j)
 * Robert Mrasek         - [http://github.com/derobo](http://github.com/derobo)
+* Nathan Pierce         - [http://github.com/NorseGaud](http://github.com/NorseGaud)
