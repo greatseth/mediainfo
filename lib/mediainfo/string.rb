@@ -12,14 +12,5 @@ class String
   def shell_escape_double_quotes
     '"'+gsub(/\\|"|\$|`/, '\\\\\0')+'"'
   end unless method_defined?(:shell_escape_double_quotes)
-  
-  # stolen from active_support/inflector
-  # TODO require "active_support/core_ext/string/inflections" when 3.0 is released
-  def underscore
-    gsub(/::/, '/').
-    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-    gsub(/([a-z\d])([A-Z])/,'\1_\2').
-    tr("-", "_").
-    downcase
-  end unless method_defined?(:underscore)
+
 end

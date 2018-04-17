@@ -1,3 +1,15 @@
+v1.0.0
+- ReadMe examples for
+- Removal of all double quotes for single quotes
+- Removal of underscore method that isn't used
+- Variable name changes for readability and DRYness
+- Removal of some html.template and Manifest files which are not necessary for the gem to function
+- Rspec for testing
+- pull/18 (:xyz,:model,:recorded_date attr_reader additions)
+- pull/12 (Support Other stream type)
+- pull/15 (URL parsing)
+-
+
 v0.7.1 Tweakage
 - Removed Mediainfo#parsed_response accessor which always returned nil after
   multi-stream API updates

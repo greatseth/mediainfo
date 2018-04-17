@@ -2,5 +2,15 @@ Rakefile.cloud
 pkg
 .DS_Store
 .irbrc
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
 .idea
 
+# rspec failure tracking
+.rspec_status

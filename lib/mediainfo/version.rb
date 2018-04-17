@@ -1,3 +1,3 @@
-module Mediainfo
-  VERSION = '0.8.0'
+module MediaInfo
+  VERSION = '1.0.0'
 end
