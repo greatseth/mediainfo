@@ -5,6 +5,7 @@ module MediaInfo
   class ExecutionError < Error; end
   class IncompatibleVersionError < Error; end
   class UnknownVersionError < Error; end
+  class RemoteUrlError < Error; end
   # Stream
   class SingleStreamAPIError < RuntimeError; end
   class NoStreamsForProxyError < NoMethodError; end

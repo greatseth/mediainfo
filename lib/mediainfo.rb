@@ -1,10 +1,9 @@
 require 'pry'
-
 require 'forwardable'
-
+require 'net/http'
 require 'mediainfo/errors'
-
 require 'mediainfo/tracks'
+require 'mediainfo/string'
 
 module MediaInfo
 
@@ -54,19 +53,26 @@ module MediaInfo
 
   def self.obtain(input)
     input_guideline_message = 'Bad Input' + "\n" + "Input must be: \n" +
-        "A file location. Example: '~/videos/test_video.mov' \n" +
+        "A video or xml file location. Example: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n" +
         "A valid URL. Example: 'http://www.site.com/videofile.mov' \n" +
         "Or MediaInfo XML \n"
     if input # User must specify file
       if input.downcase.include?('http') || input.downcase.include?('www') # Handle Url Parsing
         @uri = URI(input)
         # Check if URL is valid
-        http = Net::HTTP.new(@uri.host,@uri.port)
+        http = ::Net::HTTP.new(@uri.host,@uri.port)
+        request = Net::HTTP::Head.new(@uri.request_uri) # Only grab the Headers to be sure we don't try and download the whole file
         response = http.request(request)
-        binding.pry
-        @escaped_input = URI.escape(@uri.to_s)
+        case response
+        when Net::HTTPOK
+          @escaped_input = URI.escape(@uri.to_s)
+        else
+          raise RemoteUrlError, "HTTP call to #{input} is not working!"
+        end
       elsif input.include?('<?xml')
-        MediaInfo::Tracks.new(input)
+        return MediaInfo::Tracks.new(input)
+      elsif input.include?('.xml')
+        return MediaInfo::Tracks.new(::File.open(input).read)
       elsif input.include?('/')
         @file = ::File.expand_path input # turns ~/path/to/file into /home/user/path/to/file
         raise ArgumentError, 'You must include a file location.' if @file.nil?
@@ -75,14 +81,13 @@ module MediaInfo
         @filename = ::File.basename @file
         @escaped_input = @file.shell_escape_double_quotes
         # Set variable for returned XML
-        MediaInfo::Tracks.new(MediaInfo.run(@escaped_input))
       else
         raise ArgumentError, input_guideline_message
       end
+      return MediaInfo::Tracks.new(MediaInfo.run(@escaped_input))
     else
       raise ArgumentError, input_guideline_message
     end
   end
-
 
 end # end Module

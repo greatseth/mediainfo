@@ -13,13 +13,13 @@ module MediaInfo
         case MediaInfo.xml_parser
         when 'nokogiri'
           ::Nokogiri::XML(self.xml).xpath('//track').each { |t|
-            track = MediaInfo::Track.new(t['type'])
+            track = MediaInfo::Tracks.new(t['type'])
             t.children.select { |n| n.is_a? ::Hpricot::Elem }.each{ |c| track.parameters[c.name] = c.content.strip }
             @tracks << track
           }
         when 'hpricot'
           ::Hpricot::XML(self.xml).search('track').each { |t|
-            track = MediaInfo::Track.new(t['type'])
+            track = MediaInfo::Tracks.new(t['type'])
             t.children.select { |n| n.is_a? ::Hpricot::Elem }.each{ |c| track.parameters[c.name] = c.inner_html.strip }
             @tracks << track
           }

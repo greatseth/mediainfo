@@ -12,5 +12,4 @@ class String
   def shell_escape_double_quotes
     '"'+gsub(/\\|"|\$|`/, '\\\\\0')+'"'
   end unless method_defined?(:shell_escape_double_quotes)
-
 end
