@@ -1,14 +1,16 @@
 v1.0.0
+- Module name change to MediaInfo to match convention
 - ReadMe examples for
-- Removal of all double quotes for single quotes
+- Rspecs for testing
+- Removal of all double quotes for single quotes, unless interpolation is needed
 - Removal of underscore method that isn't used
-- Variable name changes for readability and DRYness
+- Variable name changes for readability and DRY
+- Hpricot is EOL, removing code to support it
+- Handling of characters instance_variable_set will throw an error for + moved instance_variable_set to method
 - Removal of some html.template and Manifest files which are not necessary for the gem to function
-- Rspec for testing
-- pull/18 (:xyz,:model,:recorded_date attr_reader additions)
-- pull/12 (Support Other stream type)
-- pull/15 (URL parsing)
--
+- pull/18 (Eliminated attr_reader needing to be updated)
+- pull/12 (Eliminated need to add new Track/Streams)
+- pull/15 (URL parsing added)
 
 v0.7.1 Tweakage
 - Removed Mediainfo#parsed_response accessor which always returned nil after

@@ -90,4 +90,16 @@ module MediaInfo
     end
   end
 
+
+  def self.set_singleton_method(object,name,parameters)
+    # Handle parameters with invalid characters (instance_variable_set throws error)
+    name.gsub!('.','_') if name.include?('.') ## period in name
+    name.downcase!
+    # Create singleton_method
+    object.instance_variable_set("@#{name}",parameters)
+    object.define_singleton_method name do
+      object.instance_variable_get "@#{name}"
+    end
+  end
+
 end # end Module
