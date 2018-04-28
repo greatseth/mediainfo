@@ -69,6 +69,32 @@
       <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
       <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
     </track>
+    <track type="Video">
+      <ID>100</ID>
+      <Format>AVC</Format>
+      <Format_Info>Advanced Video Codec</Format_Info>
+      <Format_profile>Baseline@L3.2</Format_profile>
+      <Format_settings__CABAC>No</Format_settings__CABAC>
+      <Format_settings__ReFrames>4 frames</Format_settings__ReFrames>
+      <Codec_ID>avc1</Codec_ID>
+      <Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+      <Duration>4s 170ms</Duration>
+      <Bit_rate_mode>Variable</Bit_rate_mode>
+      <Bit_rate>656 Kbps</Bit_rate>
+      <Width>1 280 pixels</Width>
+      <Height>720 pixels</Height>
+      <Display_aspect_ratio>16:9</Display_aspect_ratio>
+      <Frame_rate_mode>Constant</Frame_rate_mode>
+      <Frame_rate>29.970 fps</Frame_rate>
+      <Standard>NTSC</Standard>
+      <Resolution>24 bits</Resolution>
+      <Colorimetry>4:2:0</Colorimetry>
+      <Scan_type>Progressive</Scan_type>
+      <Bits__Pixel_Frame_>0.024</Bits__Pixel_Frame_>
+      <Stream_size>334 KiB (0%)</Stream_size>
+      <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
+    </track>
     <track type="Audio">
       <ID>1</ID>
       <Format>AAC</Format>
