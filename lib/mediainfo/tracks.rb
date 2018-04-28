@@ -1,11 +1,10 @@
 module MediaInfo
   class Tracks
-    attr_reader :xml
+    attr_reader :xml, :track_types
     def initialize(input = nil)
       if input && input.include?('<?xml')
         @xml = input
         @track_types = []
-
         # Populate Streams
         case MediaInfo.xml_parser
         when 'nokogiri'
@@ -13,9 +12,9 @@ module MediaInfo
           # @track_types = converted_xml.xpath('//track').map{ |track| track.attributes['type'].value }
           converted_xml.xpath('//track').each { |track|
             attributes = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text] })
-            track_type_name = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } })
+            track_type = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } })
             @track_types << track_type
-            MediaInfo.set_singleton_method(self,track_type_name,attributes)
+            MediaInfo.set_singleton_method(self,track_type,attributes)
           }
         else # DEFAULT REXML
           converted_xml = ::REXML::Document.new(self.xml)
@@ -46,7 +45,7 @@ module MediaInfo
       else
         # For anything with a streamid of 1, ignore it. This is due to the logic of non-streamid duplicates not appending an integer for the first occurrence. We want to be consistent.
         ## We use _ to separate the streamid so we can do easier matching for non-streamid duplicates
-        type = streamid[:value] == '1' ? type_attr_value : "#{type_attr_value}_#{streamid[:value]}"
+        type = streamid[:value] == '1' ? type_attr_value : "#{type_attr_value}#{streamid[:value]}"
       end
       return type.downcase
     end

@@ -8,6 +8,7 @@ v1.0.0
 - Hpricot is EOL, removing code to support it
 - Handling of characters instance_variable_set will throw an error for + moved instance_variable_set to method
 - Removal of some html.template and Manifest files which are not necessary for the gem to function
+- Added track_types
 - pull/18 (Eliminated attr_reader needing to be updated)
 - pull/12 (Eliminated need to add new Track/Streams)
 - pull/15 (URL parsing added)

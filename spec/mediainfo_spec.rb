@@ -31,11 +31,18 @@ RSpec.describe MediaInfo do
   end
 
   describe '.obtain' do
-    it 'on a file' do
+
+    it 'on a file' do # Requires a test file on Desktop
+      # REXML
       expect{MediaInfo.obtain('~/Desktop/test.mov')}.not_to raise_error
-      expect{MediaInfo.obtain('./spec/fixtures/xml/hats.3gp.xml')}.not_to raise_error
       expect(MediaInfo.obtain('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
       expect(MediaInfo.obtain('~/Desktop/test.mov').xml.include?('?xml')).to be true
+      # NOKOGIRI
+      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+      expect{MediaInfo.obtain('~/Desktop/test.mov')}.not_to raise_error
+      expect(MediaInfo.obtain('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
+      expect(MediaInfo.obtain('~/Desktop/test.mov').xml.include?('?xml')).to be true
+      ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
     it 'on a url' do
@@ -43,23 +50,34 @@ RSpec.describe MediaInfo do
       expect{MediaInfo.obtain('http://urlthatdoesnotexist/file.mov')}.to raise_error(SocketError)
       expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4')).to be_an_instance_of(MediaInfo::Tracks)
       expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').xml.include?('?xml')).to be true
+      ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
     it 'on a raw xml' do
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read)}.not_to raise_error
       expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read)).to be_an_instance_of(MediaInfo::Tracks)
       expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).xml.include?('?xml')).to be true
+      ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
     it 'generates track types' do
-      binding.pry
-      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.bit_rate}.not_to raise_error
+      # REXML
+      ## URL
       expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
+      expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bit_rate}.to raise_error(NoMethodError)
+      ## XML
+      ### Stream ID
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2.bit_rate}.not_to raise_error
+      ### No Stream ID + Three video streams
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video2.bit_rate}.not_to raise_error
+      # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.bit_rate}.not_to raise_error
-      expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
+      ## Stream ID
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video.bit_rate}.not_to raise_error
+      ## No Stream ID + Three video streams
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video3.bit_rate}.not_to raise_error
+      ENV['MEDIAINFO_XML_PARSER'] = nil
     end
-
 
   end
 
