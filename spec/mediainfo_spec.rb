@@ -66,17 +66,35 @@ RSpec.describe MediaInfo do
       expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
       expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bit_rate}.to raise_error(NoMethodError)
       ## XML
-      ### Stream ID
+      ### Stream/OtherType ID
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other2.duration}.not_to raise_error
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2.bit_rate}.not_to raise_error
       ### No Stream ID + Three video streams
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video2.bit_rate}.not_to raise_error
       # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
       ## Stream ID
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other2.duration}.not_to raise_error
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video.bit_rate}.not_to raise_error
       ## No Stream ID + Three video streams
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video3.bit_rate}.not_to raise_error
       ENV['MEDIAINFO_XML_PARSER'] = nil
+    end
+
+    describe 'tracks types' do
+      it 'support ?' do
+        # REXML
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2?).to eq(true)
+        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').image?).to be_falsey
+        # NOKOGIRI
+        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video5?).to be_falsey
+        ENV['MEDIAINFO_XML_PARSER'] = nil
+      end
+
+
     end
 
   end

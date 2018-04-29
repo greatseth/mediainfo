@@ -1,32 +1,32 @@
-# Mediainfo
+# MediaInfo
 
-Mediainfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.net).
+MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.net).
 
 ## Installation
     
     $ gem install mediainfo
     
 ## Usage
-    
-    info = Mediainfo.new "/path/to/file"
-    
-That will issue the system call to `mediainfo` and parse the output. 
 
-Or, you may simply load the Media Info into a MediaInfo object using .new:
+#### Parsing raw XML
+    media_info = MediaInfo.obtain(File.open('iphone6+_video.mov.xml').read)
+#### Handling a local file
+    media_info = MediaInfo.obtain('~/Desktop/test.mov')
+#### Handling a URL
+    media_info = MediaInfo.obtain('~/Desktop/test.mov')
 
-    media_info = ssh.exec!('mediainfo filename.mpg')
-    info = Mediainfo.new(media_info)
-
-You can specify an alternate path:
+You can specify an alternate path for the MediaInfo Binary:
     
-    Mediainfo.path = "/opt/local/bin/mediainfo"
+    ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
     
-Once you have an Mediainfo object, you can start inspecting streams and general metadata.
+Once you have an MediaInfo object, you can start inspecting tracks:
     
-    info.streams.count # 2
-    info.audio?        # true
-    info.video?        # true
-    info.image?        # false
+    media_info.track_types       # ['general','video','audio','other','other2']
+    media_info.track_types.count # 5
+    media_info.video?            # true
+    media_info.other?            # true
+    media_info.other.count       # 2
+    media_info.image?            # false
     
 When inspecting specific types of streams, you have a couple general API options. The 
 first approach assumes one stream of a given type, a common scenario in many video files, 

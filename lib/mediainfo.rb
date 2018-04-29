@@ -57,7 +57,9 @@ module MediaInfo
         "A valid URL. Example: 'http://www.site.com/videofile.mov' \n" +
         "Or MediaInfo XML \n"
     if input # User must specify file
-      if input.downcase.include?('http') || input.downcase.include?('www') # Handle Url Parsing
+      if input.include?('<?xml') # Must be first, else we could parse input (raw xml) with a URL in it and think it's a URL
+        return MediaInfo::Tracks.new(input)
+      elsif input.downcase.include?('http') || input.downcase.include?('www') # Handle Url Parsing
         @uri = URI(input)
         # Check if URL is valid
         http = ::Net::HTTP.new(@uri.host,@uri.port)
@@ -69,8 +71,6 @@ module MediaInfo
         else
           raise RemoteUrlError, "HTTP call to #{input} is not working!"
         end
-      elsif input.include?('<?xml')
-        return MediaInfo::Tracks.new(input)
       elsif input.include?('.xml')
         return MediaInfo::Tracks.new(::File.open(input).read)
       elsif input.include?('/')
