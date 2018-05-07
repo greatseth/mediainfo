@@ -70,14 +70,14 @@ RSpec.describe MediaInfo do
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other2.duration}.not_to raise_error
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2.bit_rate}.not_to raise_error
       ### No Stream ID + Three video streams
-      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video2.bit_rate}.not_to raise_error
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video6.bit_rate}.not_to raise_error
       # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
       ## Stream ID
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other2.duration}.not_to raise_error
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video.bit_rate}.not_to raise_error
       ## No Stream ID + Three video streams
-      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video3.bit_rate}.not_to raise_error
+      expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video100.bit_rate}.not_to raise_error
       ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
@@ -94,8 +94,22 @@ RSpec.describe MediaInfo do
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
-
+      it 'support .count' do
+        # REXML
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text.count).to eq(4)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).audio.count).to eq(1)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.count).to eq(3)
+        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+        # NOKOGIRI
+        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text3.count).to eq(1)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video6.count).to eq(1)
+        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+        ENV['MEDIAINFO_XML_PARSER'] = nil
+      end
     end
+
+
 
   end
 

@@ -18,7 +18,7 @@ module MediaInfo
           converted_xml = ::Nokogiri::XML(self.xml)
           converted_xml.css('//track').each { |track| # Have to use .css here due to iphone6 MediaInfo structure
             attributes = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text] })
-            track_type = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } })
+            track_type = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } },track.children.css('ID').map{ |el| el.text })
             @track_types << track_type
             MediaInfo.set_singleton_method(self,track_type,attributes)
           }
@@ -26,7 +26,7 @@ module MediaInfo
           converted_xml = ::REXML::Document.new(self.xml)
           converted_xml.elements.each('//track') { |track|
             track_elements = Attributes.new(track.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter| [parameter.name, parameter.text] })
-            track_type = sanitize_track_type(@track_types,track.attributes.map{ |attr| { :name => attr[0], :value => attr[1] } })
+            track_type = sanitize_track_type(@track_types,track.attributes.map{ |attr| { :name => attr[0], :value => attr[1] } },track.elements.detect{|el| el.name == 'id' }.to_a)
             @track_types << track_type
             MediaInfo.set_singleton_method(self,track_type,track_elements)
           }
@@ -51,13 +51,20 @@ module MediaInfo
 
     # Used for handling duplicate track types with differing streamid, etc
     # Takes an array of attributes and returns the track_name
-    def sanitize_track_type(track_types,track_attributes)
+    ## Parameters must meet the following structure:
+    # TRACK_TYPES: ['video','video2','text'] or [] if nothing created yet
+    # TRACK_ATTRIBUTES: [{:name=>"type", :value=>"Text" }] or [] if not found
+    # TRACK_ID: ["1"] or [] if not found
+    def sanitize_track_type(track_types,track_attributes,track_id)
       raise("Unable to sanitize a track type due to missing 'type' attribute in on of the elements: \n #{track_attributes}") if (type_attr_value = track_attributes.detect{ |attr| attr[:name] == 'type' }[:value]).nil?
-      ## Unfortunately the only place we must still manually specify the id attr until https://sourceforge.net/p/mediainfo/discussion/297610/thread/f17a0cf5/ is answered
-      if (streamid = track_attributes.detect{ |attr| attr[:name] == 'streamid' || attr[:name] == 'typeorder' }).nil? # No StreamId, however, ensuring that if the streamid is there we use it
-        ## Even if no streamid we need to check for duplicate track names and append an integer. ONLY WORKS IF DUPLICATE TRACKS CONSECUTIVE
+      if (streamid = track_attributes.detect{ |attr| attr[:name] == 'streamid' || attr[:name] == 'typeorder' }).nil? # No StreamId, however, ensuring that if the streamid is there we use it ## We must still manually specify the id attr until https://sourceforge.net/p/mediainfo/discussion/297610/thread/f17a0cf5/ is answered
+        ## Even if no streamid we need to check for duplicate track names and append an integer. ONLY WORKS IF DUPLICATE TRACKS ARE CONSECUTIVE
         if track_types.include?(type_attr_value.downcase)
-          type = "#{type_attr_value}#{track_types.grep(/#{type_attr_value.downcase}/).count + 1}"
+          if !track_id.nil? && !track_id.empty? && track_id.first.to_s.to_i > 1 ## If the track has an ID child, and it's an integer above 1 (if it's a string, to_i returns 0) (if to_i returns > 1 so we can match id convention of video vs video1; see code below this section), use that
+            type = "#{type_attr_value}#{track_id.first}"
+          else
+            type = "#{type_attr_value}#{track_types.grep(/#{type_attr_value.downcase}/).count + 1}"
+          end
         else
           type = type_attr_value
         end
