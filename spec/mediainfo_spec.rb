@@ -109,7 +109,98 @@ RSpec.describe MediaInfo do
       end
     end
 
+  end
 
+  describe 'Fixtures' do
+
+    it './spec/fixtures/xml/AwayWeGo_24fps.mov.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/AwayWeGo_24fps.mov.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+      end
+    end
+
+    it './spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+      end
+    end
+
+    it './spec/fixtures/xml/dinner.3g2.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/dinner.3g2.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+      end
+    end
+
+    it './spec/fixtures/xml/hats.3gp.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/hats.3gp.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+      end
+    end
+
+    it './spec/fixtures/xml/iphone6+_video.mov.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/iphone6+_video.mov.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).other.count).to eq(2)
+      end
+    end
+
+    it './spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video.count).to eq(3)
+      end
+    end
+
+    it './spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).image?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).image.count).to eq(1)
+      end
+    end
+
+    it './spec/fixtures/xml/vimeo.57652.avi.xml' do # Requires a test file on Desktop
+      fixture = './spec/fixtures/xml/vimeo.57652.avi.xml'
+      [nil,'nokogiri'].each do |xml_parser|
+        ENV['MEDIAINFO_XML_PARSER'] = xml_parser
+        expect(MediaInfo.obtain(::File.open(fixture).read).track_types.any?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).general?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).video?).to be true
+        expect(MediaInfo.obtain(::File.open(fixture).read).audio?).to be true
+      end
+    end
 
   end
 
