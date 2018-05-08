@@ -17,7 +17,13 @@ module MediaInfo
         when 'nokogiri'
           converted_xml = ::Nokogiri::XML(self.xml)
           converted_xml.css('//track').each { |track| # Have to use .css here due to iphone6 MediaInfo structure
-            attributes = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text] })
+            attributes = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter|
+              if parameter.text.include?("\n") # if it has children (extra in iphone6+_video.mov.xml)
+                [parameter.name, parameter.children.select { |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text]}]
+              else
+                [parameter.name, parameter.text]
+              end
+            })
             track_type = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } },track.children.css('ID').map{ |el| el.text })
             @track_types << track_type
             MediaInfo.set_singleton_method(self,track_type,attributes)
@@ -25,7 +31,13 @@ module MediaInfo
         else # DEFAULT REXML
           converted_xml = ::REXML::Document.new(self.xml)
           converted_xml.elements.each('//track') { |track|
-            track_elements = Attributes.new(track.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter| [parameter.name, parameter.text] })
+            track_elements = Attributes.new(track.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter|
+              if parameter.text.include?("\n") # if it has children (extra in iphone6+_video.mov.xml)
+                [parameter.name, parameter.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter| [parameter.name, parameter.text]}]
+              else
+                [parameter.name, parameter.text]
+              end
+            })
             track_type = sanitize_track_type(@track_types,track.attributes.map{ |attr| { :name => attr[0], :value => attr[1] } },track.elements.detect{|el| el.name == 'id' }.to_a)
             @track_types << track_type
             MediaInfo.set_singleton_method(self,track_type,track_elements)
@@ -48,6 +60,29 @@ module MediaInfo
         raise ArgumentError, 'Input must be raw XML.'
       end
     end # end Initialize
+
+    class Attributes
+      def initialize(params)
+        params.each{ |param|
+          if param[1].is_a?(Array)
+            MediaInfo.set_singleton_method(self,param[0],Extra.new(param[1]))
+          else
+            MediaInfo.set_singleton_method(self,param[0],param[1])
+          end
+          # TODO Sanitize/Standardize certain param_name, like bitrate. For example:
+          ## bitrate may be "bit_rate" in the xml and video.bitrate will raise
+          ## bitrate may return as 57.5 Kbps and not bytes
+          ## Duration might
+        }
+      end
+
+      class Extra
+        def initialize(params)
+          params.each{ |param| MediaInfo.set_singleton_method(self,param[0],param[1]) }
+        end
+      end
+
+    end
 
     # Used for handling duplicate track types with differing streamid, etc
     # Takes an array of attributes and returns the track_name
@@ -76,20 +111,5 @@ module MediaInfo
       return type.downcase
     end
 
-    class Attributes
-      # TODO Make sure to get sub-xml nodes like iphone6+_video's extra under General
-      def initialize(params)
-        params.each{ |param|
-          # TODO Sanitize/Standardize certain param_name, like bitrate. For example:
-          ## bitrate may be "bit_rate" in the xml and video.bitrate will raise
-          ## bitrate may return as 57.5 Kbps and not bytes
-          ## Duration might
-          MediaInfo.set_singleton_method(self,param[0],param[1])
-        }
-      end
-    end
-
   end
-
-
 end

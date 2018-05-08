@@ -107,6 +107,18 @@ RSpec.describe MediaInfo do
         expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
+
+      it 'support <extra>' do
+        # REXML
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_make).to eq('Apple')
+        # NOKOGIRI
+        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6')
+        ENV['MEDIAINFO_XML_PARSER'] = nil
+      end
+
     end
 
   end
