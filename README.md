@@ -54,6 +54,16 @@ The track type media_info.video5 is available. But only because the MediaInfo fr
         <ID>1</ID>...
     <track type="Video">
         <ID>5</ID>...
+        
+You will also notice that any second level attributes are available as well:
+
+    MediaInfo.obtain('~/Desktop/test.mov').general.extra
+    => #<MediaInfo::Tracks::Attributes::Extra:0x00007fa89f13aa98
+     @com_apple_quicktime_creationdate=2018-03-30 08:12:08 -0400,
+     @com_apple_quicktime_location_iso6709="+39.0286-077.3958+095.957/",
+     @com_apple_quicktime_make="Apple",
+     @com_apple_quicktime_model=0,
+     @com_apple_quicktime_software=11.2>
 
 REXML is used as the XML parser by default. If you'd like, you can 
 configure Mediainfo to use Hpricot or Nokogiri instead using one of 

@@ -104,7 +104,6 @@ module MediaInfo
 
     end
 
-
     # Used for handling duplicate track types with differing streamid, etc
     # Takes an array of attributes and returns the track_name
     ## Parameters must meet the following structure:
