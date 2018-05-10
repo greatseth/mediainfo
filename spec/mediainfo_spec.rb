@@ -34,6 +34,7 @@ RSpec.describe MediaInfo do
 
     it 'on a file' do # Requires a test file on Desktop
       # REXML
+      binding.pry
       expect{MediaInfo.obtain('~/Desktop/test.mov')}.not_to raise_error
       expect(MediaInfo.obtain('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
       expect(MediaInfo.obtain('~/Desktop/test.mov').xml.include?('?xml')).to be true
@@ -64,7 +65,7 @@ RSpec.describe MediaInfo do
       # REXML
       ## URL
       expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
-      expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bit_rate}.to raise_error(NoMethodError)
+      expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bit_rate).to eq(nil)
       ## XML
       ### Stream/OtherType ID
       expect{MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other2.duration}.not_to raise_error

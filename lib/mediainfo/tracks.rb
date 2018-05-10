@@ -1,3 +1,4 @@
+require 'time'
 module MediaInfo
   class Tracks
 
@@ -17,7 +18,7 @@ module MediaInfo
         when 'nokogiri'
           converted_xml = ::Nokogiri::XML(self.xml)
           converted_xml.css('//track').each { |track| # Have to use .css here due to iphone6 MediaInfo structure
-            attributes = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter|
+            track_elements = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter|
               if parameter.text.include?("\n") # if it has children (extra in iphone6+_video.mov.xml)
                 [parameter.name, parameter.children.select { |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text]}]
               else
@@ -26,7 +27,7 @@ module MediaInfo
             })
             track_type = sanitize_track_type(@track_types,track.attributes.map{ |k,v| { :name => v.name, :value => v.value } },track.children.css('ID').map{ |el| el.text })
             @track_types << track_type
-            MediaInfo.set_singleton_method(self,track_type,attributes)
+            MediaInfo.set_singleton_method(self,track_type,track_elements)
           }
         else # DEFAULT REXML
           converted_xml = ::REXML::Document.new(self.xml)
@@ -50,7 +51,6 @@ module MediaInfo
             self.track_types.any?(__method__.to_s.gsub('?',''))
           }
         }
-
         # Add {type}.count singleton_method
         @track_types.each{ |track_type|
           MediaInfo.set_singleton_method(self.instance_variable_get("@#{track_type}"),'count',@track_types.grep(/#{track_type}/).count)
@@ -62,27 +62,48 @@ module MediaInfo
     end # end Initialize
 
     class Attributes
+
+      # Needed so that sanitize_elements doesn't throw NoMethodError
+      def method_missing( name, *args )
+        nil # We use nil here instead of false as nil should be understood by the client/requester as false. We might not want to specifically return false for other missing methods
+      end
+
       def initialize(params)
         params.each{ |param|
           if param[1].is_a?(Array)
             MediaInfo.set_singleton_method(self,param[0],Extra.new(param[1]))
           else
-            MediaInfo.set_singleton_method(self,param[0],param[1])
+            MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_parameter(param))
           end
-          # TODO Sanitize/Standardize certain param_name, like bitrate. For example:
-          ## bitrate may be "bit_rate" in the xml and video.bitrate will raise
-          ## bitrate may return as 57.5 Kbps and not bytes
-          ## Duration might
         }
       end
 
       class Extra
         def initialize(params)
-          params.each{ |param| MediaInfo.set_singleton_method(self,param[0],param[1]) }
+          params.each{ |param| MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_parameter(param)) }
+        end
+      end
+
+      def self.sanitize_parameter(param)
+        name = param[0]
+        value = param[1]
+        case
+        when value.match(/(?!\.)\D+/).nil? then value.to_f # Convert String with integer in it to Integer
+          # Duration
+        when value =~ /\d+\s?h/   then value.to_i * 60 * 60 * 1000
+        when value =~ /\d+\s?min/ then value.to_i * 60 * 1000
+        when value =~ /\d+\s?mn/  then value.to_i * 60 * 1000
+        when value =~ /\d+\s?s/   then value.to_i * 1000
+        when value =~ /\d+\s?ms/  then value.to_i
+          # Dates
+        when name.downcase.include?('date') then Time.parse(value)
+        else
+          value
         end
       end
 
     end
+
 
     # Used for handling duplicate track types with differing streamid, etc
     # Takes an array of attributes and returns the track_name

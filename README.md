@@ -13,7 +13,7 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 #### Handling a local file
     media_info = MediaInfo.obtain('~/Desktop/test.mov')
 #### Handling a URL
-    media_info = MediaInfo.obtain('~/Desktop/test.mov')
+    media_info = MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4')
 
 You can specify an alternate path for the MediaInfo Binary:
     
@@ -21,37 +21,41 @@ You can specify an alternate path for the MediaInfo Binary:
     
 Once you have an MediaInfo object, you can start inspecting tracks:
     
-    media_info.track_types       # ['general','video','audio','other','other2']
-    media_info.track_types.count # 5
+    media_info.track_types       # ['general','video','audio']
+    media_info.track_types.count # 3
     media_info.video?            # true
-    media_info.other?            # true
-    media_info.other.count       # 2
-    media_info.image?            # false
+    media_info.image?            # nil
     
-When inspecting specific types of streams, you have a couple general API options. The 
-first approach assumes one stream of a given type, a common scenario in many video files, 
+When inspecting specific types of tracks, you have a couple general API options. The 
+first approach assumes one track of a given type, a common scenario in many video files, 
 for example:
     
-    info.video.count    # 1
-    info.audio.count    # 1
-    info.video.duration # 120 (seconds)
+    media_info.video.count    # 1
+    media_info.video.duration # 120 (seconds)
     
-Sometimes you'll have more than one stream of a given type. Quicktime files can often 
-contain artifacts like this from somebody editing a more 'normal' file.
+Sometimes you'll have more than one track of a given type. _The first track type, or any track type with <ID>1</ID> will not contain '1':_
     
-    info = Mediainfo.new 'funky.mov'
+    media_info.track_types       # ['general','video','video2','audio','other','other2']
+    media_info.track_types.count # 5
+    media_info.video?            # true
+    media_info.image?            # nil
+    media_info.video.count       # 1
+    media_info.video.duration    # 120
+    media_info.other.count       # 2
+    media_info.video2.duration   # 10
     
-    info.video?            # true
-    info.video.count       # 2
-    info.video.duration    # raises SingleStreamAPIError !
-    info.video[0].duration # 120
-    info.video[1].duration # 10
-    
-For some more usage examples, please see the very reasonable test suite accompanying the source code 
-for this library. It contains a bunch of relevant usage examples. More docs in the future.. contributions 
-*very* welcome!
+In order to support all possible MediaInfo variations, you'll potentially see the following:
 
-Moving on, REXML is used as the XML parser by default. If you'd like, you can 
+    media_info.track_types # ['general','video','video5','audio','other','other2']
+    
+The track type media_info.video5 is available. But only because the MediaInfo from the video has:
+
+    <track type="Video">
+        <ID>1</ID>...
+    <track type="Video">
+        <ID>5</ID>...
+
+REXML is used as the XML parser by default. If you'd like, you can 
 configure Mediainfo to use Hpricot or Nokogiri instead using one of 
 the following approaches:
 
@@ -59,11 +63,6 @@ the following approaches:
     name of the parser as you'd pass to a :gem or :require call. 
     
     e.g. `export MEDIAINFO_XML_PARSER=nokogiri`
-    
-  * assign to Mediainfo.xml_parser after you've loaded the gem, 
-    following the same naming conventions mentioned previously.
-    
-    e.g. `Mediainfo.xml_parser = "hpricot"`
     
 Once you've got an instance setup, you can call numerous methods to get 
 a variety of information about a file. Some attributes may be present 
