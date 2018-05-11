@@ -61,7 +61,6 @@ RSpec.describe MediaInfo do
     end
 
     it 'generates track types' do
-      binding.pry
       # REXML
       ## URL
       expect{MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
@@ -123,9 +122,8 @@ RSpec.describe MediaInfo do
 
       describe 'Attribute' do
 
-        it 'strings with float/integer are converted with to_f/to_i' do
+        it 'strings with float or integer are converted with to_f or to_i respectively' do
           # REXML
-          # TODO Finish after standardization of bit_rate to bitrate
           expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6') # Check that two or more dots remain strings
           expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.bits__pixel_frame_).to be_a(Float)
           expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.id).to be_a(Integer)
