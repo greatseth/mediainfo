@@ -21,41 +21,56 @@ You can specify an alternate path for the MediaInfo Binary:
     
 Once you have an MediaInfo object, you can start inspecting tracks:
     
-    media_info.track_types       # ['general','video','audio']
-    media_info.track_types.count # 3
-    media_info.video?            # true
-    media_info.image?            # nil
+    media_info.track_types       => ['general','video','audio']
+    media_info.track_types.count => 3
+    media_info.video?            => true
+    media_info.image?            => nil
     
 When inspecting specific types of tracks, you have a couple general API options. The 
 first approach assumes one track of a given type, a common scenario in many video files, 
 for example:
     
-    media_info.video.count    # 1
-    media_info.video.duration # 120 (seconds)
+    media_info.video.count    => 1
+    media_info.video.duration => 120 (seconds)
     
-Sometimes you'll have more than one track of a given type. _The first track type, or any track type with <ID>1</ID> will not contain '1':_
-    
-    media_info.track_types       # ['general','video','video2','audio','other','other2']
-    media_info.track_types.count # 5
-    media_info.video?            # true
-    media_info.image?            # nil
-    media_info.video.count       # 1
-    media_info.video.duration    # 120
-    media_info.other.count       # 2
-    media_info.video2.duration   # 10
-    
-In order to support all possible MediaInfo variations, you'll potentially see the following:
+Sometimes you'll have more than one track of a given type:
 
-    media_info.track_types # ['general','video','video5','audio','other','other2']
+ - The first track type, or any track type with <ID>1</ID> will not contain '1'
+ - Any track attribute with "date" in the name will be converted using Time.parse.
+       
+    ```
+    media_info.track_types                => ['general','video','video2','audio','other','other2']
+    media_info.track_types.count          => 5
+    media_info.video?                     => true
+    media_info.image?                     => nil
+    media_info.video.count                => 1
+    media_info.video.duration             => 120 (Integer)
+    media_info.video.display_aspect_ratio => 1.222 (Float)
+    media_info.other.count                => 2
+    media_info.video2.duration            => 10
+    media_info.video.encoded_date         => 2018-03-30 12:12:08 -0400 (Time)
+    ```
+
+Note that the above automatically converts MediaInfo Strings into Time, Integer, and Float objects:
+
+    media_info.video.encoded_date.class   => Time
+    media_info.video2.duration            => Integer
+    media_info.video.display_aspect_ratio => Float
     
-The track type media_info.video5 is available. But only because the MediaInfo from the video has:
+In order to support all possible MediaInfo variations, you may see the following situation:
+
+    media_info.track_types => ['general','video','video5','audio','other','other2']
+    
+The track type media_info.video5 is available, but no video2, 3, and 4. This is because the MediaInfo from the video has:
 
     <track type="Video">
         <ID>1</ID>...
     <track type="Video">
         <ID>5</ID>...
+
+The ID will take priority for labeling. Else if no ID exists, you'll see consecutive numbering for duplicate tracks in the Media.        
         
-You will also notice that any second level attributes are available as well:
+Furthermore, you will notice that any second level attributes are available:
 
     MediaInfo.obtain('~/Desktop/test.mov').general.extra
     => #<MediaInfo::Tracks::Attributes::Extra:0x00007fa89f13aa98
@@ -66,8 +81,7 @@ You will also notice that any second level attributes are available as well:
      @com_apple_quicktime_software=11.2>
 
 REXML is used as the XML parser by default. If you'd like, you can 
-configure Mediainfo to use Hpricot or Nokogiri instead using one of 
-the following approaches:
+configure Mediainfo to use Nokogiri instead:
 
   * define the `MEDIAINFO_XML_PARSER` environment variable to be the 
     name of the parser as you'd pass to a :gem or :require call. 

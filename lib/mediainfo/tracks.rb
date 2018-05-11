@@ -1,4 +1,5 @@
 require 'time'
+require 'yaml' # Used for standardization methods
 module MediaInfo
   class Tracks
 
@@ -7,18 +8,20 @@ module MediaInfo
       nil # We use nil here instead of false as nil should be understood by the client/requester as false. We might not want to specifically return false for other missing methods
     end
 
-    attr_reader :xml, :track_types
+    attr_reader :xml, :track_types, :standardization_rules
 
     def initialize(input = nil)
       if input && input.include?('<?xml')
         @xml = input
         @track_types = []
+        @standardization_rules = YAML.load_file('./lib/standardization_rules.yml')
         # Populate Streams
         case MediaInfo.xml_parser
         when 'nokogiri'
           converted_xml = ::Nokogiri::XML(self.xml)
           converted_xml.css('//track').each { |track| # Have to use .css here due to iphone6 MediaInfo structure
             track_elements = Attributes.new(track.children.select{ |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter|
+              parameter.name = standardize_element_name(parameter.name) # Turn various element names into standardized versions (Bit_rate to Bitrate)
               if parameter.text.include?("\n") # if it has children (extra in iphone6+_video.mov.xml)
                 [parameter.name, parameter.children.select { |n| n.is_a? ::Nokogiri::XML::Element }.map{ |parameter| [parameter.name, parameter.text]}]
               else
@@ -33,6 +36,7 @@ module MediaInfo
           converted_xml = ::REXML::Document.new(self.xml)
           converted_xml.elements.each('//track') { |track|
             track_elements = Attributes.new(track.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter|
+              parameter.name = standardize_element_name(parameter.name)
               if parameter.text.include?("\n") # if it has children (extra in iphone6+_video.mov.xml)
                 [parameter.name, parameter.children.select { |n| n.is_a? ::REXML::Element }.map{ |parameter| [parameter.name, parameter.text]}]
               else
@@ -61,6 +65,12 @@ module MediaInfo
       end
     end # end Initialize
 
+    # Standardize our Element Names
+    ## Relies on valid YAML in lib/standardization_rules.yml
+    def standardize_element_name(name)
+      self.standardization_rules[name].nil? ? name : self.standardization_rules[name]
+    end
+
     class Attributes
 
       # Needed so that sanitize_elements doesn't throw NoMethodError
@@ -73,29 +83,38 @@ module MediaInfo
           if param[1].is_a?(Array)
             MediaInfo.set_singleton_method(self,param[0],Extra.new(param[1]))
           else
-            MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_parameter(param))
+            MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_element_value(param))
           end
         }
       end
 
       class Extra
         def initialize(params)
-          params.each{ |param| MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_parameter(param)) }
+          params.each{ |param| MediaInfo.set_singleton_method(self,param[0],MediaInfo::Tracks::Attributes.sanitize_element_value(param)) }
         end
       end
 
-      def self.sanitize_parameter(param)
+      def self.sanitize_element_value(param)
         name = param[0]
         value = param[1]
         case
-        when value.match(/(?!\.)\D+/).nil? then value.to_f # Convert String with integer in it to Integer
-          # Duration
+        # Convert String with integer in it to Integer.
+        ## Don't to_f anything with 2 or more dots (versions,etc)
+        when value.match(/(?!\.)\D+/).nil? then
+          if value.scan(/\./).any? && value.scan(/\./).count > 1
+            value
+          elsif value.scan(/\./).any?
+            value.to_f
+          else # Prevent float if it's just a normal integer
+            value.to_i
+          end
+        # Duration
         when value =~ /\d+\s?h/   then value.to_i * 60 * 60 * 1000
         when value =~ /\d+\s?min/ then value.to_i * 60 * 1000
         when value =~ /\d+\s?mn/  then value.to_i * 60 * 1000
         when value =~ /\d+\s?s/   then value.to_i * 1000
         when value =~ /\d+\s?ms/  then value.to_i
-          # Dates
+        # Dates
         when name.downcase.include?('date') then Time.parse(value)
         else
           value
