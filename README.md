@@ -74,16 +74,16 @@ Sometimes you'll have more than one track of a given type:
     - [Submit an issue to add more!](https://github.com/greatseth/mediainfo/issues)
     
     
-        media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
-        media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
+            media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
+            media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
 
 - We standardize the naming of several Attributes.
     - You can review lib/attribute_standardization_rules.yml to see them all
     
     
-        media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
-        media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
-        media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
+            media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+            media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+            media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
 
     
 In order to support all possible MediaInfo variations, you may see the following situation:
