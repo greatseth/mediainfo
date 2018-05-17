@@ -38,7 +38,7 @@ Sometimes you'll have more than one track of a given type:
 
  - The first track type name, or any track type with <ID>1</ID> will not contain '1'
        
-    ```
+       
     media_info.track_types                => ['general','video','video2','audio','other','other2']
     media_info.track_types.count          => 5
     media_info.video?                     => true
@@ -48,14 +48,13 @@ Sometimes you'll have more than one track of a given type:
     media_info.video.display_aspect_ratio => 1.222
     media_info.other.count                => 2
     media_info.video2.duration            => 29855000
-    ```
 
 - Note that the above automatically converts MediaInfo Strings into Time, Integer, and Float objects:
 
 
-        media_info.video.encoded_date.class         => Time
-        media_info.video2.duration.class            => Integer
-        media_info.video.display_aspect_ratio.class => Float
+    media_info.video.encoded_date.class         => Time
+    media_info.video2.duration.class            => Integer
+    media_info.video.display_aspect_ratio.class => Float
     
 - Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse
 
