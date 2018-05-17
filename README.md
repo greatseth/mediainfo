@@ -125,12 +125,9 @@ should at least return `nil`.
 
 ## Requirements
 
-This requires at least the following version of the Mediainfo CLI:
-  
-    MediaInfo Command line,
-    MediaInfoLib - v0.7.25
-  
-Previous versions of this gem(<= 0.5.1) worked against v0.7.11, which did not 
+Gem version 1.0.0 has been tested on v18.03.1
+Gem versions < 1.0.0 require at least: MediaInfoLib v0.7.25
+Gem versions <= 0.5.1 worked against MediaInfoLib v0.7.11, which did not 
 generate XML output, and is no longer supported.
 
 ## Contributors
