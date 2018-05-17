@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.licenses    = ['MIT']
   s.required_rubygems_version = Gem::Requirement.new('>= 1.2') if s.respond_to? :required_rubygems_version=
   s.authors = ['Seth Thomas Rasmussen']
-  s.description = %q{MediaInfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)}
+  s.description = %q{MediaInfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net) that standardizes attributes/methods and also converts most values into something Ruby can understand.}
   s.email = %q{sethrasmussen@gmail.com}
   s.homepage = %q{https://github.com/greatseth/mediainfo}
   s.rdoc_options = ['--line-numbers', '--inline-source', '--title', 'Mediainfo', '--main']
