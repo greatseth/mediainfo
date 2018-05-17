@@ -17,50 +17,50 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 
 You can specify an alternate path for the MediaInfo Binary:
     
-        ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
+    ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
     
 Once you have an MediaInfo object, you can start inspecting tracks:
     
-        media_info.track_types       => ['general','video','audio']
-        media_info.track_types.count => 3
-        media_info.video?            => true
-        media_info.image?            => nil
-        media_info.image.filesize    => MethodNotFound exception
+    media_info.track_types       => ['general','video','audio']
+    media_info.track_types.count => 3
+    media_info.video?            => true
+    media_info.image?            => nil
+    media_info.image.filesize    => MethodNotFound exception
     
 When inspecting specific types of tracks, you have a couple general API options. The 
 first approach assumes one track of a given type, a common scenario in many video files, 
 for example:
     
-        media_info.video.count    => 1
-        media_info.video.duration => 120 (seconds)
+    media_info.video.count    => 1
+    media_info.video.duration => 120 (seconds)
     
 Sometimes you'll have more than one track of a given type:
 
  - The first track type name, or any track type with <ID>1</ID> will not contain '1'
        
        
-    media_info.track_types                => ['general','video','video2','audio','other','other2']
-    media_info.track_types.count          => 5
-    media_info.video?                     => true
-    media_info.image?                     => nil
-    media_info.video.count                => 1
-    media_info.video.duration             => 29855000
-    media_info.video.display_aspect_ratio => 1.222
-    media_info.other.count                => 2
-    media_info.video2.duration            => 29855000
+        media_info.track_types                => ['general','video','video2','audio','other','other2']
+        media_info.track_types.count          => 5
+        media_info.video?                     => true
+        media_info.image?                     => nil
+        media_info.video.count                => 1
+        media_info.video.duration             => 29855000
+        media_info.video.display_aspect_ratio => 1.222
+        media_info.other.count                => 2
+        media_info.video2.duration            => 29855000
 
 - Note that the above automatically converts MediaInfo Strings into Time, Integer, and Float objects:
 
 
-    media_info.video.encoded_date.class         => Time
-    media_info.video2.duration.class            => Integer
-    media_info.video.display_aspect_ratio.class => Float
+        media_info.video.encoded_date.class         => Time
+        media_info.video2.duration.class            => Integer
+        media_info.video.display_aspect_ratio.class => Float
     
 - Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse
 
     
-    media_info.video.encoded_date => 2018-03-30 12:12:08 -0400
-    media_info.video.customdate   => 2016-02-10 01:00:00 -0600
+        media_info.video.encoded_date => 2018-03-30 12:12:08 -0400
+        media_info.video.customdate   => 2016-02-10 01:00:00 -0600
     
 - .duration and .overall_duration will be returned as milliseconds AS LONG AS the Duration and Overall_Duration match one of the expected units:
     - h (\<Duration>15h\</Duration>) (hour)
@@ -74,16 +74,16 @@ Sometimes you'll have more than one track of a given type:
     - [Submit an issue to add more!](https://github.com/greatseth/mediainfo/issues)
     
     
-    media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
-    media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
+        media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
+        media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
 
 - We standardize the naming of several Attributes.
     - You can review lib/attribute_standardization_rules.yml to see them all
     
     
-    media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
-    media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
-    media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
+        media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+        media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+        media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
 
     
 In order to support all possible MediaInfo variations, you may see the following situation:
