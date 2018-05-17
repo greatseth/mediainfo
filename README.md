@@ -17,22 +17,22 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 
 You can specify an alternate path for the MediaInfo Binary:
     
-    ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
+        ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
     
 Once you have an MediaInfo object, you can start inspecting tracks:
     
-    media_info.track_types       => ['general','video','audio']
-    media_info.track_types.count => 3
-    media_info.video?            => true
-    media_info.image?            => nil
-    media_info.image.filesize    => MethodNotFound exception
+        media_info.track_types       => ['general','video','audio']
+        media_info.track_types.count => 3
+        media_info.video?            => true
+        media_info.image?            => nil
+        media_info.image.filesize    => MethodNotFound exception
     
 When inspecting specific types of tracks, you have a couple general API options. The 
 first approach assumes one track of a given type, a common scenario in many video files, 
 for example:
     
-    media_info.video.count    => 1
-    media_info.video.duration => 120 (seconds)
+        media_info.video.count    => 1
+        media_info.video.duration => 120 (seconds)
     
 Sometimes you'll have more than one track of a given type:
 
