@@ -1,0 +1,18 @@
+# Format:
+# 'ELEMENT_NAME_TO_CHANGE': 'WHAT IT NEEDS TO BE'
+# BitRate will become
+## Bit_rate -> Bitrate
+Bit_rate: Bitrate
+Bitrate_mode: Bitrate_mode
+Bit_rate_mode: Bitrate_mode
+Overallbitrate: Overall_bitrate
+Overall_bit_rate: Overall_bitrate
+## *_size -> *size
+File_size: Filesize
+Stream_size: Streamsize
+## Frame_rate -> Framerate
+Frame_rate: Framerate
+Frame_rate_mode: Framerate_mode
+Maximum_frame_rate: Maximum_framerate
+Displayaspectratio: Display_aspect_ratio
+Pixelaspectratio: Pixel_aspect_ratio

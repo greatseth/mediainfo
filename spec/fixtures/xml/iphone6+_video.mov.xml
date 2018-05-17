@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MediaInfo
+        xmlns="https://mediaarea.net/mediainfo"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://mediaarea.net/mediainfo https://mediaarea.net/mediainfo/mediainfo_2_0.xsd"
+        version="2.0">
+  <creatingLibrary version="18.03.1" url="https://mediaarea.net/MediaInfo">MediaInfoLib</creatingLibrary>
+  <media ref="Desktop/test.MOV">
+    <track type="General">
+      <VideoCount>1</VideoCount>
+      <AudioCount>1</AudioCount>
+      <OtherCount>2</OtherCount>
+      <FileExtension>MOV</FileExtension>
+      <Format>MPEG-4</Format>
+      <Format_Profile>QuickTime</Format_Profile>
+      <CodecID>qt  </CodecID>
+      <FileSize>380265033</FileSize>
+      <Duration>194.243</Duration>
+      <OverallBitRate_Mode>VBR</OverallBitRate_Mode>
+      <OverallBitRate>15661415</OverallBitRate>
+      <FrameRate>29.970</FrameRate>
+      <FrameCount>5823</FrameCount>
+      <StreamSize>189486</StreamSize>
+      <HeaderSize>28</HeaderSize>
+      <DataSize>380185250</DataSize>
+      <FooterSize>79755</FooterSize>
+      <IsStreamable>No</IsStreamable>
+      <Encoded_Date>UTC 2018-03-30 12:12:08</Encoded_Date>
+      <Tagged_Date>UTC 2018-03-30 12:15:23</Tagged_Date>
+      <File_Modified_Date>UTC 2018-03-30 12:12:08</File_Modified_Date>
+      <File_Modified_Date_Local>2018-03-30 08:12:08</File_Modified_Date_Local>
+      <Encoded_Library>Apple QuickTime</Encoded_Library>
+      <Encoded_Library_Name>Apple QuickTime</Encoded_Library_Name>
+      <extra>
+        <com_apple_quicktime_location_ISO6709>+39.0286-077.3958+095.957/</com_apple_quicktime_location_ISO6709>
+        <com_apple_quicktime_make>Apple</com_apple_quicktime_make>
+        <com_apple_quicktime_model>iPhone 6s Plus</com_apple_quicktime_model>
+        <com_apple_quicktime_software>11.2.6</com_apple_quicktime_software>
+        <com_apple_quicktime_creationdate>2018-03-30T08:12:08-0400</com_apple_quicktime_creationdate>
+      </extra>
+    </track>
+    <track type="Video">
+      <StreamOrder>0</StreamOrder>
+      <ID>1</ID>
+      <Format>AVC</Format>
+      <Format_Profile>High</Format_Profile>
+      <Format_Level>4</Format_Level>
+      <Format_Settings_CABAC>Yes</Format_Settings_CABAC>
+      <Format_Settings_RefFrames>1</Format_Settings_RefFrames>
+      <Format_Settings_GOP>M=1, N=30</Format_Settings_GOP>
+      <CodecID>avc1</CodecID>
+      <Duration>194.243</Duration>
+      <BitRate>15556778</BitRate>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <Stored_Height>1088</Stored_Height>
+      <Sampled_Width>1920</Sampled_Width>
+      <Sampled_Height>1080</Sampled_Height>
+      <PixelAspectRatio>1.000</PixelAspectRatio>
+      <DisplayAspectRatio>1.778</DisplayAspectRatio>
+      <Rotation>90.000</Rotation>
+      <FrameRate_Mode>VFR</FrameRate_Mode>
+      <FrameRate>29.970</FrameRate>
+      <FrameRate_Minimum>28.571</FrameRate_Minimum>
+      <FrameRate_Maximum>30.000</FrameRate_Maximum>
+      <FrameCount>5823</FrameCount>
+      <ColorSpace>YUV</ColorSpace>
+      <ChromaSubsampling>4:2:0</ChromaSubsampling>
+      <BitDepth>8</BitDepth>
+      <ScanType>Progressive</ScanType>
+      <StreamSize>377824159</StreamSize>
+      <Title>Core Media Video</Title>
+      <Encoded_Date>UTC 2018-03-30 12:12:08</Encoded_Date>
+      <Tagged_Date>UTC 2018-03-30 12:15:23</Tagged_Date>
+      <colour_range>Limited</colour_range>
+      <colour_description_present>Yes</colour_description_present>
+      <colour_primaries>BT.709</colour_primaries>
+      <transfer_characteristics>BT.709</transfer_characteristics>
+      <matrix_coefficients>BT.709</matrix_coefficients>
+    </track>
+    <track type="Audio">
+      <StreamOrder>1</StreamOrder>
+      <ID>2</ID>
+      <Format>AAC</Format>
+      <Format_Profile>LC</Format_Profile>
+      <CodecID>mp4a-40-2</CodecID>
+      <Duration>194.242</Duration>
+      <Source_Duration>194.305</Source_Duration>
+      <BitRate_Mode>VBR</BitRate_Mode>
+      <BitRate>92725</BitRate>
+      <Channels>1</Channels>
+      <ChannelPositions>Front: C</ChannelPositions>
+      <ChannelLayout>C</ChannelLayout>
+      <SamplesPerFrame>1024</SamplesPerFrame>
+      <SamplingRate>44100</SamplingRate>
+      <SamplingCount>8566072</SamplingCount>
+      <FrameRate>43.066</FrameRate>
+      <FrameCount>8365</FrameCount>
+      <Source_FrameCount>8368</Source_FrameCount>
+      <Compression_Mode>Lossy</Compression_Mode>
+      <StreamSize>2251388</StreamSize>
+      <StreamSize_Proportion>0.00592</StreamSize_Proportion>
+      <Source_StreamSize>2252109</Source_StreamSize>
+      <Source_StreamSize_Proportion>0.00592</Source_StreamSize_Proportion>
+      <Title>Core Media Audio</Title>
+      <Encoded_Date>UTC 2018-03-30 12:12:08</Encoded_Date>
+      <Tagged_Date>UTC 2018-03-30 12:15:23</Tagged_Date>
+    </track>
+    <track type="Other" typeorder="1">
+      <Type>meta</Type>
+      <Duration>194.243</Duration>
+      <FrameCount>1</FrameCount>
+      <extra>
+        <BitRate_Mode>CBR</BitRate_Mode>
+      </extra>
+    </track>
+    <track type="Other" typeorder="2">
+      <Type>meta</Type>
+      <Duration>194.243</Duration>
+      <FrameCount>1</FrameCount>
+      <extra>
+        <BitRate_Mode>CBR</BitRate_Mode>
+      </extra>
+    </track>
+  </media>
+</MediaInfo>
