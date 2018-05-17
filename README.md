@@ -35,7 +35,6 @@ for example:
     media_info.video.duration => 120 (seconds)
     
 Sometimes you'll have more than one track of a given type:
-
  - The first track type name, or any track type with <ID>1</ID> will not contain '1'
        
        
@@ -56,7 +55,7 @@ Sometimes you'll have more than one track of a given type:
         media_info.video2.duration.class            => Integer
         media_info.video.display_aspect_ratio.class => Float
     
-- Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse
+- Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse:
 
     
         media_info.video.encoded_date => 2018-03-30 12:12:08 -0400
@@ -77,7 +76,7 @@ Sometimes you'll have more than one track of a given type:
             media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
             media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
 
-- We standardize the naming of several Attributes.
+- We standardize the naming of several Attributes:
     - You can review lib/attribute_standardization_rules.yml to see them all
     
     
