@@ -8,13 +8,13 @@ module MediaInfo
       nil # We use nil here instead of false as nil should be understood by the client/requester as false. We might not want to specifically return false for other missing methods
     end
 
-    attr_reader :xml, :track_types, :standardization_rules
+    attr_reader :xml, :track_types, :attribute_standardization_rules
 
     def initialize(input = nil)
       if input && input.include?('<?xml')
         @xml = input
         @track_types = []
-        @standardization_rules = YAML.load_file('./lib/standardization_rules.yml')
+        @attribute_standardization_rules = YAML.load_file('./lib/attribute_standardization_rules.yml')
         # Populate Streams
         case MediaInfo.xml_parser
         when 'nokogiri'
@@ -66,9 +66,9 @@ module MediaInfo
     end # end Initialize
 
     # Standardize our Element Names
-    ## Relies on valid YAML in lib/standardization_rules.yml
+    ## Relies on valid YAML in lib/attribute_standardization_rules.yml
     def standardize_element_name(name)
-      self.standardization_rules[name].nil? ? name : self.standardization_rules[name]
+      self.attribute_standardization_rules[name].nil? ? name : self.attribute_standardization_rules[name]
     end
 
     class Attributes
@@ -109,19 +109,37 @@ module MediaInfo
             value.to_i
           end
         # Duration
-        when value =~ /\d+\s?h/   then value.to_i * 60 * 60 * 1000
-        when value =~ /\d+\s?min/ then value.to_i * 60 * 1000
-        when value =~ /\d+\s?mn/  then value.to_i * 60 * 1000
-        when value =~ /\d+\s?s/   then value.to_i * 1000
-        when value =~ /\d+\s?ms/  then value.to_i
+        when ['Duration'].include?(name) then standardize_to_milliseconds(value)
         # Dates
-        when name.downcase.include?('date') then Time.parse(value)
+        ## Be sure the name has "date" and it has an integer and a dash, like a normal date would
+        when name.downcase.include?('date') && !value.match(/\d-/).nil? then Time.parse(value)
         else
-          value
+          return value
         end
       end
 
+      def self.standardize_to_milliseconds(value)
+        # TODO iphone video has a float as the duration
+        # UPDATE THE README IF YOU'RE CHANGING THIS
+        milliseconds = 0
+        value.scan(/\d+\s?\w+/).each do |chunk|
+          case chunk
+          when /\d+\s?h/    then milliseconds += chunk.to_i * 60 * 60 * 1000
+          when /\d+\s?hour/ then milliseconds += chunk.to_i * 60 * 60 * 1000
+          when /\d+\s?m/    then milliseconds += chunk.to_i * 60 * 1000
+          when /\d+\s?mn/   then milliseconds += chunk.to_i * 60 * 1000
+          when /\d+\s?min/  then milliseconds += chunk.to_i * 60 * 1000
+          when /\d+\s?s/    then milliseconds += chunk.to_i * 1000
+          when /\d+\s?sec/  then milliseconds += chunk.to_i * 1000
+          when /\d+\s?ms/   then milliseconds += chunk.to_i
+          end
+        end
+        milliseconds = value if milliseconds == 0 # We don't raise anymore. It's much better for the gem to work, returning the original MediaInfo attribute, than raise.
+        return milliseconds
+      end
+
     end
+
 
     # Used for handling duplicate track types with differing streamid, etc
     # Takes an array of attributes and returns the track_name

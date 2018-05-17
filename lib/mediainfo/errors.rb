@@ -9,6 +9,6 @@ module MediaInfo
   # Stream
   class SingleStreamAPIError < RuntimeError; end
   class NoStreamsForProxyError < NoMethodError; end
-  class InvalidStreamType < Error; end
   class InvalidTrackType < Error; end
+  class InvalidTrackAttributeValue < Error; end
 end

@@ -81,61 +81,84 @@ RSpec.describe MediaInfo do
       ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
-    describe 'tracks types' do
+  end
 
-      it 'support ?' do
+  describe 'Tracks Type' do
+
+    it 'support ?' do
+      # REXML
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2?).to eq(true)
+      expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').image?).to be_falsey
+      # NOKOGIRI
+      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video5?).to be_falsey
+      ENV['MEDIAINFO_XML_PARSER'] = nil
+    end
+
+    it 'support .count' do
+      # REXML
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text.count).to eq(4)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).audio.count).to eq(1)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.count).to eq(3)
+      expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+      # NOKOGIRI
+      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text3.count).to eq(1)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video6.count).to eq(1)
+      expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+      ENV['MEDIAINFO_XML_PARSER'] = nil
+    end
+
+    it 'support <extra>' do
+      # REXML
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_make).to eq('Apple')
+      # NOKOGIRI
+      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
+      expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6')
+      ENV['MEDIAINFO_XML_PARSER'] = nil
+    end
+
+    describe 'Attribute' do
+
+      it 'name standardization' do
         # REXML
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video2?).to eq(true)
-        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').image?).to be_falsey
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/AwayWeGo_24fps.mov.xml').read).video.bit_rate).to be(nil)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.framerate).to_not be(nil)
         # NOKOGIRI
         ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).other?).to eq(true)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_with_stream_id.xml').read).video5?).to be_falsey
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml').read).video.bitrate).to_not be(nil)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml').read).general.file_size).to be(nil)
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
-      it 'support .count' do
+      it 'strings with float or integer are converted with to_f or to_i respectively' do
         # REXML
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text.count).to eq(4)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).audio.count).to eq(1)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.count).to eq(3)
-        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6') # Check that two or more dots remain strings
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.bits__pixel_frame_).to be_a(Float)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.id).to be_a(Integer)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.bitrate).to_not be_a(Float)
         # NOKOGIRI
         ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/subtitle.xml').read).text3.count).to eq(1)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video6.count).to eq(1)
-        expect(MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.colorimetry).to eq('4:2:0')
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/AwayWeGo_24fps.mov.xml').read).video.display_aspect_ratio).to be_a(String)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml').read).audio.codec_id).to be_a(Integer)
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
-      it 'support <extra>' do
+      it 'Duration is converted to milliseconds' do
         # REXML
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_make).to eq('Apple')
+        # TODO (see tracks.rb under standardize_to_milliseconds) expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).video.duration).to be_a(Integer)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/AwayWeGo_24fps.mov.xml').read).video.duration).to be_a(Integer)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video100.duration).to eq(10204000)
         # NOKOGIRI
         ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra).to_not be(nil)
-        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6')
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.duration).to be_a(Integer)
+        expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.duration).to eq(9855000)
         ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
-
-      describe 'Attribute' do
-
-        it 'strings with float or integer are converted with to_f or to_i respectively' do
-          # REXML
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).general.extra.com_apple_quicktime_software).to eq('11.2.6') # Check that two or more dots remain strings
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.bits__pixel_frame_).to be_a(Float)
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.id).to be_a(Integer)
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video.bitrate).to_not be_a(Float)
-          # NOKOGIRI
-          ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.colorimetry).to eq('4:2:0')
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/AwayWeGo_24fps.mov.xml').read).video.display_aspect_ratio).to be_a(String)
-          expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml').read).audio.codec_id).to be_a(Integer)
-          ENV['MEDIAINFO_XML_PARSER'] = nil
-        end
-
       end
 
     end

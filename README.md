@@ -25,6 +25,7 @@ Once you have an MediaInfo object, you can start inspecting tracks:
     media_info.track_types.count => 3
     media_info.video?            => true
     media_info.image?            => nil
+    media_info.image.filesize    => MethodNotFound exception
     
 When inspecting specific types of tracks, you have a couple general API options. The 
 first approach assumes one track of a given type, a common scenario in many video files, 
@@ -35,8 +36,7 @@ for example:
     
 Sometimes you'll have more than one track of a given type:
 
- - The first track type, or any track type with <ID>1</ID> will not contain '1'
- - Any track attribute with "date" in the name will be converted using Time.parse.
+ - The first track type name, or any track type with <ID>1</ID> will not contain '1'
        
     ```
     media_info.track_types                => ['general','video','video2','audio','other','other2']
@@ -44,18 +44,48 @@ Sometimes you'll have more than one track of a given type:
     media_info.video?                     => true
     media_info.image?                     => nil
     media_info.video.count                => 1
-    media_info.video.duration             => 120 (Integer)
-    media_info.video.display_aspect_ratio => 1.222 (Float)
+    media_info.video.duration             => 29855000
+    media_info.video.display_aspect_ratio => 1.222
     media_info.other.count                => 2
-    media_info.video2.duration            => 10
-    media_info.video.encoded_date         => 2018-03-30 12:12:08 -0400 (Time)
+    media_info.video2.duration            => 29855000
     ```
 
-Note that the above automatically converts MediaInfo Strings into Time, Integer, and Float objects:
+- Note that the above automatically converts MediaInfo Strings into Time, Integer, and Float objects:
 
-    media_info.video.encoded_date.class   => Time
-    media_info.video2.duration            => Integer
-    media_info.video.display_aspect_ratio => Float
+
+        media_info.video.encoded_date.class         => Time
+        media_info.video2.duration.class            => Integer
+        media_info.video.display_aspect_ratio.class => Float
+    
+- Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse
+
+    
+    media_info.video.encoded_date => 2018-03-30 12:12:08 -0400
+    media_info.video.customdate   => 2016-02-10 01:00:00 -0600
+    
+- .duration and .overall_duration will be returned as milliseconds AS LONG AS the Duration and Overall_Duration match one of the expected units:
+    - h (\<Duration>15h\</Duration>) (hour)
+    - hour (\<Duration>15hour\</Duration>)
+    - mn (\<Duration>15hour 6mn\</Duration>) (minute)
+    - m (\<Duration>15hour 6m\</Duration>) (minute)
+    - min (\<Duration>15hour 6min\</Duration>) (minute)
+    - s (\<Duration>15hour 6min 59s\</Duration>) (second)
+    - sec (\<Duration>15hour 6min 59sec\</Duration>) (second)
+    - ms (\<Duration>15hour 6min 59sec 301ms\</Duration>) (milliseconds)
+    - [Submit an issue to add more!](https://github.com/greatseth/mediainfo/issues)
+    
+    
+    media_info.video.duration => 9855000 (\<Duration>15s 164ms\</Duration>)
+    media_info.video.duration => 17196000 (\<Duration>36s 286ms\</Duration>)
+
+- We standardize the naming of several Attributes.
+    - You can review lib/attribute_standardization_rules.yml to see them all
+    
+    
+    media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+    media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
+    media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
+
     
 In order to support all possible MediaInfo variations, you may see the following situation:
 
@@ -64,13 +94,15 @@ In order to support all possible MediaInfo variations, you may see the following
 The track type media_info.video5 is available, but no video2, 3, and 4. This is because the MediaInfo from the video has:
 
     <track type="Video">
-        <ID>1</ID>...
+        <ID>1</ID>
+        ...
     <track type="Video">
-        <ID>5</ID>...
+        <ID>5</ID>
+        ...
 
-The ID will take priority for labeling. Else if no ID exists, you'll see consecutive numbering for duplicate tracks in the Media.        
+*The ID will take priority for labeling.* Else if no ID exists, you'll see consecutive numbering for duplicate tracks in the Media.        
         
-Furthermore, you will notice that any second level attributes are available:
+Any second level attributes are also available:
 
     MediaInfo.obtain('~/Desktop/test.mov').general.extra
     => #<MediaInfo::Tracks::Attributes::Extra:0x00007fa89f13aa98
