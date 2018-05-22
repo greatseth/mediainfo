@@ -9,11 +9,11 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 ## Usage
 
 #### Parsing raw XML
-    media_info = MediaInfo.obtain(File.open('iphone6+_video.mov.xml').read)
+    media_info = MediaInfo.from(File.open('iphone6+_video.mov.xml').read)
 #### Handling a local file
-    media_info = MediaInfo.obtain('~/Desktop/test.mov')
+    media_info = MediaInfo.from('~/Desktop/test.mov')
 #### Handling a URL
-    media_info = MediaInfo.obtain('http://techslides.com/demos/sample-videos/small.mp4')
+    media_info = MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')
 
 You can specify an alternate path for the MediaInfo Binary:
     
@@ -102,7 +102,7 @@ The track type media_info.video5 is available, but no video2, 3, and 4. This is 
         
 Any second level attributes are also available:
 
-    MediaInfo.obtain('~/Desktop/test.mov').general.extra
+    MediaInfo.from('~/Desktop/test.mov').general.extra
     => #<MediaInfo::Tracks::Attributes::Extra:0x00007fa89f13aa98
      @com_apple_quicktime_creationdate=2018-03-30 08:12:08 -0400,
      @com_apple_quicktime_location_iso6709="+39.0286-077.3958+095.957/",

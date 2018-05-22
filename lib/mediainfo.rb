@@ -51,7 +51,7 @@ module MediaInfo
     return raw_response
   end
 
-  def self.obtain(input)
+  def self.from(input)
     input_guideline_message = 'Bad Input' + "\n" + "Input must be: \n" +
         "A video or xml file location. Example: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n" +
         "A valid URL. Example: 'http://www.site.com/videofile.mov' \n" +
