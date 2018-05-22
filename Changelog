@@ -1,3 +1,23 @@
+v1.0.0
+- Rewrite of foundation
+- Module name change to MediaInfo to match convention (everything else does MediaInfo with an uppercase I)
+- Readme rewrite + examples
+- Rspec for testing, all features tested + new xml to test with
+- Removal of all double quotes for single quotes, unless interpolation is needed
+- Removal of underscore method that isn't used
+- Variable name changes for readability and DRY
+- Hpricot is EOL, removing code to support it
+- Removal of all old testing, Rakefile contents
+- Every method missing exception will return nil (if the type exists)
+- New .track_types for visibility in client application
+- pull/18 (Eliminated attr_reader needing to be updated)
+- pull/12 (Eliminated need to add new Track/Streams)
+- pull/15 (URL parsing added)
+- Supports the use of <ID> element value (if integer/existent) when generating "track#"
+- Supports <extra> (Apple/iPhone video)
+- Parameter/element sanitization + conversion of string with integer/float in it to integer/float
+- Standardized attribute names under tracks & added yml file to keep track
+
 v0.7.1 Tweakage
 - Removed Mediainfo#parsed_response accessor which always returned nil after
   multi-stream API updates
