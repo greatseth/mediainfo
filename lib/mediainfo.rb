@@ -1,4 +1,3 @@
-require 'pry'
 require 'forwardable'
 require 'net/http'
 require 'mediainfo/errors'

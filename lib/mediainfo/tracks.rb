@@ -14,7 +14,7 @@ module MediaInfo
       if input && input.include?('<?xml')
         @xml = input
         @track_types = []
-        @attribute_standardization_rules = YAML.load_file("#{File.dirname(_dir_)}/attribute_standardization_rules.yml")
+        @attribute_standardization_rules = YAML.load_file("#{Gem::Specification.find_by_name('mediainfo').gem_dir}/lib/attribute_standardization_rules.yml")
         # Populate Streams
         case MediaInfo.xml_parser
         when 'nokogiri'
