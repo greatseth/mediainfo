@@ -79,9 +79,9 @@ Sometimes you'll have more than one track of a given type:
 - We standardize the naming of several Attributes:
     - You can review lib/attribute_standardization_rules.yml to see them all
     
-    
+
+            media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)    
             media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
-            media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
             media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
 
     
@@ -125,10 +125,9 @@ should at least return `nil`.
 
 ## Requirements
 
-Gem version 1.0.0 has been tested on v18.03.1
-Gem versions < 1.0.0 require at least: MediaInfoLib v0.7.25
-Gem versions <= 0.5.1 worked against MediaInfoLib v0.7.11, which did not 
-generate XML output, and is no longer supported.
+* Gem version 1.0.0 has been tested on v18.03.1
+* Gem versions < 1.0.0 require at least: MediaInfoLib v0.7.25
+* Gem versions <= 0.5.1 worked against MediaInfoLib v0.7.11, which did not generate XML output, and is no longer supported.
 
 ## Contributors
 
