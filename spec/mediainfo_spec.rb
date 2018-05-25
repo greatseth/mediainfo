@@ -34,7 +34,8 @@ RSpec.describe MediaInfo do
 
     it 'a file' do # Requires a test file on Desktop
       # REXML
-      expect{MediaInfo.from('~/Desktop/test.mov')}.not_to raise_error
+      expect{MediaInfo.from('test')}.to raise_error(ArgumentError)
+      expect{MediaInfo.from('test.MOV')}.not_to raise_error # Make sure we can load a file from the current dir
       expect(MediaInfo.from('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
       expect(MediaInfo.from('~/Desktop/test.mov').xml.include?('?xml')).to be true
       # NOKOGIRI
