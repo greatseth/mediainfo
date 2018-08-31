@@ -9,8 +9,12 @@ pkg
 /doc/
 /pkg/
 /spec/reports/
+/spec/fixtures/video/*
+!/spec/fixtures/video/.keep
 /tmp/
 .idea
 
 # rspec failure tracking
 .rspec_status
+
+Gemfile.lock
