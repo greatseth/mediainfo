@@ -32,17 +32,30 @@ RSpec.describe MediaInfo do
 
   describe '.from' do
 
-    it 'a file' do # Requires a test file on Desktop
+    it 'a file' do
+      # This file is ignored by git
+      fixture = './spec/fixtures/video/sample.3gp'
+
+      # Download the video sample file unless it exists
+      unless File.exist?(fixture)
+        Net::HTTP.start('techslides.com') { |http|
+          resp = http.get('/demos/sample-videos/small.3gp')
+          open(fixture, 'wb') { |file|
+            file.write(resp.body)
+          }
+        }
+      end
+
       # REXML
       expect{MediaInfo.from('test')}.to raise_error(ArgumentError)
-      expect{MediaInfo.from('test.MOV')}.not_to raise_error # Make sure we can load a file from the current dir
-      expect(MediaInfo.from('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
-      expect(MediaInfo.from('~/Desktop/test.mov').xml.include?('?xml')).to be true
+      expect{MediaInfo.from(fixture)}.not_to raise_error # Make sure we can load a file from the current dir
+      expect(MediaInfo.from(fixture)).to be_an_instance_of(MediaInfo::Tracks)
+      expect(MediaInfo.from(fixture).xml.include?('?xml')).to be true
       # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect{MediaInfo.from('~/Desktop/test.mov')}.not_to raise_error
-      expect(MediaInfo.from('~/Desktop/test.mov')).to be_an_instance_of(MediaInfo::Tracks)
-      expect(MediaInfo.from('~/Desktop/test.mov').xml.include?('?xml')).to be true
+      expect{MediaInfo.from(fixture)}.not_to raise_error
+      expect(MediaInfo.from(fixture)).to be_an_instance_of(MediaInfo::Tracks)
+      expect(MediaInfo.from(fixture).xml.include?('?xml')).to be true
       ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
@@ -168,7 +181,7 @@ RSpec.describe MediaInfo do
 
   describe 'Fixtures' do
 
-    it './spec/fixtures/xml/AwayWeGo_24fps.mov.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/AwayWeGo_24fps.mov.xml' do
       fixture = './spec/fixtures/xml/AwayWeGo_24fps.mov.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -179,7 +192,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml' do
       fixture = './spec/fixtures/xml/Broken Embraces_510_780_576x432.mp4.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -190,7 +203,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/dinner.3g2.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/dinner.3g2.xml' do
       fixture = './spec/fixtures/xml/dinner.3g2.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -201,7 +214,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/hats.3gp.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/hats.3gp.xml' do
       fixture = './spec/fixtures/xml/hats.3gp.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -212,7 +225,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/iphone6+_video.mov.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/iphone6+_video.mov.xml' do
       fixture = './spec/fixtures/xml/iphone6+_video.mov.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -224,7 +237,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml' do
       fixture = './spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -236,7 +249,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml' do
       fixture = './spec/fixtures/xml/omen1976_464_0_480x336-6.jpg.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
@@ -246,7 +259,7 @@ RSpec.describe MediaInfo do
       end
     end
 
-    it './spec/fixtures/xml/vimeo.57652.avi.xml' do # Requires a test file on Desktop
+    it './spec/fixtures/xml/vimeo.57652.avi.xml' do
       fixture = './spec/fixtures/xml/vimeo.57652.avi.xml'
       [nil,'nokogiri'].each do |xml_parser|
         ENV['MEDIAINFO_XML_PARSER'] = xml_parser
