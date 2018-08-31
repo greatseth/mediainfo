@@ -72,7 +72,7 @@ module MediaInfo
         end
       elsif input.include?('.xml')
         return MediaInfo::Tracks.new(::File.open(input).read)
-      elsif input.include?('/')
+      elsif !input.match(/[^\\]*\.\w+$/).nil? # A local file
         @file = ::File.expand_path input # turns ~/path/to/file into /home/user/path/to/file
         raise ArgumentError, 'You must include a file location.' if @file.nil?
         raise ArgumentError, "need a path to a video file, #{@file} does not exist" unless ::File.exist? @file
