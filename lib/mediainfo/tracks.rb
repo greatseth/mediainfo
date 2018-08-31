@@ -52,7 +52,7 @@ module MediaInfo
         # Add {type}?
         @track_types.each{ |track_type|
           define_singleton_method("#{track_type}?"){ # Can't use set_singleton_method due to ?
-            self.track_types.any?(__method__.to_s.gsub('?',''))
+            self.track_types.include?(__method__.to_s.gsub('?',''))
           }
         }
         # Add {type}.count singleton_method
