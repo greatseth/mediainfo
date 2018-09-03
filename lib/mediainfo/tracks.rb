@@ -119,23 +119,27 @@ module MediaInfo
       end
 
       def self.standardize_to_milliseconds(value)
-        # TODO iphone video has a float as the duration
-        # UPDATE THE README IF YOU'RE CHANGING THIS
-        milliseconds = 0
-        value.scan(/\d+\s?\w+/).each do |chunk|
-          case chunk
-          when /\d+\s?h/    then milliseconds += chunk.to_i * 60 * 60 * 1000
-          when /\d+\s?hour/ then milliseconds += chunk.to_i * 60 * 60 * 1000
-          when /\d+\s?m/    then milliseconds += chunk.to_i * 60 * 1000
-          when /\d+\s?mn/   then milliseconds += chunk.to_i * 60 * 1000
-          when /\d+\s?min/  then milliseconds += chunk.to_i * 60 * 1000
-          when /\d+\s?s/    then milliseconds += chunk.to_i * 1000
-          when /\d+\s?sec/  then milliseconds += chunk.to_i * 1000
-          when /\d+\s?ms/   then milliseconds += chunk.to_i
-          end
+        return standardize_float_to_milliseconds(value.to_f) if value.to_f.to_s == value.to_s
+        return standardize_string_to_milliseconds(value)
+        value
+      end
+
+      def self.standardize_string_to_milliseconds(v, base_msec = 0)
+        v.scan(/\d+\s?\D+/).each do |chunk|
+          base_msec += case chunk
+          when /\d+\s?ms/         then chunk.to_i
+          when /\d+\s?s(ec)?/     then chunk.to_i * 1000
+          when /\d+\s?m(i?n)?/    then chunk.to_i * 60 * 1000
+          when /\d+\s?h(our)?/    then chunk.to_i * 60 * 60 * 1000
+          end.to_i
         end
-        milliseconds = value if milliseconds == 0 # We don't raise anymore. It's much better for the gem to work, returning the original MediaInfo attribute, than raise.
-        return milliseconds
+        # We don't raise anymore. It's much better for the gem to work,
+        # returning the original MediaInfo attribute, than raise.
+        base_msec == 0 ? v : base_msec
+      end
+
+      def self.standardize_float_to_milliseconds(v)
+        (v*1000).to_i
       end
 
     end
