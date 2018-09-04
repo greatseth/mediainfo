@@ -167,11 +167,11 @@ RSpec.describe MediaInfo do
         # REXML
         # TODO (see tracks.rb under standardize_to_milliseconds) expect(MediaInfo.obtain(::File.open('./spec/fixtures/xml/iphone6+_video.mov.xml').read).video.duration).to be_a(Integer)
         expect(MediaInfo.from(::File.open('./spec/fixtures/xml/AwayWeGo_24fps.mov.xml').read).video.duration).to be_a(Integer)
-        expect(MediaInfo.from(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video100.duration).to eq(10204000)
+        expect(MediaInfo.from(::File.open('./spec/fixtures/xml/multiple_streams_no_stream_id_three_video.xml').read).video100.duration).to eq(4170)
         # NOKOGIRI
         ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
         expect(MediaInfo.from(::File.open('./spec/fixtures/xml/hats.3gp.xml').read).video.duration).to be_a(Integer)
-        expect(MediaInfo.from(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.duration).to eq(9855000)
+        expect(MediaInfo.from(::File.open('./spec/fixtures/xml/vimeo.57652.avi.xml').read).video.duration).to eq(15164)
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
