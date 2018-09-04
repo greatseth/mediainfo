@@ -47,6 +47,7 @@ RSpec.describe MediaInfo do
       end
 
       # REXML
+      expect{MediaInfo.from(nil)}.to raise_error(ArgumentError)
       expect{MediaInfo.from('test')}.to raise_error(ArgumentError)
       expect{MediaInfo.from(fixture)}.not_to raise_error # Make sure we can load a file from the current dir
       expect(MediaInfo.from(fixture)).to be_an_instance_of(MediaInfo::Tracks)
