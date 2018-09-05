@@ -61,10 +61,15 @@ RSpec.describe MediaInfo do
     end
 
     it 'a url' do
-      expect{MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')}.not_to raise_error
-      expect{MediaInfo.from('http://urlthatdoesnotexist/file.mov')}.to raise_error(SocketError)
-      expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')).to be_an_instance_of(MediaInfo::Tracks)
-      expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').xml.include?('?xml')).to be true
+      ok_http_url = 'http://techslides.com/demos/sample-videos/small.mp4'
+      ok_https_url = 'https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4'
+      nok_url = 'http://urlthatdoesnotexist.unknown/file.mov'
+
+      expect{MediaInfo.from(ok_http_url)}.not_to raise_error
+      expect{MediaInfo.from(nok_url)}.to raise_error(SocketError)
+      expect(MediaInfo.from(ok_http_url)).to be_an_instance_of(MediaInfo::Tracks)
+      expect(MediaInfo.from(ok_https_url)).to be_an_instance_of(MediaInfo::Tracks)
+      expect(MediaInfo.from(ok_http_url).xml.include?('?xml')).to be true
       ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 

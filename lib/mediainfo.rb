@@ -84,6 +84,8 @@ module MediaInfo
     http = Net::HTTP.new(input.host, input.port) # Check if input is valid
     request = Net::HTTP::Head.new(input.request_uri) # Only grab the Headers to be sure we don't try and download the whole file
 
+    http.use_ssl = true if input.is_a? URI::HTTPS # For https support
+
     raise RemoteUrlError, "HTTP call to #{input} is not working!" unless http.request(request).is_a?(Net::HTTPOK)
 
     MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
