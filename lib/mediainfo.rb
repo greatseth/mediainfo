@@ -50,34 +50,20 @@ module MediaInfo
   end
 
   def self.from(input)
-    input_guideline_message = 'Bad Input' + "\n" + "Input must be: \n" +
-        "A video or xml file location. Example: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n" +
-        "A valid URL. Example: 'http://www.site.com/videofile.mov' \n" +
-        "Or MediaInfo XML \n"
+    return from_uri(input) if input.is_a?(URI)
+    return from_string(input) if input.is_a?(String)
+    raise BadInputError
+  end
 
-    raise ArgumentError, input_guideline_message unless input
-
+  def self.from_string(input)
     return from_xml(input) if input.include?('<?xml')
-    return from_url(input) if input =~ URI::regexp
+    return from_link(input) if input =~ URI::regexp
     return from_local_file(input) if input.match(/[^\\]*\.\w+$/)
-
-    raise ArgumentError, input_guideline_message
+    raise BadInputError
   end
 
   def self.from_xml(input)
     MediaInfo::Tracks.new(input)
-  end
-
-  def self.from_url(input)
-    uri = URI(input)
-    # Check if input is valid
-    http = Net::HTTP.new(uri.host, uri.port)
-    # Only grab the Headers to be sure we don't try and download the whole file
-    request = Net::HTTP::Head.new(uri.request_uri)
-
-    raise RemoteUrlError, "HTTP call to #{input} is not working!" unless http.request(request).is_a?(Net::HTTPOK)
-
-    MediaInfo::Tracks.new(MediaInfo.run(URI.escape(uri.to_s)))
   end
 
   def self.from_local_file(input)
@@ -88,6 +74,19 @@ module MediaInfo
 
     return from_xml(File.open(absolute_path).read) if absolute_path.match(/[^\\]*\.(xml)$/)
     MediaInfo::Tracks.new(MediaInfo.run(absolute_path.shell_escape_double_quotes))
+  end
+
+  def self.from_link(input)
+    from_uri(URI(input))
+  end
+
+  def self.from_uri(input)
+    http = Net::HTTP.new(input.host, input.port) # Check if input is valid
+    request = Net::HTTP::Head.new(input.request_uri) # Only grab the Headers to be sure we don't try and download the whole file
+
+    raise RemoteUrlError, "HTTP call to #{input} is not working!" unless http.request(request).is_a?(Net::HTTPOK)
+
+    MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
   end
 
   def self.set_singleton_method(object,name,parameters)
