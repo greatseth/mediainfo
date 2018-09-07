@@ -34,8 +34,7 @@ RSpec.describe MediaInfo do
     }
   end
 
-
-  describe 'Instantiation' do
+  describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
       before(:all) do
@@ -43,25 +42,12 @@ RSpec.describe MediaInfo do
         ENV['MEDIAINFO_PATH'] = nil
       end
 
-      describe 'location class method' do
-        it 'does not raise an error' do
-          expect{MediaInfo.location}.not_to raise_error
-        end
-
-        it 'returns the valid path' do
-          expect(MediaInfo.location).to include('/mediainfo')
-        end
+      it 'does not raise an error' do
+        expect{MediaInfo.location}.not_to raise_error
       end
 
-      describe 'version class method' do
-        it 'does not raise an error' do
-          expect{MediaInfo.version}.to_not raise_error
-        end
-
-        it 'returns the valid value' do
-          # Ensure the returned value is the proper format (\d+\.\d+\.\d+)
-          expect(MediaInfo.version > '0.7.25').to eq(true)
-        end
+      it 'returns the valid path' do
+        expect(MediaInfo.location).to include('/mediainfo')
       end
     end
 
@@ -74,26 +60,50 @@ RSpec.describe MediaInfo do
         ENV['MEDIAINFO_PATH'] = nil
       end
 
-      describe 'location class method' do
-        it 'raises the correct error' do
-          expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError)
-        end
+      it 'raises the correct error' do
+        expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError)
       end
     end
+
+  end
+
+  # MediaInfo.version
+
+  describe 'version class method' do
+
+    context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
+      before(:all) do
+        # Returns the default MEDIAINFO_PATH
+        ENV['MEDIAINFO_PATH'] = nil
+      end
+
+      it 'does not raise an error' do
+        expect{MediaInfo.version}.to_not raise_error
+      end
+
+      it 'returns the valid value' do
+        # Ensure the returned value is the proper format (\d+\.\d+\.\d+)
+        expect(MediaInfo.version > '0.7.25').to eq(true)
+      end
+    end
+
+  end
+
+  # MediaInfo.xml_parser
+
+  describe 'xml_parser class method' do
 
     context 'when the value of MEDIAINFO_XML_PARSER is the default one' do
       before(:all) do
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
-      describe 'xml_parser class method' do
-        it 'does not raise an error' do
-          expect{MediaInfo.version}.to_not raise_error
-        end
+      it 'does not raise an error' do
+        expect{MediaInfo.version}.to_not raise_error
+      end
 
-        it 'returns the name of the default parser' do
-          expect(MediaInfo.xml_parser).to eq('rexml/document')
-        end
+      it 'returns the name of the default parser' do
+        expect(MediaInfo.xml_parser).to eq('rexml/document')
       end
     end
 
@@ -106,18 +116,18 @@ RSpec.describe MediaInfo do
         ENV['MEDIAINFO_XML_PARSER'] = nil
       end
 
-      describe 'xml_parser class method' do
-        it 'does not raise an error' do
-          expect{MediaInfo.version}.to_not raise_error
-        end
+      it 'does not raise an error' do
+        expect{MediaInfo.version}.to_not raise_error
+      end
 
-        it 'returns the name of the submitted valid parser' do
-          expect(MediaInfo.xml_parser).to eq('nokogiri')
-        end
+      it 'returns the name of the submitted valid parser' do
+        expect(MediaInfo.xml_parser).to eq('nokogiri')
       end
     end
 
   end
+
+  # MediaInfo.from
 
   describe 'from class method' do
 
@@ -229,6 +239,8 @@ RSpec.describe MediaInfo do
     end
 
   end
+
+  # TODO
 
   describe 'Tracks Type' do
 
