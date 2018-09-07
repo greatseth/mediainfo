@@ -16,7 +16,7 @@ RSpec.describe MediaInfo do
     xml_files_path[key] = [base_local_xml_path, filename].join('/')
   end
 
-  # Retrieve all xml files content
+  # Retrieve all xml files content so they are opened once
   xml_files_content = {}
   xml_files_path.each do |key, path|
     xml_files_content[key] = File.open(path).read
@@ -25,26 +25,84 @@ RSpec.describe MediaInfo do
 
   describe 'Instantiation' do
 
-    it 'MediaInfo Location can be found and returns valid path + raises error if not valid path' do
-      expect{MediaInfo.location}.not_to raise_error
-      expect(MediaInfo.location).to include('/mediainfo')
-      ENV['MEDIAINFO_PATH'] = '/usr/local/blah/mediablinfo'
-      expect {MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError)
+    context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
+      before(:all) do
+        # Returns the default MEDIAINFO_PATH
+        ENV['MEDIAINFO_PATH'] = nil
+      end
+
+      describe 'location class method' do
+        it 'does not raise an error' do
+          expect{MediaInfo.location}.not_to raise_error
+        end
+
+        it 'returns the valid path' do
+          expect(MediaInfo.location).to include('/mediainfo')
+        end
+      end
+
+      describe 'version class method' do
+        it 'does not raise an error' do
+          expect{MediaInfo.version}.to_not raise_error
+        end
+
+        it 'returns the valid value' do
+          # Ensure the returned value is the proper format (\d+\.\d+\.\d+)
+          expect(MediaInfo.version > '0.7.25').to eq(true)
+        end
+      end
     end
 
-    it 'MediaInfo Version returns a valid value' do
-      expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError) # Raise a missing error since we set MEDIAINFO_PATH in the previous test and never unset/changed it
-      ENV['MEDIAINFO_PATH'] = nil # Set back to default MediaInfo location
-      expect{MediaInfo.location}.to_not raise_error
-      expect{MediaInfo.version}.to_not raise_error
-      expect(MediaInfo.version > '0.7.25').to eq(true) # Ensure the returned value is the proper format (\d+\.\d+\.\d+)
+    context 'when the mediainfo bin path (MEDIAINFO_PATH) is not valid' do
+      before(:all) do
+        ENV['MEDIAINFO_PATH'] = '/invalid/path/to/mediablinfo'
+      end
+
+      after(:all) do
+        ENV['MEDIAINFO_PATH'] = nil
+      end
+
+      describe 'location class method' do
+        it 'raises the correct error' do
+          expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError)
+        end
+      end
     end
 
-    it 'XML Parser returns rexml or custom parser (nokogiri)' do
-      expect(MediaInfo.xml_parser).to eq('rexml/document') # Returns default if ENV not set
-      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect(MediaInfo.xml_parser).to eq('nokogiri') # Test if we can load non-rexml XML parsers
-      ENV['MEDIAINFO_XML_PARSER'] = nil
+    context 'when the value of MEDIAINFO_XML_PARSER is the default one' do
+      before(:all) do
+        ENV['MEDIAINFO_XML_PARSER'] = nil
+      end
+
+      describe 'xml_parser class method' do
+        it 'does not raise an error' do
+          expect{MediaInfo.version}.to_not raise_error
+        end
+
+        it 'returns the name of the default parser' do
+          expect(MediaInfo.xml_parser).to eq('rexml/document')
+        end
+      end
+    end
+
+    context 'when the value of MEDIAINFO_XML_PARSER is set with a valid parser' do
+      before(:all) do
+        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
+      end
+
+      after(:all) do
+        ENV['MEDIAINFO_XML_PARSER'] = nil
+      end
+
+      describe 'xml_parser class method' do
+        it 'does not raise an error' do
+          expect{MediaInfo.version}.to_not raise_error
+        end
+
+        it 'returns the name of the submitted valid parser' do
+          expect(MediaInfo.xml_parser).to eq('nokogiri')
+        end
+      end
     end
 
   end
