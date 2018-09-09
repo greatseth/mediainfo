@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'mediainfo'
 require 'spec_shared_contexts'
+require 'spec_shared_examples'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

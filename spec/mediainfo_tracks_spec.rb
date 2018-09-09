@@ -1,26 +1,5 @@
 RSpec.describe MediaInfo::Tracks do
 
-  shared_examples 'for a valid collection of file path of videos' do
-    it "return true to track_types.any?" do
-      videos.each do |k, video_path|
-        expect(MediaInfo.from(video_path).track_types.any?).to be true
-        expect(MediaInfo.from(video_path).general?).to be true
-        expect(MediaInfo.from(video_path).video?).to be true
-        expect(MediaInfo.from(video_path).audio?).to be true
-      end
-    end
-  end
-
-  shared_examples 'for a valid collection of file path of images' do
-    it "return true to track_types.any?" do
-      images.each do |k, image_path|
-        expect(MediaInfo.from(image_path).track_types.any?).to be true
-        expect(MediaInfo.from(image_path).image?).to be true
-        expect(MediaInfo.from(image_path).image.count).to eq(1)
-      end
-    end
-  end
-
   describe '*? for each types instance methods' do
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
