@@ -1,4 +1,5 @@
 RSpec.describe MediaInfo do
+
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
@@ -190,92 +191,6 @@ RSpec.describe MediaInfo do
   end
 
   # TODO
-
-  describe 'Tracks Type' do
-
-    it 'support ?' do
-      # REXML
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).other?).to eq(true)
-      expect(MediaInfo.from(xml_files_content[:multiple_streams_with_id]).video2?).to eq(true)
-      expect(MediaInfo.from(http_valid_video_url).image?).to be_falsey
-      # NOKOGIRI
-      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).other?).to eq(true)
-      expect(MediaInfo.from(xml_files_content[:multiple_streams_with_id]).video5?).to be_falsey
-      ENV['MEDIAINFO_XML_PARSER'] = nil
-    end
-
-    it 'support .count' do
-      # REXML
-      expect(MediaInfo.from(xml_files_content[:subtitle]).text.count).to eq(4)
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).audio.count).to eq(1)
-      expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video.count).to eq(3)
-      expect(MediaInfo.from(http_valid_video_url).video.count).to eq(1)
-      # NOKOGIRI
-      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect(MediaInfo.from(xml_files_content[:subtitle]).text3.count).to eq(1)
-      expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video6.count).to eq(1)
-      expect(MediaInfo.from(http_valid_video_url).video.count).to eq(1)
-      ENV['MEDIAINFO_XML_PARSER'] = nil
-    end
-
-    it 'support <extra>' do
-      # REXML
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).general.extra).to_not be(nil)
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).general.extra.com_apple_quicktime_make).to eq('Apple')
-      # NOKOGIRI
-      ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).general.extra).to_not be(nil)
-      expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).general.extra.com_apple_quicktime_software).to eq('11.2.6')
-      ENV['MEDIAINFO_XML_PARSER'] = nil
-    end
-
-    describe 'Attribute' do
-
-      it 'name standardization' do
-        # REXML
-        expect(MediaInfo.from(xml_files_content[:sample_mov]).video.bit_rate).to be(nil)
-        expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video.framerate).to_not be(nil)
-        # NOKOGIRI
-        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.from(xml_files_content[:sample_mp4]).video.bitrate).to_not be(nil)
-        expect(MediaInfo.from(xml_files_content[:sample_jpg]).general.file_size).to be(nil)
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
-
-      it 'strings with float or integer are converted with to_f or to_i respectively' do
-        # REXML
-        expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).general.extra.com_apple_quicktime_software).to eq('11.2.6') # Check that two or more dots remain strings
-        expect(MediaInfo.from(xml_files_content[:sample_avi]).video.bits__pixel_frame_).to be_a(Float)
-        expect(MediaInfo.from(xml_files_content[:sample_avi]).video.id).to be_a(Integer)
-        expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video.bitrate).to_not be_a(Float)
-        # NOKOGIRI
-        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.from(xml_files_content[:sample_3gp]).video.colorimetry).to eq('4:2:0')
-        expect(MediaInfo.from(xml_files_content[:sample_mov]).video.display_aspect_ratio).to be_a(String)
-        expect(MediaInfo.from(xml_files_content[:sample_mp4]).audio.codec_id).to be_a(Integer)
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
-
-      it 'Duration is converted to milliseconds' do
-        # REXML
-
-        # TODO
-        # expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).video.duration).to be_a(Integer)
-        # expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).video.duration).to eq(194243)
-
-        expect(MediaInfo.from(xml_files_content[:sample_mov]).video.duration).to be_a(Integer)
-        expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video100.duration).to eq(4170)
-        # NOKOGIRI
-        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-        expect(MediaInfo.from(xml_files_content[:sample_3gp]).video.duration).to be_a(Integer)
-        expect(MediaInfo.from(xml_files_content[:sample_avi]).video.duration).to eq(15164)
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
-
-    end
-
-  end
 
   describe 'Fixtures' do
 
