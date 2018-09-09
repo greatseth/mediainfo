@@ -26,6 +26,24 @@ RSpec.shared_context 'Shared variables' do
     end
     let(:xml_files_content) { xml_files_content }
 
+    # Images'xml files
+    let(:images_xml_files_content) {
+      xml_files_content.select do |key, value|
+        [:sample_jpg].include?(key)
+      end
+    }
+
+    # Videos' xml files
+    let(:videos_xml_files_content) {
+      xml_files_content.select do |key, value|
+        [
+          :sample_3g2, :sample_3gp, :sample_avi, :sample_iphone_mov, :sample_mov,
+          :sample_mp4, :multiple_streams_no_id, :multiple_streams_with_id
+        ].include?(key)
+      end
+    }
+
+
     video_sample_path = './spec/fixtures/video/sample.3gp'
     let(:video_sample_path) { video_sample_path }
 
