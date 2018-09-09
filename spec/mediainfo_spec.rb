@@ -2,10 +2,7 @@ RSpec.describe MediaInfo do
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
-      before(:all) do
-        # Returns the default MEDIAINFO_PATH
-        ENV['MEDIAINFO_PATH'] = nil
-      end
+      include_context 'sets MEDIAINFO_PATH to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.location}.not_to raise_error
@@ -17,13 +14,7 @@ RSpec.describe MediaInfo do
     end
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is not valid' do
-      before(:all) do
-        ENV['MEDIAINFO_PATH'] = '/invalid/path/to/mediablinfo'
-      end
-
-      after(:all) do
-        ENV['MEDIAINFO_PATH'] = nil
-      end
+      include_context 'sets MEDIAINFO_PATH to invalid value'
 
       it 'raises the correct error' do
         expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError)
@@ -37,10 +28,7 @@ RSpec.describe MediaInfo do
   describe 'version class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
-      before(:all) do
-        # Returns the default MEDIAINFO_PATH
-        ENV['MEDIAINFO_PATH'] = nil
-      end
+      include_context 'sets MEDIAINFO_PATH to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.version}.to_not raise_error
@@ -58,10 +46,8 @@ RSpec.describe MediaInfo do
 
   describe 'xml_parser class method' do
 
-    context 'when the value of MEDIAINFO_XML_PARSER is the default one' do
-      before(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
+      include_context 'sets MEDIAINFO_XML_PARSER to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.version}.to_not raise_error
@@ -72,20 +58,14 @@ RSpec.describe MediaInfo do
       end
     end
 
-    context 'when the value of MEDIAINFO_XML_PARSER is set with a valid parser' do
-      before(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      end
-
-      after(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is nokogiri' do
+      include_context 'sets MEDIAINFO_XML_PARSER to nokogiri'
 
       it 'does not raise an error' do
         expect{MediaInfo.version}.to_not raise_error
       end
 
-      it 'returns the name of the submitted valid parser' do
+      it 'returns the name of the submitted valid parser (nokogiri)' do
         expect(MediaInfo.xml_parser).to eq('nokogiri')
       end
     end
@@ -189,10 +169,8 @@ RSpec.describe MediaInfo do
       end
     end
 
-    context 'when chosen the current parser is the default one (rexml)' do
-      before(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
+      include_context 'sets MEDIAINFO_XML_PARSER to default value'
 
       it_behaves_like 'expected from class method for a file'
       it_behaves_like 'expected from class method for a url'
@@ -200,14 +178,8 @@ RSpec.describe MediaInfo do
       it_behaves_like 'a valid MediaInfo::Tracks types generation'
     end
 
-    context 'when chosen the current parser is nokogiri' do
-      before(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
-      end
-
-      after(:all) do
-        ENV['MEDIAINFO_XML_PARSER'] = nil
-      end
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is nokogiri' do
+      include_context 'sets MEDIAINFO_XML_PARSER to nokogiri'
 
       it_behaves_like 'expected from class method for a file'
       it_behaves_like 'expected from class method for a url'
