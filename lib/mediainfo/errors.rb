@@ -1,14 +1,27 @@
 module MediaInfo
+
   # General
-  class Error < StandardError; end
-  class EnvironmentError < Error; end
-  class ExecutionError < Error; end
-  class IncompatibleVersionError < Error; end
-  class UnknownVersionError < Error; end
-  class RemoteUrlError < Error; end
+  class EnvironmentError < StandardError; end
+  class ExecutionError < StandardError; end
+  class IncompatibleVersionError < StandardError; end
+  class UnknownVersionError < StandardError; end
+  class RemoteUrlError < StandardError; end
+
+  class BadInputError < ArgumentError
+    def initialize(msg=nil)
+      msg ||= "Input must be: \n"
+        + "A video or xml file location."
+        + "Example: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n"
+        + "A valid URL. Example: 'http://www.site.com/videofile.mov' \n"
+        + "Or MediaInfo XML \n"
+      super(msg)
+    end
+  end
+
   # Stream
+  class InvalidTrackType < StandardError; end
+  class InvalidTrackAttributeValue < StandardError; end
+
   class SingleStreamAPIError < RuntimeError; end
   class NoStreamsForProxyError < NoMethodError; end
-  class InvalidTrackType < Error; end
-  class InvalidTrackAttributeValue < Error; end
 end
