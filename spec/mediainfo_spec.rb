@@ -1,39 +1,4 @@
 RSpec.describe MediaInfo do
-
-  # Set ENVs back to default
-  ENV['MEDIAINFO_PATH'] = nil
-  ENV['MEDIAINFO_XML_PARSER'] = nil
-
-  # Listing of files path
-  base_local_path = './spec/fixtures/'
-
-  # Retrieve all xml files path
-  base_local_xml_path = "#{base_local_path}xml/"
-  xml_files_path = {}
-  Dir.glob("#{base_local_xml_path}*").each do |filename|
-    filename.gsub!(/^\..*\//, '')
-    key = filename.gsub(/\..*$/, '').to_sym
-    xml_files_path[key] = [base_local_xml_path, filename].join('/')
-  end
-
-  # Retrieve all xml files content so they are opened once
-  xml_files_content = {}
-  xml_files_path.each do |key, path|
-    xml_files_content[key] = File.open(path).read
-  end
-
-  video_sample_path = './spec/fixtures/video/sample.3gp'
-
-  # Download the video sample file (ignored by git) unless it already exists
-  unless File.exist?(video_sample_path)
-    Net::HTTP.start('techslides.com') { |http|
-      resp = http.get('/demos/sample-videos/small.3gp')
-      open(video_sample_path, 'wb') { |file|
-        file.write(resp.body)
-      }
-    }
-  end
-
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
@@ -133,66 +98,78 @@ RSpec.describe MediaInfo do
 
     shared_examples 'expected from class method for a file' do
       context 'when submitted a valid file path' do
+        let(:input) { video_sample_path }
+
         it 'does not raise an error' do
-          expect{MediaInfo.from(video_sample_path)}.not_to raise_error
+          expect{MediaInfo.from(input)}.not_to raise_error
         end
 
         it 'returns an instance of MediaInfo::Tracks' do
-          expect(MediaInfo.from(video_sample_path)).to be_an_instance_of(MediaInfo::Tracks)
+          expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
         end
 
         it 'returns an object with a valid xml output' do
-          expect(MediaInfo.from(video_sample_path).xml.include?('?xml')).to be true
+          expect(MediaInfo.from(input).xml.include?('?xml')).to be true
         end
       end
 
       context 'when submitted an invalid file path' do
-        it 'raises an error' do
-          expect{MediaInfo.from('test')}.to raise_error(ArgumentError)
+        let(:input) { 'invalid/file/path' }
+
+        it 'raises the correct error' do
+          expect{MediaInfo.from(input)}.to raise_error(ArgumentError)
         end
       end
     end
 
     shared_examples 'expected from class method for a url' do
       context 'when submitted a valid http valid url' do
+        let(:input) { video_sample_path }
+
         it 'does not raise an error' do
-          expect{MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')}.not_to raise_error
+          expect{MediaInfo.from(input)}.not_to raise_error
         end
 
         it 'returns an instance of MediaInfo::Tracks' do
-          expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')).to be_an_instance_of(MediaInfo::Tracks)
+          expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
         end
 
         it 'returns an object with a valid xml output' do
-          expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').xml.include?('?xml')).to be true
+          expect(MediaInfo.from(input).xml.include?('?xml')).to be true
         end
       end
 
       context 'when submitted a invalid http valid url' do
-        it 'raises an error' do
-          expect{MediaInfo.from('http://urlthatdoesnotexist/file.mov')}.to raise_error(SocketError)
+        let(:input) { http_invalid_url }
+
+        it 'raises the correct error' do
+          expect{MediaInfo.from(input)}.to raise_error(SocketError)
         end
       end
     end
 
     shared_examples 'expected from class method for raw xml' do
       context 'when submitted a valid raw xml' do
+        let(:input) { xml_files_content[:sample_3gp] }
+
         it 'does not raise an error' do
-          expect{MediaInfo.from(xml_files_content[:sample_3gp])}.not_to raise_error
+          expect{MediaInfo.from(input)}.not_to raise_error
         end
 
         it 'returns an instance of MediaInfo::Tracks' do
-          expect(MediaInfo.from(xml_files_content[:sample_3gp])).to be_an_instance_of(MediaInfo::Tracks)
+          expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
         end
 
         it 'returns an object with a valid xml output' do
-          expect(MediaInfo.from(xml_files_content[:sample_3gp]).xml.include?('?xml')).to be true
+          expect(MediaInfo.from(input).xml.include?('?xml')).to be true
         end
       end
 
       context 'when submitted a invalid raw xml' do
-        it 'raises an error' do
-          expect{MediaInfo.from('invalid raw xml')}.to raise_error(ArgumentError)
+        let(:input) { 'invalid raw xml' }
+
+        it 'raises the correct error' do
+          expect{MediaInfo.from(input)}.to raise_error(ArgumentError)
         end
       end
     end
@@ -203,8 +180,8 @@ RSpec.describe MediaInfo do
       # split these tests with a correct description for each
       #
       it 'does not raise an error when using a sample of methods' do
-        expect{MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').video.bitrate}.not_to raise_error
-        expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').video.bitratetest).to eq(nil)
+        expect{MediaInfo.from(http_valid_video_url).video.bitrate}.not_to raise_error
+        expect(MediaInfo.from(http_valid_video_url).video.bitratetest).to eq(nil)
 
         expect{MediaInfo.from(xml_files_content[:sample_iphone_mov]).other2.duration}.not_to raise_error
         expect{MediaInfo.from(xml_files_content[:multiple_streams_with_id]).video2.bitrate}.not_to raise_error
@@ -248,7 +225,7 @@ RSpec.describe MediaInfo do
       # REXML
       expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).other?).to eq(true)
       expect(MediaInfo.from(xml_files_content[:multiple_streams_with_id]).video2?).to eq(true)
-      expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').image?).to be_falsey
+      expect(MediaInfo.from(http_valid_video_url).image?).to be_falsey
       # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
       expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).other?).to eq(true)
@@ -261,12 +238,12 @@ RSpec.describe MediaInfo do
       expect(MediaInfo.from(xml_files_content[:subtitle]).text.count).to eq(4)
       expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).audio.count).to eq(1)
       expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video.count).to eq(3)
-      expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+      expect(MediaInfo.from(http_valid_video_url).video.count).to eq(1)
       # NOKOGIRI
       ENV['MEDIAINFO_XML_PARSER'] = 'nokogiri'
       expect(MediaInfo.from(xml_files_content[:subtitle]).text3.count).to eq(1)
       expect(MediaInfo.from(xml_files_content[:multiple_streams_no_id]).video6.count).to eq(1)
-      expect(MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4').video.count).to eq(1)
+      expect(MediaInfo.from(http_valid_video_url).video.count).to eq(1)
       ENV['MEDIAINFO_XML_PARSER'] = nil
     end
 
