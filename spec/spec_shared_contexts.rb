@@ -58,6 +58,7 @@ RSpec.shared_context 'Shared variables' do
     end
 
     let(:http_valid_video_url) { 'http://techslides.com/demos/sample-videos/small.mp4' }
+    let(:https_valid_video_url) { 'http://techslides.com/demos/sample-videos/small.mp4' }
     let(:http_invalid_url) { 'http://urlthatdoesnotexist/file.mov' }
 end
 
