@@ -28,7 +28,23 @@ end
 
 RSpec.shared_examples 'expected from class method for a url' do
   context 'when submitted a valid http valid url' do
-    let(:input) { video_sample_path }
+    let(:input) { http_valid_video_url }
+
+    it 'does not raise an error' do
+      expect{MediaInfo.from(input)}.not_to raise_error
+    end
+
+    it 'returns an instance of MediaInfo::Tracks' do
+      expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
+    end
+
+    it 'returns an object with a valid xml output' do
+      expect(MediaInfo.from(input).xml.include?('?xml')).to be true
+    end
+  end
+
+  context 'when submitted a valid https valid url' do
+    let(:input) { https_valid_video_url }
 
     it 'does not raise an error' do
       expect{MediaInfo.from(input)}.not_to raise_error
