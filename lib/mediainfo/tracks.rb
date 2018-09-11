@@ -133,8 +133,8 @@ module MediaInfo
           when /\d+\s?h(our)?/    then chunk.to_i * 60 * 60 * 1000
           end.to_i
         end
-        # We don't raise anymore. It's much better for the gem to work,
-        # returning the original MediaInfo attribute, than raise.
+        # We don't raise anymore. It's much better for the gem to
+        # return the original MediaInfo attribute, than raise.
         base_msec == 0 ? v : base_msec
       end
 
