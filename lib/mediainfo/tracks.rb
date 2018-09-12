@@ -97,25 +97,22 @@ module MediaInfo
       def self.sanitize_element_value(param)
         name = param[0]
         value = param[1]
-        case
-        # Convert String with integer in it to Integer.
-        ## Don't to_f anything with 2 or more dots (versions,etc)
-        when value.match(/(?!\.)\D+/).nil? then
-          if value.scan(/\./).any? && value.scan(/\./).count > 1
-            value
-          elsif value.scan(/\./).any?
-            value.to_f
-          else # Prevent float if it's just a normal integer
-            value.to_i
-          end
-        # Duration
-        when ['Duration'].include?(name) then standardize_to_milliseconds(value)
-        # Dates
-        ## Be sure the name has "date" and it has an integer and a dash, like a normal date would
-        when name.downcase.include?('date') && !value.match(/\d-/).nil? then Time.parse(value)
-        else
-          return value
+
+        if ['Duration'].include?(name)
+          # Duration
+          return standardize_to_milliseconds(value)
+        elsif value.to_s == value.to_i.to_s then value.to_i
+          # Convert String with integer in it to Integer.
+          return value.to_i
+        elsif value.to_s == value.to_f.to_s then value.to_f
+          # Convert String with integer in it to Integer.
+          return value.to_f
+        elsif name.downcase.include?('date') && !value.match(/\d-/).nil?
+          # Dates
+          return Time.parse(value)
         end
+
+        value
       end
 
       def self.standardize_to_milliseconds(value)
