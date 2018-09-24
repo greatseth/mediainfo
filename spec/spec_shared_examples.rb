@@ -92,6 +92,22 @@ RSpec.shared_examples 'expected from class method for raw xml' do
       expect{MediaInfo.from(input)}.to raise_error(ArgumentError)
     end
   end
+
+  context 'when submitted a partialy invalid raw xml' do
+    let(:input) { xml_files_content[:sample_416_error] }
+
+    it 'does not raise an error' do
+      expect{MediaInfo.from(input)}.not_to raise_error
+    end
+
+    it 'returns an instance of MediaInfo::Tracks' do
+      expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
+    end
+
+    it 'returns an object with a valid xml output' do
+      expect(MediaInfo.from(input).xml.include?('?xml')).to be true
+    end
+  end
 end
 
 RSpec.shared_examples 'a valid MediaInfo::Tracks types generation' do

@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>416 Requested Range Not Satisfiable</title>
+  </head>
+  <body>
+    <center><h1>416 Requested Range Not Satisfiable</h1></center>
+    <hr/>
+    <center>nginx</center>
+  </body>
+</html>
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+<File>
+<track type="General">
+
+<Complete_name>/Users/seth/diversion/hdcloud/test/videos/dinner.3g2</Complete_name>
+<Format>MPEG-4</Format>
+<Format_profile>3GPP Media Release 5</Format_profile>
+<Codec_ID>3gp5</Codec_ID>
+<File_size>6.21 MiB</File_size>
+<Duration>3mn 36s</Duration>
+<Overall_bit_rate>241 Kbps</Overall_bit_rate>
+</track>
+
+<track type="Video">
+
+<ID>1</ID>
+<Format>MPEG-4 Visual</Format>
+<Format_profile>Simple@L3</Format_profile>
+<Format_settings__BVOP>Yes</Format_settings__BVOP>
+<Format_settings__QPel>No</Format_settings__QPel>
+<Format_settings__GMC>No warppoints</Format_settings__GMC>
+<Format_settings__Matrix>Default (H.263)</Format_settings__Matrix>
+<Codec_ID>20</Codec_ID>
+<Duration>3mn 36s</Duration>
+<Bit_rate_mode>Constant</Bit_rate_mode>
+<Bit_rate>219 Kbps</Bit_rate>
+<Nominal_bit_rate>23.0 Kbps</Nominal_bit_rate>
+<Width>352 pixels</Width>
+<Height>288 pixels</Height>
+<Display_aspect_ratio>1.222</Display_aspect_ratio>
+<Frame_rate_mode>Variable</Frame_rate_mode>
+<Frame_rate>14.875 fps</Frame_rate>
+<Minimum_frame_rate>2.370 fps</Minimum_frame_rate>
+<Maximum_frame_rate>27.778 fps</Maximum_frame_rate>
+<Resolution>24 bits</Resolution>
+<Scan_type>Progressive</Scan_type>
+<Bits__Pixel_Frame_>0.145</Bits__Pixel_Frame_>
+<Stream_size>5.64 MiB (91%)</Stream_size>
+<Language>English</Language>
+</track>
+
+<track type="Audio">
+
+<ID>2</ID>
+<Format>QCELP</Format>
+<Codec_ID>E1</Codec_ID>
+<Duration>3mn 36s</Duration>
+<Bit_rate_mode>Constant</Bit_rate_mode>
+<Bit_rate>14.0 Kbps</Bit_rate>
+<Channel_s_>1 channel</Channel_s_>
+<Sampling_rate>8 000 Hz</Sampling_rate>
+<Resolution>16 bits</Resolution>
+<Stream_size>369 KiB (6%)</Stream_size>
+<Language>English</Language>
+</track>
+
+</File>
+</Mediainfo>
