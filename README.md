@@ -133,7 +133,8 @@ should at least return `nil`.
 
 ## Contributors
 
-* Seth Thomas Rasmussen - [http://greatseth.com](http://greatseth.com)
+* Seth Thomas Rasmussen -
+  [http://github.com/greatseth](http://github.com/greatseth)
 * Peter Vandenberk      - [http://github.com/pvdb](http://github.com/pvdb)
 * Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
 * Daniel Jagszent       - [http://github.com/d--j](http://github.com/d--j)
