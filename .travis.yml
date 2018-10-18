@@ -1,3 +1,7 @@
 language: ruby
 rvm:
   - 2.5.3
+before_install:
+  - sudo apt-get install -y mediainfo
+env:
+  - MEDIAINFO_PATH=/usr/bin/mediainfo
