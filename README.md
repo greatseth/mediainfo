@@ -1,4 +1,4 @@
-# MediaInfo
+# MediaInfo [![Build Status](https://travis-ci.org/greatseth/mediainfo.svg?branch=master)](https://travis-ci.org/greatseth/mediainfo)
 
 MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.net).
 
@@ -82,7 +82,7 @@ Sometimes you'll have more than one track of a given type:
     - You can review lib/attribute_standardization_rules.yml to see them all
 
 
-            media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)    
+            media_info.video.bit_rate => nil (\<Bit_rate>41.2 Mbps\</Bit_rate>)
             media_info.video.bitrate => "41.2 Mbps" (\<Bit_rate>41.2 Mbps\</Bit_rate>)
             media_info.general.filesize => "11.5 MiB" (\<File_size>11.5 MiB\</File_size>
 
@@ -100,7 +100,7 @@ The track type media_info.video5 is available, but no video2, 3, and 4. This is 
         <ID>5</ID>
         ...
 
-*The ID will take priority for labeling.* Else if no ID exists, you'll see consecutive numbering for duplicate tracks in the Media.        
+*The ID will take priority for labeling.* Else if no ID exists, you'll see consecutive numbering for duplicate tracks in the Media.
 
 Any second level attributes are also available:
 
