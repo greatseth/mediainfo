@@ -5,3 +5,6 @@ before_install:
   - sudo apt-get install -y mediainfo
 env:
   - MEDIAINFO_PATH=/usr/bin/mediainfo
+install:
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG -b $TRAVIS_BRANCH
+  - cd $TRAVIS_REPO_SLUG
