@@ -5,7 +5,6 @@ RSpec.describe MediaInfo::Tracks::Attributes do
   describe '.sanitize_element_value class method' do
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
-      include_context 'sets MEDIAINFO_XML_PARSER to default value'
 
       it 'standardizes the names correctly' do
         expect(MediaInfo.from(xml_files_content[:sample_mov]).video.bit_rate).to be(nil)

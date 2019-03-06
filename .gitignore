@@ -13,7 +13,7 @@ pkg
 !/spec/fixtures/video/.keep
 /tmp/
 .idea
-
+.vscode
 # rspec failure tracking
 .rspec_status
 

@@ -21,10 +21,10 @@ Gem::Specification.new do |s|
   end
 
   # Since Ruby 1.8, REXML is included in the standard Ruby distribution.
-  s.add_development_dependency 'bundler', '~> 1.16'
+  s.add_development_dependency 'bundler', '~> 2'
   s.add_development_dependency 'rake', '~> 12.3'
   s.add_development_dependency 'rspec', '~> 3.0'
-  s.add_development_dependency 'nokogiri', '~> 1.8' # Ability to parse XML response # Optional and should be included by user in their own gemfile
+  s.add_development_dependency 'nokogiri', '>= 1.8', '< 2.0' # Ability to parse XML response # Optional and should be included by user in their own gemfile
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

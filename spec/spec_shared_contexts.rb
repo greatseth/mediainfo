@@ -1,10 +1,6 @@
 # Shared variables
 
 RSpec.shared_context 'Shared variables' do
-    # Set ENVs back to default
-    ENV['MEDIAINFO_PATH'] = nil
-    ENV['MEDIAINFO_XML_PARSER'] = nil
-
     # Listing of files path
     base_local_path = './spec/fixtures/'
 
@@ -64,29 +60,18 @@ end
 
 # MEDIAINFO_PATH
 
-RSpec.shared_context 'sets MEDIAINFO_PATH to default value' do
-  before(:all) do
-    ENV['MEDIAINFO_PATH'] = nil
-  end
-end
-
 RSpec.shared_context 'sets MEDIAINFO_PATH to invalid value' do
+  mip = ENV['MEDIAINFO_PATH'] # Allows us to set MEDIAINFO_PATH back to what the user/env set it as
   before(:all) do
     ENV['MEDIAINFO_PATH'] = '/invalid/path/to/mediablinfo'
   end
 
   after(:all) do
-    ENV['MEDIAINFO_PATH'] = nil
+    ENV['MEDIAINFO_PATH'] = mip
   end
 end
 
 # MEDIAINFO_XML_PARSER
-
-RSpec.shared_context 'sets MEDIAINFO_XML_PARSER to default value' do
-  before(:all) do
-    ENV['MEDIAINFO_XML_PARSER'] = nil
-  end
-end
 
 RSpec.shared_context 'sets MEDIAINFO_XML_PARSER to nokogiri' do
   before(:all) do

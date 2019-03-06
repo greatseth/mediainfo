@@ -1,7 +1,13 @@
 language: ruby
 rvm:
-  - 2.5.3
+  - 2.6.1
 before_install:
   - sudo apt-get install -y mediainfo
 env:
   - MEDIAINFO_PATH=/usr/bin/mediainfo
+install:
+  # Install bundler 2
+  - gem update --no-document --system
+  - gem install bundler --no-document
+  # Install gems
+  - bundle install
