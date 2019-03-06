@@ -7,6 +7,6 @@ env:
   - MEDIAINFO_PATH=/usr/bin/mediainfo
 install:
   # Install bundler 2
-  - gem update --system
-  - gem install bundler
-  - bundle install
+  - gem update --no-rdoc --no-ri --system
+  - gem install --no-rdoc --no-ri bundler
+  - bundle install --no-rdoc --no-ri
