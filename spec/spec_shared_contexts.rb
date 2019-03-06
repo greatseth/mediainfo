@@ -64,12 +64,6 @@ end
 
 # MEDIAINFO_PATH
 
-RSpec.shared_context 'sets MEDIAINFO_PATH to default value' do
-  before(:all) do
-    ENV['MEDIAINFO_PATH'] = nil
-  end
-end
-
 RSpec.shared_context 'sets MEDIAINFO_PATH to invalid value' do
   before(:all) do
     ENV['MEDIAINFO_PATH'] = '/invalid/path/to/mediablinfo'
