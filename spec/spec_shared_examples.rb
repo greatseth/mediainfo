@@ -5,6 +5,11 @@ RSpec.shared_examples 'expected from class method for a file' do
     let(:input) { video_sample_path }
 
     it 'does not raise an error' do
+      begin 
+      MediaInfo.from(input)
+      rescue Exception => ex
+        puts ex
+      end
       expect{MediaInfo.from(input)}.not_to raise_error
     end
 
