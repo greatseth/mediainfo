@@ -6,9 +6,24 @@ require 'mediainfo/string'
 
 module MediaInfo
 
+  def self.which(cmd)
+    exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+    ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+      exts.each { |ext|
+        exe = File.join(path, "#{cmd}#{ext}")
+        return exe if File.executable?(exe) && !File.directory?(exe)
+      }
+    end
+    return nil
+  end
+
   # Allow user to set custom mediainfo_path with ENV['MEDIAINFO_PATH']
   def self.location
-    ENV['MEDIAINFO_PATH'].nil? ? mediainfo_location = '/usr/local/bin/mediainfo' : mediainfo_location = ENV['MEDIAINFO_PATH']
+    if ENV['MEDIAINFO_PATH'].nil?
+      mediainfo_location = which('mediainfo')
+    else
+      mediainfo_location = ENV['MEDIAINFO_PATH']
+    end
     raise EnvironmentError, "#{mediainfo_location} cannot be found. Are you sure mediainfo is installed?" unless ::File.exist? mediainfo_location
     return mediainfo_location
   end

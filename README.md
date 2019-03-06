@@ -15,9 +15,9 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 #### Handling a URL
     media_info = MediaInfo.from('http://techslides.com/demos/sample-videos/small.mp4')
 
-You can specify an alternate path for the MediaInfo Binary:
+Ensure mediainfo is installed and within your PATH. You can specify an alternate path for the mediainfo binary if needed:
 
-    ENV['MEDIAINFO_PATH'] = "/opt/local/bin/mediainfo"
+    ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
 
 Once you have an MediaInfo object, you can start inspecting tracks:
 

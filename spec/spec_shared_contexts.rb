@@ -61,12 +61,13 @@ end
 # MEDIAINFO_PATH
 
 RSpec.shared_context 'sets MEDIAINFO_PATH to invalid value' do
+  mip = ENV['MEDIAINFO_PATH'] # Allows us to set MEDIAINFO_PATH back to what the user/env set it as
   before(:all) do
     ENV['MEDIAINFO_PATH'] = '/invalid/path/to/mediablinfo'
   end
 
   after(:all) do
-    ENV['MEDIAINFO_PATH'] = nil
+    ENV['MEDIAINFO_PATH'] = mip
   end
 end
 
