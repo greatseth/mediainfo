@@ -8,5 +8,5 @@ env:
 install:
   # Install bundler 2
   - gem update --no-document --system
-  - gem install --no-document bundler
+  - gem install bundler --no-document
   - bundle install --no-document
