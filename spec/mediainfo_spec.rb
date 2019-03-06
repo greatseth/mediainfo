@@ -46,7 +46,6 @@ RSpec.describe MediaInfo do
   describe 'xml_parser class method' do
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
-      include_context 'sets MEDIAINFO_XML_PARSER to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.version}.to_not raise_error
@@ -76,7 +75,6 @@ RSpec.describe MediaInfo do
   describe 'from class method' do
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
-      include_context 'sets MEDIAINFO_XML_PARSER to default value'
 
       it_behaves_like 'expected from class method for a file'
       it_behaves_like 'expected from class method for a url'
