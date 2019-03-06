@@ -6,4 +6,6 @@ before_install:
 env:
   - MEDIAINFO_PATH=/usr/bin/mediainfo
 install:
+  - git status
+  - cat Gemfile
   - bundle install
