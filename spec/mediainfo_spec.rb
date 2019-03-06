@@ -3,7 +3,6 @@ RSpec.describe MediaInfo do
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
-      include_context 'sets MEDIAINFO_PATH to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.location}.not_to raise_error
