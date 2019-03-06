@@ -28,7 +28,6 @@ RSpec.describe MediaInfo do
   describe 'version class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
-      include_context 'sets MEDIAINFO_PATH to default value'
 
       it 'does not raise an error' do
         expect{MediaInfo.version}.to_not raise_error
