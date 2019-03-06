@@ -11,3 +11,4 @@ install:
   - gem install bundler --no-document
   # Install gems
   - bundle install
+  - ll /usr/bin/mediainfo
