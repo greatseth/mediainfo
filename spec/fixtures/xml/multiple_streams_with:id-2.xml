@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mediainfo>
+  <File>
+    <track type="General">
+      <Complete_name>/Users/seth/diversion/hdcloud/test/videos/brightcove/VzbWkxMTrgYv8UoOiXZrbzowe0CV8wIr-me2-grunt.mov</Complete_name>
+      <Format>MPEG-4</Format>
+      <Format_profile>QuickTime</Format_profile>
+      <Codec_ID>qt  </Codec_ID>
+      <File_size>101 MiB</File_size>
+      <Duration>1mn 25s</Duration>
+      <Overall_bit_rate>9 872 Kbps</Overall_bit_rate>
+      <Encoded_date>UTC 2009-08-18 16:42:50</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:55</Tagged_date>
+      <Writing_application>Sorenson Squeeze 5.0</Writing_application>
+      <Writing_library>Apple QuickTime</Writing_library>
+      <com.apple.quicktime.player.movie.audio.mute>(Binary)</com.apple.quicktime.player.movie.audio.mute>
+    </track>
+    <track type="Video" streamid="1">
+      <ID>2</ID>
+      <Format>AVC</Format>
+      <Format_Info>Advanced Video Codec</Format_Info>
+      <Format_profile>Baseline@L3.2</Format_profile>
+      <Format_settings__CABAC>No</Format_settings__CABAC>
+      <Format_settings__ReFrames>4 frames</Format_settings__ReFrames>
+      <Codec_ID>avc1</Codec_ID>
+      <Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+      <Duration>1mn 25s</Duration>
+      <Bit_rate_mode>Variable</Bit_rate_mode>
+      <Bit_rate>9 392 Kbps</Bit_rate>
+      <Width>1 280 pixels</Width>
+      <Height>720 pixels</Height>
+      <Display_aspect_ratio>16:9</Display_aspect_ratio>
+      <Frame_rate_mode>Variable</Frame_rate_mode>
+      <Frame_rate>29.970 fps</Frame_rate>
+      <Minimum_frame_rate>29.940 fps</Minimum_frame_rate>
+      <Maximum_frame_rate>29.970 fps</Maximum_frame_rate>
+      <Standard>NTSC</Standard>
+      <Resolution>24 bits</Resolution>
+      <Colorimetry>4:2:0</Colorimetry>
+      <Scan_type>Progressive</Scan_type>
+      <Bits__Pixel_Frame_>0.340</Bits__Pixel_Frame_>
+      <Stream_size>95.6 MiB (95%)</Stream_size>
+      <Encoded_date>UTC 2009-08-17 05:05:13</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:55</Tagged_date>
+    </track>
+    <track type="Video" streamid="2">
+      <ID>6</ID>
+      <Format>AVC</Format>
+      <Format_Info>Advanced Video Codec</Format_Info>
+      <Format_profile>Baseline@L3.2</Format_profile>
+      <Format_settings__CABAC>No</Format_settings__CABAC>
+      <Format_settings__ReFrames>4 frames</Format_settings__ReFrames>
+      <Codec_ID>avc1</Codec_ID>
+      <Codec_ID_Info>Advanced Video Coding</Codec_ID_Info>
+      <Duration>4s 170ms</Duration>
+      <Bit_rate_mode>Variable</Bit_rate_mode>
+      <Bit_rate>656 Kbps</Bit_rate>
+      <Width>1 280 pixels</Width>
+      <Height>720 pixels</Height>
+      <Display_aspect_ratio>16:9</Display_aspect_ratio>
+      <Frame_rate_mode>Constant</Frame_rate_mode>
+      <Frame_rate>29.970 fps</Frame_rate>
+      <Standard>NTSC</Standard>
+      <Resolution>24 bits</Resolution>
+      <Colorimetry>4:2:0</Colorimetry>
+      <Scan_type>Progressive</Scan_type>
+      <Bits__Pixel_Frame_>0.024</Bits__Pixel_Frame_>
+      <Stream_size>334 KiB (0%)</Stream_size>
+      <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
+    </track>
+    <track type="Audio" streamid="1">
+      <ID>1</ID>
+      <Format>AAC</Format>
+      <Format_Info>Advanced Audio Codec</Format_Info>
+      <Format_version>Version 4</Format_version>
+      <Format_profile>LC</Format_profile>
+      <Format_settings__SBR>No</Format_settings__SBR>
+      <Codec_ID>40</Codec_ID>
+      <Duration>1mn 25s</Duration>
+      <Bit_rate_mode>Variable</Bit_rate_mode>
+      <Bit_rate>256 Kbps</Bit_rate>
+      <Channel_s_>2 channels</Channel_s_>
+      <Channel_positions>L R</Channel_positions>
+      <Sampling_rate>48.0 KHz</Sampling_rate>
+      <Resolution>16 bits</Resolution>
+      <Stream_size>2.61 MiB (3%)</Stream_size>
+      <Encoded_date>UTC 2009-08-17 05:05:13</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:55</Tagged_date>
+    </track>
+    <track type="Audio" streamid="2">
+      <ID>5</ID>
+      <Format>AAC</Format>
+      <Format_Info>Advanced Audio Codec</Format_Info>
+      <Format_version>Version 4</Format_version>
+      <Format_profile>LC</Format_profile>
+      <Format_settings__SBR>No</Format_settings__SBR>
+      <Codec_ID>40</Codec_ID>
+      <Duration>4s 156ms</Duration>
+      <Bit_rate_mode>Constant</Bit_rate_mode>
+      <Bit_rate>256 Kbps</Bit_rate>
+      <Channel_s_>2 channels</Channel_s_>
+      <Channel_positions>L R</Channel_positions>
+      <Sampling_rate>44.1 KHz</Sampling_rate>
+      <Resolution>16 bits</Resolution>
+      <Stream_size>130 KiB (0%)</Stream_size>
+      <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
+    </track>
+    <track type="Menu">
+      <ID>3</ID>
+      <Encoded_date>UTC 2009-08-18 16:42:20</Encoded_date>
+      <Tagged_date>UTC 2009-08-18 16:42:56</Tagged_date>
+      <Delay>3733</Delay>
+    </track>
+  </File>
+</Mediainfo>

@@ -57,7 +57,7 @@ module MediaInfo
 
   def self.from_string(input)
     return from_xml(input) if input.include?('<?xml')
-    return from_link(input) if input =~ URI::regexp
+    return from_link(input) if input.include?('://') && input =~ URI::regexp
     return from_local_file(input) if input.match(/[^\\]*\.\w+$/)
     raise BadInputError
   end
