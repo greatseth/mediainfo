@@ -6,5 +6,4 @@ before_install:
 env:
   - MEDIAINFO_PATH=/usr/bin/mediainfo
 install:
-  - pwd
-  - ls -laht
+  - bundle install
