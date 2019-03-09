@@ -1,5 +1,4 @@
 # MediaInfo.from shared examples
-
 RSpec.shared_examples 'expected from class method for a file' do
   context 'when submitted a valid file path' do
     let(:input) { video_sample_path }
