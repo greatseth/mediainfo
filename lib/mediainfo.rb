@@ -24,7 +24,8 @@ module MediaInfo
     else
       mediainfo_location = ENV['MEDIAINFO_PATH']
     end
-    raise EnvironmentError, "#{mediainfo_location} cannot be found. Are you sure mediainfo is installed?" unless ::File.exist? mediainfo_location
+    raise EnvironmentError, "MediaInfo binary cannot be found. Are you sure mediainfo is installed?" if which('mediainfo').nil?
+    raise EnvironmentError, "MediaInfo path you provided cannot be found. Please check your mediainfo installation location..." unless ::File.exist? mediainfo_location
     return mediainfo_location
   end
 
@@ -98,11 +99,9 @@ module MediaInfo
   def self.from_uri(input)
     http = Net::HTTP.new(input.host, input.port) # Check if input is valid
     request = Net::HTTP::Head.new(input.request_uri) # Only grab the Headers to be sure we don't try and download the whole file
-
     http.use_ssl = true if input.is_a? URI::HTTPS # For https support
-
-    raise RemoteUrlError, "HTTP call to #{input} is not working!" unless http.request(request).is_a?(Net::HTTPOK)
-
+    http_request = http.request(request)
+    raise RemoteUrlError, "HTTP call to #{input} is not working : #{http_request.value}" unless http_request.is_a?(Net::HTTPOK)
     MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
   end
 
