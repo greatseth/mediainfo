@@ -1,5 +1,24 @@
 RSpec.describe MediaInfo do
 
+  describe 'requirements' do
+    context 'when the mediainfo is not installed' do
+      it 'fails' do
+        or_env = ENV['PATH']
+        ENV['PATH'] = ""
+        expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError, "MediaInfo binary cannot be found. Are you sure mediainfo is installed?")
+        ENV['PATH'] = or_env
+      end
+    end
+    context 'when the mediainfo is defined in MEDIAINFO_PATH, but not found' do
+      it 'fails' do
+        or_path = ENV['MEDIAINFO_PATH']
+        ENV['MEDIAINFO_PATH'] = '/file/does/not/exist'
+        expect{MediaInfo.location}.to raise_error(MediaInfo::EnvironmentError, "MediaInfo path you provided cannot be found. Please check your mediainfo installation location...")
+        ENV['MEDIAINFO_PATH'] = or_path
+      end
+    end
+  end
+
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
@@ -73,6 +92,12 @@ RSpec.describe MediaInfo do
   # MediaInfo.from
 
   describe 'from class method' do
+
+    context 'with no input' do
+      it 'fails and prints full message' do
+        expect{MediaInfo.from('')}.to raise_error(MediaInfo::BadInputError, /MediaInfo XML/)
+      end
+    end
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
 

@@ -9,11 +9,10 @@ module MediaInfo
 
   class BadInputError < ArgumentError
     def initialize(msg=nil)
-      msg ||= "Input must be: \n"
-        + "A video or xml file location."
-        + "Example: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n"
-        + "A valid URL. Example: 'http://www.site.com/videofile.mov' \n"
-        + "Or MediaInfo XML \n"
+      msg ||= "Input must be: \n" \
+        " - A video or xml file location: '~/videos/test_video.mov' or '~/videos/test_video.xml' \n" \
+        " - A valid URL: 'http://www.site.com/videofile.mov' \n" \
+        " - MediaInfo XML \n"
       super(msg)
     end
   end

@@ -23,9 +23,9 @@ module MediaInfo
       mediainfo_location = which('mediainfo')
     else
       mediainfo_location = ENV['MEDIAINFO_PATH']
+      raise EnvironmentError, "MediaInfo path you provided cannot be found. Please check your mediainfo installation location..." unless ::File.exist? mediainfo_location
     end
     raise EnvironmentError, "MediaInfo binary cannot be found. Are you sure mediainfo is installed?" if which('mediainfo').nil?
-    raise EnvironmentError, "MediaInfo path you provided cannot be found. Please check your mediainfo installation location..." unless ::File.exist? mediainfo_location
     return mediainfo_location
   end
 
