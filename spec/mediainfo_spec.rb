@@ -1,4 +1,3 @@
-require 'pry'
 RSpec.describe MediaInfo do
 
   describe 'requirements' do
