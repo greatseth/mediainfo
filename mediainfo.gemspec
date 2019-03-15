@@ -25,6 +25,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 12.3'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'nokogiri', '>= 1.8', '< 2.0' # Ability to parse XML response # Optional and should be included by user in their own gemfile
+  s.add_development_dependency 'aws-sdk-s3'
+  s.add_development_dependency 'pry'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

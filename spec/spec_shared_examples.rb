@@ -32,7 +32,7 @@ RSpec.shared_examples 'expected from class method for a file' do
 end
 
 RSpec.shared_examples 'expected from class method for a url' do
-  context 'when submitted a valid http valid url' do
+  context 'when submitted a valid http url' do
     let(:input) { http_valid_video_url }
 
     it 'does not raise an error' do
@@ -48,19 +48,18 @@ RSpec.shared_examples 'expected from class method for a url' do
     end
   end
 
-  context 'when submitted a valid https valid url' do
-    let(:input) { https_valid_video_url }
-
-    it 'does not raise an error' do
-      expect{MediaInfo.from(input)}.not_to raise_error
-    end
-
+  context 'when a valid s3 object https url' do
     it 'returns an instance of MediaInfo::Tracks' do
-      expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
-    end
-
-    it 'returns an object with a valid xml output' do
-      expect(MediaInfo.from(input).xml.include?('?xml')).to be true
+      region = 'us-east-2'
+      bucket = 'github-mediainfo'
+      object_key = 'small.mp4'
+      s3_resource = Aws::S3::Resource.new(        
+        region: region,
+        access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      )
+      signed_url = s3_resource.bucket(bucket).object(object_key).presigned_url(:get, expires_in: 3600)
+      expect(MediaInfo.from(signed_url)).to be_an_instance_of(MediaInfo::Tracks)
     end
   end
 

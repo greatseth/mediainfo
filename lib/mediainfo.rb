@@ -55,16 +55,6 @@ module MediaInfo
     return xml_parser
   end
 
-  def self.run(input = nil)
-    raise ArgumentError, 'Your input cannot be blank.' if input.nil?
-    command = "#{location} #{input} --Output=XML 2>&1"
-    raw_response = `#{command}`
-    unless $? == 0
-      raise ExecutionError, "Execution of '#{command}' failed. #{raw_response.inspect}"
-    end
-    return raw_response
-  end
-
   def self.from(input)
     return from_uri(input) if input.is_a?(URI)
     return from_string(input) if input.is_a?(String)
@@ -96,13 +86,27 @@ module MediaInfo
     from_uri(URI(input))
   end
 
+  def self.run(input = nil)
+    raise ArgumentError, 'Your input cannot be blank.' if input.nil?
+    command = "#{location} '#{input}' --Output=XML"
+    raw_response, errors, status = Open3.capture3(command)
+    unless errors.empty? && status.exitstatus == 0
+      raise ExecutionError, "Execution of '#{command}' failed: \n #{errors.red}"
+    end
+    return raw_response
+  end
+
   def self.from_uri(input)
-    http = Net::HTTP.new(input.host, input.port) # Check if input is valid
-    request = Net::HTTP::Head.new(input.request_uri) # Only grab the Headers to be sure we don't try and download the whole file
-    http.use_ssl = true if input.is_a? URI::HTTPS # For https support
-    http_request = http.request(request)
-    raise RemoteUrlError, "HTTP call to #{input} is not working : #{http_request.value}" unless http_request.is_a?(Net::HTTPOK)
-    MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
+    if input.host.include?('amazonaws.com')
+      MediaInfo::Tracks.new(MediaInfo.run(input.to_s)) # Removed URI.escape due to Error parsing the X-Amz-Credential parameter; the Credential is mal-formed; expecting "&lt;YOUR-AKID&gt;/YYYYMMDD/REGION/SERVICE/aws4_request"
+    else
+      http = Net::HTTP.new(input.host, input.port) # Check if input is valid
+      request = Net::HTTP::Head.new(input.request_uri) # Only grab the Headers to be sure we don't try and download the whole file; Doesn't work with presigned_urls in aws/s3
+      http.use_ssl = true if input.is_a? URI::HTTPS # For https support
+      http_request = http.request(request)
+      raise RemoteUrlError, "HTTP call to #{input} is not working : #{http_request.value}" unless http_request.is_a?(Net::HTTPOK)
+      MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
+    end
   end
 
   def self.set_singleton_method(object,name,parameters)
