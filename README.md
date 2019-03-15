@@ -8,6 +8,8 @@ MediaInfo is a class wrapping [the mediainfo CLI](http://mediainfo.sourceforge.n
 
 ## Usage
 
+- Versions > 1.3.0 support S3 URLs. See rspec test for example of how to obtain the supported URL.
+
 #### Parsing raw XML
     media_info = MediaInfo.from(File.open('iphone6+_video.mov.xml').read)
 #### Handling a local file
