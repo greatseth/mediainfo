@@ -3,6 +3,7 @@ require 'net/http'
 require 'mediainfo/errors'
 require 'mediainfo/tracks'
 require 'mediainfo/string'
+require 'open3'
 
 module MediaInfo
 
