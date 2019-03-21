@@ -90,7 +90,7 @@ module MediaInfo
     raise ArgumentError, 'Your input cannot be blank.' if input.nil?
     command = "#{location} '#{input}' --Output=XML"
     raw_response, errors, status = Open3.capture3(command)
-    unless errors.empty? && status.exitstatus == 0
+    unless status.exitstatus == 0
       raise ExecutionError, "Execution of '#{command}' failed: \n #{errors.red}"
     end
     return raw_response
