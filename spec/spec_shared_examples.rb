@@ -52,13 +52,20 @@ RSpec.shared_examples 'expected from class method for a url' do
     it 'returns an instance of MediaInfo::Tracks' do
       region = 'us-east-2'
       bucket = 'github-mediainfo'
-      object_key = 'small.mp4'
-      s3_resource = Aws::S3::Resource.new(        
+      object_key = 'SampleVideo_1280x720_50mb.mp4'
+      s3_resource = Aws::S3::Resource.new(
         region: region,
         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
       )
+      # presigner = Aws::S3::Presigner.new(client: Aws::S3::Client.new(
+      #   region: region,
+      #   access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      #   secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      # ))
+      # presigner.presigned_url(:get_object, bucket: bucket, key: object_key)
       signed_url = s3_resource.bucket(bucket).object(object_key).presigned_url(:get, expires_in: 3600)
+      # signed_url = s3_resource.bucket(bucket).object(object_key).public_url
       expect(MediaInfo.from(signed_url)).to be_an_instance_of(MediaInfo::Tracks)
     end
   end
