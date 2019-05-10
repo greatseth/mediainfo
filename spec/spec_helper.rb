@@ -3,7 +3,6 @@ require 'mediainfo'
 require 'spec_shared_contexts'
 require 'spec_shared_examples'
 require 'mediainfo/errors'
-require 'mediainfo/tracks'
 require 'pry'
 require 'aws-sdk-s3'
 
