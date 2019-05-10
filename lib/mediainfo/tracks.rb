@@ -116,7 +116,7 @@ module MediaInfo
       end
 
       def self.standardize_to_milliseconds(value)
-        return standardize_float_to_milliseconds(value.to_f) if value.to_f.to_s == value.to_s
+        return standardize_float_to_milliseconds(value.to_f) if value =~ /^\d+\.?\d*$/
         return standardize_string_to_milliseconds(value)
         value
       end

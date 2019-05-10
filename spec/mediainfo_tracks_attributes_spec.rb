@@ -1,3 +1,5 @@
+require 'mediainfo/tracks'
+
 RSpec.describe MediaInfo::Tracks::Attributes do
 
   # TODO
@@ -74,6 +76,9 @@ RSpec.describe MediaInfo::Tracks::Attributes do
 
     context 'when submitted a Float structured value' do
       it 'converts it to milliseconds' do
+        expect(MediaInfo.from(xml_files_content[:trailing_zero]).video.duration).to be_a(Integer)
+        expect(MediaInfo.from(xml_files_content[:trailing_zero]).video.duration).to eq(194243)
+        expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).video.duration).to be_a(Integer)
         expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).video.duration).to be_a(Integer)
         expect(MediaInfo.from(xml_files_content[:sample_iphone_mov]).video.duration).to eq(194243)
       end
