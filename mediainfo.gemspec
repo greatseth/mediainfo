@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/greatseth/mediainfo}
   s.rdoc_options = ['--line-numbers', '--inline-source', '--title', 'Mediainfo', '--main']
   s.require_paths = ['lib']
-  s.rubyforge_project = %q{mediainfo}
   s.summary = %q{MediaInfo is a class wrapping the mediainfo CLI (http://mediainfo.sourceforge.net)}
   s.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
