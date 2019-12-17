@@ -71,6 +71,17 @@ RSpec.shared_context 'sets MEDIAINFO_PATH to invalid value' do
   end
 end
 
+RSpec.shared_context 'sets MEDIAINFO_PATH to a valid value' do
+  mip = ENV['MEDIAINFO_PATH'] # Allows us to set MEDIAINFO_PATH back to what the user/env set it as
+  before(:all) do
+    ENV['MEDIAINFO_PATH'] = '/custom/path/mediainfo'
+  end
+
+  after(:all) do
+    ENV['MEDIAINFO_PATH'] = mip
+  end
+end
+
 # MEDIAINFO_XML_PARSER
 
 RSpec.shared_context 'sets MEDIAINFO_XML_PARSER to nokogiri' do

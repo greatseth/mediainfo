@@ -22,6 +22,11 @@ RSpec.describe MediaInfo do
   describe 'location class method' do
 
     context 'when the mediainfo bin path (MEDIAINFO_PATH) is valid' do
+      include_context 'sets MEDIAINFO_PATH to a valid value'
+
+      before(:each) do
+        allow(File).to receive(:exist?).with('/custom/path/mediainfo').and_return(true)
+      end
 
       it 'does not raise an error' do
         expect{MediaInfo.location}.not_to raise_error
