@@ -127,18 +127,26 @@ a variety of information about a file. Some attributes may be present
 for some files where others are not, but any supported attribute
 should at least return `nil`.
 
+
+## Development
+
+```shell
+bundle install
+irb -I ./lib -r mediainfo 
+irb(main):002:0> ::MediaInfo.location
+=> "/usr/local/bin/mediainfo"
+```
+
+### Testing
+
+- 
+
+```shell
+bundle exec rspec 
+```
+
 ## Requirements
 
 * Gem version 1.0.0 has been tested on v18.03.1
 * Gem versions < 1.0.0 require at least: MediaInfoLib v0.7.25
 * Gem versions <= 0.5.1 worked against MediaInfoLib v0.7.11, which did not generate XML output, and is no longer supported.
-
-## Contributors
-
-* Seth Thomas Rasmussen -
-  [http://github.com/greatseth](http://github.com/greatseth)
-* Peter Vandenberk      - [http://github.com/pvdb](http://github.com/pvdb)
-* Ned Campion           - [http://github.com/nedcampion](http://github.com/nedcampion)
-* Daniel Jagszent       - [http://github.com/d--j](http://github.com/d--j)
-* Robert Mrasek         - [http://github.com/derobo](http://github.com/derobo)
-* Nathan Pierce         - [http://github.com/NorseGaud](http://github.com/NorseGaud)
