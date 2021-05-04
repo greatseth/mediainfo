@@ -114,4 +114,37 @@ RSpec.describe MediaInfo::Tracks do
 
   end
 
+  describe '#encoded_date attribute' do
+    let(:xml_data) { xml_files_content[:trailing_zero] }
+    let(:timestamp) { Time.new(2018, 3, 30, 12, 12, 8, 'UTC') }
+
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is the default one' do
+      context 'for UTC timestamps' do
+        it 'applies the UTC time zone' do
+          expect(MediaInfo.from(xml_data).general.encoded_date)
+            .to eq(timestamp).and be_utc
+        end
+      end
+
+      context 'for zoneless timestamps' do
+        it 'applies the local system time zone'
+      end
+    end
+
+    context 'when the chosen parser (MEDIAINFO_XML_PARSER) is nokogiri' do
+      include_context 'sets MEDIAINFO_XML_PARSER to nokogiri'
+
+      context 'for UTC timestamps' do
+        it 'applies the UTC time zone' do
+          expect(MediaInfo.from(xml_data).general.encoded_date)
+            .to eq(timestamp).and be_utc
+        end
+      end
+
+      context 'for zoneless timestamps' do
+        it 'applies the local system time zone'
+      end
+    end
+  end
+
 end
