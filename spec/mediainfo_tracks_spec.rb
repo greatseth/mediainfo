@@ -125,10 +125,6 @@ RSpec.describe MediaInfo::Tracks do
             .to eq(timestamp).and be_utc
         end
       end
-
-      context 'for zoneless timestamps' do
-        it 'applies the local system time zone'
-      end
     end
 
     context 'when the chosen parser (MEDIAINFO_XML_PARSER) is nokogiri' do
@@ -139,10 +135,6 @@ RSpec.describe MediaInfo::Tracks do
           expect(MediaInfo.from(xml_data).general.encoded_date)
             .to eq(timestamp).and be_utc
         end
-      end
-
-      context 'for zoneless timestamps' do
-        it 'applies the local system time zone'
       end
     end
   end
