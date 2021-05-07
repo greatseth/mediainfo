@@ -109,7 +109,7 @@ module MediaInfo
           return value.to_f
         elsif name.downcase.include?('date') && !value.match(/\d-/).nil?
           # Dates
-          return Time.parse(value)
+          return Time.parse(value.sub(/^UTC\s+(.*)$/, '\1 UTC'))
         end
 
         value

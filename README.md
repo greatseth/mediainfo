@@ -60,8 +60,18 @@ Sometimes you'll have more than one track of a given type:
 - Any track attribute name with "date" and matching /\d-/ will be converted using Time.parse:
 
 
-        media_info.video.encoded_date => 2018-03-30 12:12:08 -0400
-        media_info.video.customdate   => 2016-02-10 01:00:00 -0600
+        media_info.video.encoded_date => 2018-03-30 12:12:08 UTC
+        media_info.video.customdate   => 2016-02-10 01:00:00 UTC
+
+  > 🕑 **A note on time zones:**
+  > Whenever possible, mediainfo provides timestamps in UTC.
+  > To convert UTC timestamps to your system time zone, use `#getlocal`:
+  >
+  >     media_info.video.encoded_date.getlocal => 2018-03-30 05:12:08 -0700
+  >
+  > If a `*date` attribute is already in your local time zone,
+  > that means no time zone data was found,
+  > and the given time zone may not be correct.
 
 - .duration and .overall_duration will be returned as milliseconds AS LONG AS the Duration and Overall_Duration match one of the expected units (each separated by a space or not):
     - h (\<Duration>15h\</Duration>) (hour)
