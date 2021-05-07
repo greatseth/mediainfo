@@ -149,8 +149,6 @@ irb(main):002:0> ::MediaInfo.location
 
 ### Testing
 
-- 
-
 ```shell
 bundle exec rspec 
 ```
@@ -160,3 +158,9 @@ bundle exec rspec
 * Gem version 1.0.0 has been tested on v18.03.1
 * Gem versions < 1.0.0 require at least: MediaInfoLib v0.7.25
 * Gem versions <= 0.5.1 worked against MediaInfoLib v0.7.11, which did not generate XML output, and is no longer supported.
+
+## TODO
+
+- Use github actions to test
+- Replace URI.escape cause it's EOL
+- Mocks/Stubs for AWS code? Maybe just disable the tests instead and only test when changing the code?
