@@ -106,7 +106,7 @@ module MediaInfo
       http.use_ssl = true if input.is_a? URI::HTTPS # For https support
       http_request = http.request(request)
       raise RemoteUrlError, "HTTP call to #{input} is not working : #{http_request.value}" unless http_request.is_a?(Net::HTTPOK)
-      MediaInfo::Tracks.new(MediaInfo.run(URI.escape(input.to_s)))
+      MediaInfo::Tracks.new(MediaInfo.run(input.to_s))
     end
   end
 

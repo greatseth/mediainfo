@@ -19,7 +19,8 @@ Gem::Specification.new do |s|
     f.match(%r{^(test|spec|features)/})
   end
 
-  # Since Ruby 1.8, REXML is included in the standard Ruby distribution.
+  s.add_dependency 'rexml'
+
   s.add_development_dependency 'bundler', '~> 2'
   s.add_development_dependency 'rake', '~> 12.3'
   s.add_development_dependency 'rspec', '~> 3.0'
