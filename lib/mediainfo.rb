@@ -113,6 +113,7 @@ module MediaInfo
   def self.set_singleton_method(object,name,parameters)
     # Handle parameters with invalid characters (instance_variable_set throws error)
     name.gsub!('.','_') if name.include?('.') ## period in name
+    name.gsub!('-','_') if name.include?('-') ## - in name, as in pre-emphasis
     name.downcase!
     # Create singleton_method
     object.instance_variable_set("@#{name}",parameters)
