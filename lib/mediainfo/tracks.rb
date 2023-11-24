@@ -98,21 +98,25 @@ module MediaInfo
         name = param[0]
         value = param[1]
 
-        if ['Duration'].include?(name)
+        case
+        when name == 'Duration'
           # Duration
-          return standardize_to_milliseconds(value)
-        elsif value.to_s == value.to_i.to_s then value.to_i
+          standardize_to_milliseconds(value)
+        when value.to_s == value.to_i.to_s
           # Convert String with integer in it to Integer.
-          return value.to_i
-        elsif value.to_s == value.to_f.to_s then value.to_f
-          # Convert String with integer in it to Integer.
-          return value.to_f
-        elsif name.downcase.include?('date') && !value.match(/\d-/).nil?
+          value.to_i
+        when value.to_s == value.to_f.to_s
+          # Convert String with float in it to Float.
+          value.to_f
+        when name.downcase.include?('date') && value.match?(/\d-/)
           # Dates
-          return Time.parse(value.sub(/^UTC\s+(.*)$/, '\1 UTC'))
+          begin
+            Time.parse(value.sub(/^UTC\s+(.*)$/, '\1 UTC'))
+          rescue ArgumentError
+          end
+        else
+          value
         end
-
-        value
       end
 
       def self.standardize_to_milliseconds(value)
